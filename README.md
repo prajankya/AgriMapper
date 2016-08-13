@@ -1,4 +1,4 @@
-# Agribot #
+# AgriMapper #
 A Precision Agriculture 2D Vegetation Mapping Robot
 
 ### This is a work in progress project ###
