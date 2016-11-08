@@ -8,8 +8,16 @@ Check out the Engineering Design [Process Documentation](../../wiki/Documentatio
 
 ##How to Install
 
+Run in Terminal
 ```
-rosdep install --from-paths ~/catkin_ws/src --ignore-src
+cd ~/catkin_ws/
+git clone https://github.com/prajankya/AgriMapper.git
+mv AgriMapper/* src/
+
+rosdep install --from-paths /opt/ros/$ROS_DISTRO/ --ignore-src
+rosdep install --from-paths ./src --ignore-src
+
+catkin_make
 ```
 
 >Research is to see what everybody has seen and to think nobody has thought
