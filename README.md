@@ -6,6 +6,12 @@ and hence is not suitable for forking yet.
 
 Check out the Engineering Design [Process Documentation](../../wiki/Documentation)
 
+##How to Install
+
+```
+rosdep install --from-paths ~/catkin_ws/src --ignore-src
+```
+
 >Research is to see what everybody has seen and to think nobody has thought
 
 Albert Szent-Györgyi, 1957, Bioenergetics
