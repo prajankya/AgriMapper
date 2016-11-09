@@ -3,6 +3,4 @@
     <arg name="model" default="$(find agri_mapper_description)/xacro/bot.xacro"/>
 
     <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
-
-    <include file="$(find agri_mapper_description)/launch/state_publisher.launch"/>
 </launch>

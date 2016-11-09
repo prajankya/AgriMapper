@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="port" default="/dev/ttyACM0"/>
+    <arg name="rviz" default="false"/>
+
+    <arg name="sim" default="true"/>
+
+    <include file="$(find agri_mapper_description)/launch/desc.launch"/>
+
+    <include file="$(find agri_mapper_description)/launch/state_publisher.launch"/>
+
+    <!-- Call from agri_mapper_base -->
+    <group if="$(arg rviz)">
+        <include file="$(find agri_mapper_bringup)/launch/rviz.launch"/>
+    </group>
+</launch>
