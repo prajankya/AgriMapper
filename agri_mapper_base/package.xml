@@ -1,22 +1,34 @@
 <?xml version="1.0"?>
 <package>
-  <name>agri_mapper_base</name>
-  <version>1.0.0</version>
-  <description>This package has all the base nodes of AgriMapper</description>
+    <name>agri_mapper_base</name>
+    <version>1.0.0</version>
+    <description>This package has all the base nodes of AgriMapper</description>
 
-  <maintainer email="contact@prajankya.me">Prajankya Sonar</maintainer>
+    <maintainer email="contact@prajankya.me">Prajankya Sonar</maintainer>
 
-  <license>LGPLv3</license>
+    <license>LGPLv3</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>rospy</build_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>rospy</run_depend>
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>roscpp</build_depend>
+    <build_depend>rospy</build_depend>
+    <run_depend>roscpp</run_depend>
+    <run_depend>rospy</run_depend>
 
-  <!-- The export tag contains other, unspecified, tags -->
-  <export>
-    <!-- Other tools can request additional information be placed here -->
+    <build_depend>std_msgs</build_depend>
+    <run_depend>std_msgs</run_depend>
 
-  </export>
+    <build_depend>rosserial_client</build_depend>
+    <build_depend>rosserial_arduino</build_depend>
+
+    <run_depend>rosserial_client</run_depend>
+    <run_depend>rosserial_arduino</run_depend>
+
+    <build_depend>rosbridge_server</build_depend>
+    <run_depend>rosbridge_server</run_depend>
+
+    <!-- The export tag contains other, unspecified, tags -->
+    <export>
+        <!-- Other tools can request additional information be placed here -->
+
+    </export>
 </package>
