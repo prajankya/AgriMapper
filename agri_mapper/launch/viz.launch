@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="debug" default="false"/>
+
+    <arg name="sim" default="false"/>
+
+    <!-- TODO: Call to agri_mapper_base -->
+
+    <group if="$(arg rviz)">
+        <include file="$(find agri_mapper_bringup)/launch/rviz.launch"/>
+    </group>
+</launch>
