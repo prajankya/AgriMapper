@@ -7,6 +7,10 @@
 #include <ros/time.h>
 #include <std_msgs/String.h>
 
+#ifdef READ_IMU
+  #include <IMU.h>
+#endif
+
 ros::NodeHandle nh;
 
 void setup() {// ----------------------------------------- setup
