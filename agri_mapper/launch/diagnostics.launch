@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="rqt_graph" type="rqt_graph" name="node_grapher"/>
+</launch>
