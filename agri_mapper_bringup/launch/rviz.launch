@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+    <include file="$(find agri_mapper_description)/launch/desc.launch"/>
+
     <node name="rviz" pkg="rviz" required="true" args="-d $(find agri_mapper_bringup)/config/rviz_View1.rviz" type="rviz"/>
 </launch>

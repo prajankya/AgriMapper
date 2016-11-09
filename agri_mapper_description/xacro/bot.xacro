@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot name="agri_mapper" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="wheel_center_dist" value="0.31"/>
+    <xacro:property name="M_PI" value="3.1415926535897931"/>
+    <xacro:property name="ground_clearance" value="0.203"/>
+
+    <link name="base_link"/>
+
+    <link name="chassis_link">
+        <visual>
+            <origin xyz="0 1 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.6 .2 .1"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="chassis_joint" type="fixed">
+        <origin xyz="0 0 ${ground_clearance}" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="chassis_link"/>
+    </joint>
+</robot>
