@@ -43,8 +43,9 @@
         </visual>
     </link>
 
-    <joint name="chassis_wheel_l" type="fixed">
+    <joint name="chassis_wheel_l" type="continuous">
         <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
         <parent link="chassis_link"/>
         <child link="wheel_l"/>
     </joint>
@@ -66,8 +67,9 @@
         </visual>
     </link>
 
-    <joint name="chassis_wheel_r" type="fixed">
+    <joint name="chassis_wheel_r" type="continuous">
         <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
         <parent link="chassis_link"/>
         <child link="wheel_r"/>
     </joint>
