@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <robot name="agri_mapper" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:property name="wheel_center_dist" value="0.31"/>
+
+    <xacro:include filename="$(find agri_mapper_description)/xacro/materials.xacro"/>
+
     <xacro:property name="M_PI" value="3.1415926535897931"/>
     <xacro:property name="ground_clearance" value="0.14"/>
+
+    <xacro:property name="rplidar_height" value="0.5"/>
 
     <link name="base_link"/>
 
@@ -74,4 +78,92 @@
         <child link="wheel_r"/>
     </joint>
 
+    <!-- ======================================================= RP lidar Base ====================================================================== -->
+    <link name="lidar_base">
+        <visual>
+            <origin xyz="0.01 0 ${rplidar_height}" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <mesh filename="package://agri_mapper_description/meshes/lidar_base.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="transparent_acrylic_dark"/>
+        </visual>
+    </link>
+    <joint name="chassis_link_lidar_base" type="fixed">
+        <parent link="chassis_link"/>
+        <child link="lidar_base"/>
+    </joint>
+
+    <!-- ======================================================= RPlidar ====================================================================== -->
+    <link name="lidar_bottom">
+        <visual>
+            <origin xyz="0.0 0 ${rplidar_height + 0.0476}" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <mesh filename="package://agri_mapper_description/meshes/lidar_bottom.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="aluminium"/>
+        </visual>
+    </link>
+    <joint name="lidar_base_lidar_bottom" type="fixed">
+        <parent link="lidar_base"/>
+        <child link="lidar_bottom"/>
+    </joint>
+    <link name="lidar_up">
+        <visual>
+            <origin xyz="0.0 0 ${rplidar_height + 0.0446}" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <mesh filename="package://agri_mapper_description/meshes/lidar_up.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black_plastic"/>
+        </visual>
+    </link>
+    <joint name="lidar_bottom_lidar_up" type="fixed">
+        <parent link="lidar_bottom"/>
+        <child link="lidar_up"/>
+    </joint>
+
+    <link name="rplidar_frame">
+        <visual>
+            <geometry>
+                <sphere radius="0.001"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+    </link>
+    <joint name="chassis_link_rplidar_frame" type="fixed">
+        <origin xyz="0.0 0 ${rplidar_height + 0.0466}" rpy="0 0 0"/>
+        <parent link="chassis_link"/>
+        <child link="rplidar_frame"/>
+    </joint>
+    <!--
+    <gazebo reference="rplidar_frame">
+        <sensor type="ray" name="rplidar_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>8</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>${pi*2}</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.2</min>
+                    <max>6.0</max>
+                    <resolution>0.5</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_ros_rplidar_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/lidar_robot/scan</topicName>
+                <frameName>/rplidar_frame</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>-->
 </robot>
