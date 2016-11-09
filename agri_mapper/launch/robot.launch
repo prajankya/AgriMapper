@@ -4,7 +4,7 @@
     <arg name="rviz" default="false"/>
     <arg name="debug" default="false"/>
 
-    <arg name="sim" default="true"/>
+    <arg name="sim" default="false"/>
 
     <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
@@ -18,6 +18,10 @@
 
     <group if="$(arg debug)">
         <include file="$(find agri_mapper)/launch/diagnostics.launch"/>
+    </group>
+
+    <group unless="$(arg sim)">
+        <include file="$(find agri_mapper_base)/launch/arduino.launch"/>
     </group>
 
 </launch>
