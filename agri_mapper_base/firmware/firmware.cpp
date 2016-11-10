@@ -31,7 +31,7 @@ void loop(){
         if (currentMillis - previousMillis >= interval) {
                 previousMillis = currentMillis;
 
-                nh.loginfo(odom.msg);
+                //nh.loginfo(odom.msg);
                 odom_msg.data = odom.msg;
                 odom_pub.publish(&odom_msg);
         }
