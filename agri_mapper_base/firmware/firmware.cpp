@@ -14,7 +14,7 @@ Odom odom;
 void setup(){
         nh.initNode();
         nh.advertise(odom_pub);
-        odom.init(4, 5, 6, 7);
+        odom.init(7, 8, 4, 6);
 }
 
 

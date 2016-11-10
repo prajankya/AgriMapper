@@ -11,8 +11,8 @@ class Odom {
   private:
     Encoder left;
     Encoder right;
-    unsigned long oldL;
-    unsigned long oldR;
+    long oldL;
+    long oldR;
 
   public:
     void init(int e1A, int e1B, int e2A, int e2B);

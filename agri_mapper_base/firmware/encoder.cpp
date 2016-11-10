@@ -12,7 +12,7 @@ void Encoder::init(int pinA_, int pinB_){
         pinMode(pinB, INPUT);
 }
 
-unsigned long Encoder::getPos(){
+long Encoder::getPos(){
         return count;
 }
 

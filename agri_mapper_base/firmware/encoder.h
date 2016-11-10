@@ -7,11 +7,11 @@ class Encoder {
     int pinB;
     int pinALast;
     int n;
-    unsigned long count;
+    long count;
 
   public:
     void init(int pinA_, int pinB_);
     void loop();
-    unsigned long getPos();
+    long getPos();
 };
 #endif

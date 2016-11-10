@@ -15,8 +15,8 @@ void Odom::init(int e1A, int e1B, int e2A, int e2B){
 void Odom::loop(){
         left.loop();
         right.loop();
-        unsigned long nL = left.getPos();
-        unsigned long nR = right.getPos();
+        long nL = left.getPos();
+        long nR = right.getPos();
 
         if(nL != oldL || nR != oldR) {
                 char l[10];
