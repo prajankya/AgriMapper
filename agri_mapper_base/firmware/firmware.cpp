@@ -11,6 +11,10 @@
   #include <IMU.h>
 #endif
 
+#ifdef READ_ODOM
+  #include <odom.h>
+#endif
+
 ros::NodeHandle nh;
 
 void setup() {// ----------------------------------------- setup
