@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
 	std_msgs
+  sensor_msgs
 	rosserial_arduino
   rosserial_client
 )
@@ -32,3 +33,6 @@ include_directories(
 	include
   ${catkin_INCLUDE_DIRS}
 )
+
+add_executable(scan_clipper src/scan_clipper.cpp)
+target_link_libraries(scan_clipper ${catkin_LIBRARIES})
