@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <!-- RpLidar -->
-    <node name="rplidarNode" ns="agri_mapper" pkg="rplidar_ros" type="rplidarNode" output="screen">
+    <node name="rplidarNode" ns="agri_mapper" pkg="rplidar_ros" type="rplidarNode">
         <param name="serial_port" type="string" value="/dev/ttyUSB0"/>
         <param name="serial_baudrate" type="int" value="115200"/>
         <param name="frame_id" type="string" value="rplidar_frame"/>

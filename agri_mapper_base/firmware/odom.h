@@ -7,18 +7,16 @@
 #include<std_msgs/String.h>
 #include "encoder.h"
 
-class odom {
+class Odom {
   private:
-    ros::NodeHandle nh;
-    ros::Publisher * odom_pub;
-    std_msgs::String odom_msg;
     Encoder left;
     Encoder right;
     unsigned long oldL;
     unsigned long oldR;
 
   public:
-    void init(ros::NodeHandle _nh, const char * topic, int e1A, int e1B, int e2A, int e2B);
+    void init(int e1A, int e1B, int e2A, int e2B);
     void loop();
+    char msg[50];
 };
 #endif

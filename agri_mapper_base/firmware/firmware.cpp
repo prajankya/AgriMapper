@@ -1,27 +1,39 @@
-#define READ_ODOM
-#define READ_IMU
-#define DEBUG
-
-#include <Arduino.h>
 #include <ros.h>
+#include <Arduino.h>
 #include <ros/time.h>
 #include <std_msgs/String.h>
-
-#ifdef READ_IMU
-  #include <IMU.h>
-#endif
-
-#ifdef READ_ODOM
-  #include <odom.h>
-#endif
+#include "odom.h"
 
 ros::NodeHandle nh;
 
-void setup() {// ----------------------------------------- setup
-        nh.initNode();
+std_msgs::String odom_msg;
+ros::Publisher odom_pub("odom_pub", &odom_msg);
 
+Odom odom;
+
+void setup(){
+        nh.initNode();
+        nh.advertise(odom_pub);
+        odom.init(4, 5, 6, 7);
 }
 
-void loop() {
-        delay(10);
+
+unsigned long previousMillis = 0;
+
+const long interval = 10;
+
+
+void loop(){
+        odom.loop();
+
+        unsigned long currentMillis = millis();
+
+        if (currentMillis - previousMillis >= interval) {
+                previousMillis = currentMillis;
+
+                nh.loginfo(odom.msg);
+                odom_msg.data = odom.msg;
+                odom_pub.publish(&odom_msg);
+        }
+        nh.spinOnce();
 }

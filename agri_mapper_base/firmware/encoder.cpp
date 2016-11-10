@@ -17,6 +17,7 @@ unsigned long Encoder::getPos(){
 }
 
 void Encoder::loop(){
+        n = digitalRead(pinA);
         if ((pinALast == LOW) && (n == HIGH)) {
                 if (digitalRead(pinB) == LOW) {
                         count--;
