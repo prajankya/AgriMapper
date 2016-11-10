@@ -10,8 +10,10 @@
     <include file="$(find agri_mapper_description)/launch/state_publisher.launch"/>
 
     <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" output="screen">
+        <!--
         <param name="min_angle" type="double" value="0.0"/>
         <param name="max_angle" type="double" value="270.0"/>
+        -->
     </node>
 
     <!-- TODO: Call to agri_mapper_base -->

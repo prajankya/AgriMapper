@@ -6,8 +6,8 @@
 
 sensor_msgs::LaserScan outScan;
 
-double clip_1;
-double clip_2;
+float clip_1 = 90.0;
+float clip_2 = 270.0;
 int num_readings = 0;
 ros::Publisher scan_pub;
 
@@ -21,10 +21,12 @@ void scanSubCallback(const sensor_msgs::LaserScan msg){
                 outScan.range_min = msg.range_min;
                 outScan.range_max = msg.range_max;
         }
+
         for(int i = clip_1; i < clip_2; i++) {
                 outScan.ranges[i] = msg.ranges[i];
                 outScan.intensities[i] = msg.intensities[i];
         }
+
         scan_pub.publish(outScan);
 }
 
@@ -35,8 +37,8 @@ int main(int argc, char** argv){
         ros::Subscriber scan_sub = n.subscribe<sensor_msgs::LaserScan>("scan", 50, scanSubCallback);
         scan_pub = n.advertise<sensor_msgs::LaserScan>("clipped_scan", 50);
 
-        n.param("min_angle", clip_1, 90.0);
-        n.param("max_angle", clip_2, 270.0);
+        //n.param("min_angle", clip_1, 90.0);
+        //n.param("max_angle", clip_2, 270.0);
 
         outScan.header.frame_id = "rplidar_frame";
         outScan.angle_min = ((clip_1 - 180) / 180) * PI;
