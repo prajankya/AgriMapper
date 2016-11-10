@@ -4,6 +4,8 @@ project(agri_mapper_base)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  tf
+  nav_msgs
 	std_msgs
   sensor_msgs
 	rosserial_arduino

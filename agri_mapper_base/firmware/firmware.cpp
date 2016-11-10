@@ -20,8 +20,7 @@ void setup(){
 
 unsigned long previousMillis = 0;
 
-const long interval = 10;
-
+const long interval = 50;
 
 void loop(){
         odom.loop();
