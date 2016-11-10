@@ -36,3 +36,6 @@ include_directories(
 
 add_executable(scan_clipper src/scan_clipper.cpp)
 target_link_libraries(scan_clipper ${catkin_LIBRARIES})
+
+add_executable(odom_calc src/odom_calc.cpp)
+target_link_libraries(odom_calc ${catkin_LIBRARIES})
