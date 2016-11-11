@@ -2,5 +2,5 @@
 <launch>
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_pub"/>
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_pub"/>
-    <node pkg="tf" type="static_transform_publisher" name="map_base_tf_broadcaster" args="0 0 0 0 0 0 /map /base_link 40"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_base_tf_broadcaster" args="0 0 0 0 0 0 /map /odom 40"/>
 </launch>
