@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <node name="odom_calc" pkg="agri_mapper_base" ns="agri_mapper" type="odom_calc" output="screen"/>
-</launch>

@@ -16,20 +16,17 @@ int64_t enR = 0;
 int64_t oldenL = 0;
 int64_t oldenR = 0;
 
-double wheelDiameter = 10.0;
+double wheelDiameter = 0.12;
+double wheelDistance = 1.0;
+
 uint8_t encoderResolution = 16;
 
 ros::Time current_time, last_time;
 ros::Publisher odom_pub;
 
-
 double x = 0.0;
 double y = 0.0;
 double th = 0.0;
-
-double vx = 0.1;
-double vy = -0.1;
-double vth = 0.1;
 
 double string_to_double( const std::string& s ){
         std::istringstream i(s);
@@ -73,16 +70,27 @@ void odomCallback(const std_msgs::String::ConstPtr & msg){
         double dr = (difR / encoderResolution) * (wheelDiameter * PI);
 
         //=============================== Calculate x, y, th ====================
-        double dx = ((cos(dth) * dl) + (cos(dth) * dr) / 2);
+        double dth= asin((dr - dl) / wheelDistance);
+
+        double l = wheelDistance / 2;
+
+        double dx = l * sin(dth);
+        double dy = l - (l * cos(dth));
 
         double dt = (current_time - last_time).toSec();
-        double delta_x = (vx * cos(th) - vy * sin(th)) * dt;
-        double delta_y = (vx * sin(th) + vy * cos(th)) * dt;
-        double delta_th = vth * dt;
+        double vx = dx / dt;
+        double vy = dy / dt;
+        double vth = dth / dt;
 
-        x += delta_x;
-        y += delta_y;
-        th += delta_th;
+        x += dx;
+        y += dy;
+        th += dth;
+
+        if(th > 2 * PI) {
+                th = 0;
+        }else if(th < 2 * PI) {
+                th = 0;
+        }
 
         //since all odometry is 6DOF we'll need a quaternion created from yaw
         geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
@@ -99,6 +107,7 @@ void odomCallback(const std_msgs::String::ConstPtr & msg){
         odom_trans.transform.rotation = odom_quat;
 
         //send the transform
+        tf::TransformBroadcaster odom_broadcaster;
         odom_broadcaster.sendTransform(odom_trans);
 
         //next, we'll publish the odometry message over ROS
@@ -127,14 +136,13 @@ int main(int argc, char** argv){
         ros::init(argc, argv, "odom_calc");
 
         ros::NodeHandle n;
-        ros::Subscriber odom_sub = n.subscribe<std_msgs::String>("odom_pub", 50,odomCallback);
+        ros::Subscriber odom_sub = n.subscribe<std_msgs::String>("odom_pub", 50, odomCallback);
         odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
-        tf::TransformBroadcaster odom_broadcaster;
 
         current_time = ros::Time::now();
         last_time = ros::Time::now();
 
         while(n.ok()) {
-                ros::spin();
+                ros::spinOnce();
         }
 }
