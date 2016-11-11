@@ -134,6 +134,38 @@
         <parent link="chassis_link"/>
         <child link="rplidar_frame"/>
     </joint>
+
+    <link name="x">
+        <visual>
+            <geometry>
+                <sphere radius="0.1"/>
+            </geometry>
+            <material name="x">
+                <color rgba="1.0 0.0 0.0 0.3"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="base_link_x" type="fixed">
+        <origin xyz="1.0 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="x"/>
+    </joint>
+    <link name="y">
+        <visual>
+            <geometry>
+                <sphere radius="0.1"/>
+            </geometry>
+            <material name="y">
+                <color rgba="0.0 1.0 0.0 0.3"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="base_link_y" type="fixed">
+        <origin xyz="0 1 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="y"/>
+    </joint>
+
     <!--
     <gazebo reference="rplidar_frame">
         <sensor type="ray" name="rplidar_sensor">

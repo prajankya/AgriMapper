@@ -13,6 +13,12 @@
 int64_t enL = 0;
 int64_t enR = 0;
 
+int64_t oldenL = 0;
+int64_t oldenR = 0;
+
+double wheelDiameter = 10.0;
+uint8_t encoderResolution = 16;
+
 ros::Time current_time, last_time;
 ros::Publisher odom_pub;
 
@@ -51,8 +57,23 @@ void odomCallback(const std_msgs::String::ConstPtr & msg){
 
         ROS_INFO_STREAM("Left:" << enL << "\tRight:" << enR);
 
-        //-------------------- TODO: Convert enL and enR into Meters -------------
+        //-------------------- Convert enL and enR into Meters -------------
+        int difL = 0, difR = 0;
 
+        if(enL != oldenL) {
+                difL = enL - oldenL;
+                oldenL = enL;
+        }
+
+        if(enR != oldenR) {
+                difR = enR - oldenR;
+                oldenR = enR;
+        }
+        double dl = (difL / encoderResolution) * (wheelDiameter * PI);
+        double dr = (difR / encoderResolution) * (wheelDiameter * PI);
+
+        //=============================== Calculate x, y, th ====================
+        double dx = ((cos(dth) * dl) + (cos(dth) * dr) / 2);
 
         double dt = (current_time - last_time).toSec();
         double delta_x = (vx * cos(th) - vy * sin(th)) * dt;
