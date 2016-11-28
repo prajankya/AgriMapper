@@ -4,7 +4,7 @@
     <xacro:include filename="$(find agri_mapper_description)/xacro/materials.xacro"/>
 
     <xacro:property name="M_PI" value="3.1415926535897931"/>
-    <xacro:property name="ground_clearance" value="0.14"/>
+    <xacro:property name="ground_clearance" value="0.07"/>
 
     <xacro:property name="rplidar_height" value="0.5"/>
 
@@ -12,13 +12,10 @@
 
     <link name="chassis_link">
         <visual>
-            <origin xyz="0.4 0 0" rpy="0 0 0"/>
+            <origin xyz="-0.67 0.27 0" rpy="${M_PI/2} 0 0"/>
             <geometry>
-                <box size="0.9 .5 .1"/>
+                <mesh filename="package://agri_mapper_description/meshes/frame.stl" scale="0.001 0.001 0.001"/>
             </geometry>
-            <material name="white">
-                <color rgba="1 1 1 0.3"/>
-            </material>
         </visual>
     </link>
 
@@ -30,20 +27,10 @@
 
     <link name="wheel_l">
         <visual>
-            <origin xyz="0 0.304 0" rpy="${M_PI/2} 0 0"/>
+            <origin xyz="0.07 0.27 -0.07" rpy="0 0 ${M_PI/2}"/>
             <geometry>
-                <cylinder length="0.05" radius=".14"/>
+                <mesh filename="package://agri_mapper_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
-            <material name="wheel">
-                <color rgba="0 0 1 1"/>
-            </material>
-        </visual>
-        <visual>
-            <origin xyz="0 0.264 0" rpy="${M_PI/2} 0 0"/>
-            <geometry>
-                <cylinder length="0.03" radius=".04"/>
-            </geometry>
-            <material name="wheel"/>
         </visual>
     </link>
 
@@ -53,7 +40,7 @@
         <parent link="chassis_link"/>
         <child link="wheel_l"/>
     </joint>
-
+    <!--
     <link name="wheel_r">
         <visual>
             <origin xyz="0 -0.304 0" rpy="${-M_PI/2} 0 0"/>
@@ -77,8 +64,9 @@
         <parent link="chassis_link"/>
         <child link="wheel_r"/>
     </joint>
-
+    -->
     <!-- ======================================================= RP lidar Base ====================================================================== -->
+    <!--
     <link name="lidar_base">
         <visual>
             <origin xyz="0.01 0 ${rplidar_height}" rpy="${pi/2} 0 0"/>
@@ -92,8 +80,9 @@
         <parent link="chassis_link"/>
         <child link="lidar_base"/>
     </joint>
-
+    -->
     <!-- ======================================================= RPlidar ====================================================================== -->
+    <!--
     <link name="lidar_bottom">
         <visual>
             <origin xyz="0.0 0 ${rplidar_height + 0.0476}" rpy="${pi/2} 0 0"/>
@@ -165,7 +154,7 @@
         <parent link="base_link"/>
         <child link="y"/>
     </joint>
-
+    -->
     <!--
     <gazebo reference="rplidar_frame">
         <sensor type="ray" name="rplidar_sensor">
