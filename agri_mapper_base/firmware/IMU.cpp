@@ -1,7 +1,7 @@
 #include "IMU.h"
 #include <Arduino.h>
 
-void IMU::init(ros::NodeHandle _nh, const char * topic){
+void IMU::init(ros::NodeHandle _nh, const char *topic) {
   nh = _nh;
   mag_sensor = Adafruit_HMC5883_Unified(12345);
 
@@ -15,7 +15,8 @@ void IMU::init(ros::NodeHandle _nh, const char * topic){
   imu_pub = &imu_pub_;
   nh.advertise(*imu_pub);
 }
-void IMU::loop(){
+
+void IMU::loop() {
   sensors_event_t event;
 
   mag_sensor.getEvent(&event);

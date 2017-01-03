@@ -11,18 +11,17 @@ ros::Publisher odom_pub("odom_pub", &odom_msg);
 
 Odom odom;
 
-void setup(){
+void setup() {
   nh.initNode();
   nh.advertise(odom_pub);
   odom.init(7, 8, 4, 6);
 }
 
-
 unsigned long previousMillis = 0;
 
 const long interval = 50;
 
-void loop(){
+void loop() {
   odom.loop();
 
   unsigned long currentMillis = millis();
@@ -34,5 +33,6 @@ void loop(){
     odom_msg.data = odom.msg;
     odom_pub.publish(&odom_msg);
   }
+
   nh.spinOnce();
 }

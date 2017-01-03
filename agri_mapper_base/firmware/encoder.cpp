@@ -1,7 +1,7 @@
 #include "encoder.h"
 #include <Arduino.h>
 
-void Encoder::init(int pinA_, int pinB_){
+void Encoder::init(int pinA_, int pinB_) {
   pinA = pinA_;
   pinB = pinB_;
   count = 0;
@@ -12,12 +12,13 @@ void Encoder::init(int pinA_, int pinB_){
   pinMode(pinB, INPUT);
 }
 
-long Encoder::getPos(){
+long Encoder::getPos() {
   return count;
 }
 
-void Encoder::loop(){
+void Encoder::loop() {
   n = digitalRead(pinA);
+
   if ((pinALast == LOW) && (n == HIGH)) {
     if (digitalRead(pinB) == LOW) {
       count--;
@@ -25,5 +26,6 @@ void Encoder::loop(){
       count++;
     }
   }
+
   pinALast = n;
 }

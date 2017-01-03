@@ -35,7 +35,7 @@ static float _hmc5883_Gauss_LSB_Z = 980.0F;    // Varies with gain
     @brief  Abstract away platform differences in Arduino wire library
  */
 /**************************************************************************/
-void Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value){
+void Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value) {
   Wire.beginTransmission(address);
   #if ARDUINO >= 100
   Wire.write((uint8_t)reg);
@@ -52,7 +52,7 @@ void Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value){
     @brief  Abstract away platform differences in Arduino wire library
  */
 /**************************************************************************/
-byte Adafruit_HMC5883_Unified::read8(byte address, byte reg){
+byte Adafruit_HMC5883_Unified::read8(byte address, byte reg) {
   byte value;
 
   Wire.beginTransmission(address);
@@ -78,7 +78,7 @@ byte Adafruit_HMC5883_Unified::read8(byte address, byte reg){
     @brief  Reads the raw data from the sensor
  */
 /**************************************************************************/
-void Adafruit_HMC5883_Unified::read(){
+void Adafruit_HMC5883_Unified::read() {
   // Read the magnetometer
   Wire.beginTransmission((byte)HMC5883_ADDRESS_MAG);
   #if ARDUINO >= 100
@@ -140,7 +140,7 @@ Adafruit_HMC5883_Unified::Adafruit_HMC5883_Unified(int32_t sensorID) {
     @brief  Setups the HW
  */
 /**************************************************************************/
-bool Adafruit_HMC5883_Unified::begin(){
+bool Adafruit_HMC5883_Unified::begin() {
   // Enable I2C
   Wire.begin();
 
@@ -158,46 +158,46 @@ bool Adafruit_HMC5883_Unified::begin(){
     @brief  Sets the magnetometer's gain
  */
 /**************************************************************************/
-void Adafruit_HMC5883_Unified::setMagGain(hmc5883MagGain gain){
+void Adafruit_HMC5883_Unified::setMagGain(hmc5883MagGain gain) {
   write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_CRB_REG_M, (byte)gain);
 
   _magGain = gain;
 
   switch (gain) {
-  case HMC5883_MAGGAIN_1_3:
-    _hmc5883_Gauss_LSB_XY = 1100;
-    _hmc5883_Gauss_LSB_Z = 980;
-    break;
+    case HMC5883_MAGGAIN_1_3:
+      _hmc5883_Gauss_LSB_XY = 1100;
+      _hmc5883_Gauss_LSB_Z = 980;
+      break;
 
-  case HMC5883_MAGGAIN_1_9:
-    _hmc5883_Gauss_LSB_XY = 855;
-    _hmc5883_Gauss_LSB_Z = 760;
-    break;
+    case HMC5883_MAGGAIN_1_9:
+      _hmc5883_Gauss_LSB_XY = 855;
+      _hmc5883_Gauss_LSB_Z = 760;
+      break;
 
-  case HMC5883_MAGGAIN_2_5:
-    _hmc5883_Gauss_LSB_XY = 670;
-    _hmc5883_Gauss_LSB_Z = 600;
-    break;
+    case HMC5883_MAGGAIN_2_5:
+      _hmc5883_Gauss_LSB_XY = 670;
+      _hmc5883_Gauss_LSB_Z = 600;
+      break;
 
-  case HMC5883_MAGGAIN_4_0:
-    _hmc5883_Gauss_LSB_XY = 450;
-    _hmc5883_Gauss_LSB_Z = 400;
-    break;
+    case HMC5883_MAGGAIN_4_0:
+      _hmc5883_Gauss_LSB_XY = 450;
+      _hmc5883_Gauss_LSB_Z = 400;
+      break;
 
-  case HMC5883_MAGGAIN_4_7:
-    _hmc5883_Gauss_LSB_XY = 400;
-    _hmc5883_Gauss_LSB_Z = 255;
-    break;
+    case HMC5883_MAGGAIN_4_7:
+      _hmc5883_Gauss_LSB_XY = 400;
+      _hmc5883_Gauss_LSB_Z = 255;
+      break;
 
-  case HMC5883_MAGGAIN_5_6:
-    _hmc5883_Gauss_LSB_XY = 330;
-    _hmc5883_Gauss_LSB_Z = 295;
-    break;
+    case HMC5883_MAGGAIN_5_6:
+      _hmc5883_Gauss_LSB_XY = 330;
+      _hmc5883_Gauss_LSB_Z = 295;
+      break;
 
-  case HMC5883_MAGGAIN_8_1:
-    _hmc5883_Gauss_LSB_XY = 230;
-    _hmc5883_Gauss_LSB_Z = 205;
-    break;
+    case HMC5883_MAGGAIN_8_1:
+      _hmc5883_Gauss_LSB_XY = 230;
+      _hmc5883_Gauss_LSB_Z = 205;
+      break;
   }
 }
 
@@ -241,6 +241,6 @@ void Adafruit_HMC5883_Unified::getSensor(sensor_t *sensor) {
   sensor->type = SENSOR_TYPE_MAGNETIC_FIELD;
   sensor->min_delay = 0;
   sensor->max_value = 800;        // 8 gauss == 800 microTesla
-  sensor->min_value = -800;        // -8 gauss == -800 microTesla
+  sensor->min_value = -800;       // -8 gauss == -800 microTesla
   sensor->resolution = 0.2;       // 2 milligauss == 0.2 microTesla
 }

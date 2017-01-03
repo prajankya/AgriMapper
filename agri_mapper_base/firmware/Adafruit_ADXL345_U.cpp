@@ -42,6 +42,7 @@ inline uint8_t Adafruit_ADXL345_Unified::i2cread(void) {
 
   #else
   return Wire.receive();
+
   #endif
 }
 
@@ -71,9 +72,10 @@ static uint8_t spixfer(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t data) 
     digitalWrite(clock, LOW);
     digitalWrite(mosi, data & (1 << i));
     digitalWrite(clock, HIGH);
-    if (digitalRead(miso))
-      reply |= 1;
+
+    if (digitalRead(miso)) reply |= 1;
   }
+
   return reply;
 }
 
@@ -209,8 +211,7 @@ Adafruit_ADXL345_Unified::Adafruit_ADXL345_Unified(uint8_t clock, uint8_t miso, 
  */
 /**************************************************************************/
 bool Adafruit_ADXL345_Unified::begin() {
-  if (_i2c)
-    Wire.begin();
+  if (_i2c) Wire.begin();
   else {
     pinMode(_cs, OUTPUT);
     pinMode(_clk, OUTPUT);
@@ -221,6 +222,7 @@ bool Adafruit_ADXL345_Unified::begin() {
 
   /* Check connection */
   uint8_t deviceid = getDeviceID();
+
   if (deviceid != 0xE5) {
     /* No ADXL345 detected ... return false */
     Serial.println(deviceid, HEX);
@@ -238,7 +240,7 @@ bool Adafruit_ADXL345_Unified::begin() {
     @brief  Sets the g range for the accelerometer
  */
 /**************************************************************************/
-void Adafruit_ADXL345_Unified::setRange(range_t range){
+void Adafruit_ADXL345_Unified::setRange(range_t range) {
   /* Red the data format register to preserve bits */
   uint8_t format = readRegister(ADXL345_REG_DATA_FORMAT);
 
@@ -261,7 +263,7 @@ void Adafruit_ADXL345_Unified::setRange(range_t range){
     @brief  Sets the g range for the accelerometer
  */
 /**************************************************************************/
-range_t Adafruit_ADXL345_Unified::getRange(void){
+range_t Adafruit_ADXL345_Unified::getRange(void) {
   /* Red the data format register to preserve bits */
   return (range_t)(readRegister(ADXL345_REG_DATA_FORMAT) & 0x03);
 }
@@ -271,7 +273,7 @@ range_t Adafruit_ADXL345_Unified::getRange(void){
     @brief  Sets the data rate for the ADXL345 (controls power consumption)
  */
 /**************************************************************************/
-void Adafruit_ADXL345_Unified::setDataRate(dataRate_t dataRate){
+void Adafruit_ADXL345_Unified::setDataRate(dataRate_t dataRate) {
   /* Note: The LOW_POWER bits are currently ignored and we always keep
      the device in 'normal' mode */
   writeRegister(ADXL345_REG_BW_RATE, dataRate);
@@ -282,7 +284,7 @@ void Adafruit_ADXL345_Unified::setDataRate(dataRate_t dataRate){
     @brief  Sets the data rate for the ADXL345 (controls power consumption)
  */
 /**************************************************************************/
-dataRate_t Adafruit_ADXL345_Unified::getDataRate(void){
+dataRate_t Adafruit_ADXL345_Unified::getDataRate(void) {
   return (dataRate_t)(readRegister(ADXL345_REG_BW_RATE) & 0x0F);
 }
 
@@ -322,7 +324,7 @@ void Adafruit_ADXL345_Unified::getSensor(sensor_t *sensor) {
   sensor->sensor_id = _sensorID;
   sensor->type = SENSOR_TYPE_PRESSURE;
   sensor->min_delay = 0;
-  sensor->max_value = -156.9064F;        /* -16g = 156.9064 m/s^2  */
+  sensor->max_value = -156.9064F;       /* -16g = 156.9064 m/s^2  */
   sensor->min_value = 156.9064F;        /*  16g = 156.9064 m/s^2  */
   sensor->resolution = 0.03923F;       /*  4mg = 0.0392266 m/s^2 */
 }
