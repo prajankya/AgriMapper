@@ -38,9 +38,10 @@
 /**************************************************************************/
 inline uint8_t Adafruit_ADXL345_Unified::i2cread(void) {
   #if ARDUINO >= 100
-        return Wire.read();
+  return Wire.read();
+
   #else
-        return Wire.receive();
+  return Wire.receive();
   #endif
 }
 
@@ -51,9 +52,9 @@ inline uint8_t Adafruit_ADXL345_Unified::i2cread(void) {
 /**************************************************************************/
 inline void Adafruit_ADXL345_Unified::i2cwrite(uint8_t x) {
   #if ARDUINO >= 100
-        Wire.write((uint8_t)x);
+  Wire.write((uint8_t)x);
   #else
-        Wire.send(x);
+  Wire.send(x);
   #endif
 }
 
@@ -63,16 +64,17 @@ inline void Adafruit_ADXL345_Unified::i2cwrite(uint8_t x) {
  */
 /**************************************************************************/
 static uint8_t spixfer(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t data) {
-        uint8_t reply = 0;
-        for (int i=7; i>=0; i--) {
-                reply <<= 1;
-                digitalWrite(clock, LOW);
-                digitalWrite(mosi, data & (1<<i));
-                digitalWrite(clock, HIGH);
-                if (digitalRead(miso))
-                        reply |= 1;
-        }
-        return reply;
+  uint8_t reply = 0;
+
+  for (int i = 7; i >= 0; i--) {
+    reply <<= 1;
+    digitalWrite(clock, LOW);
+    digitalWrite(mosi, data & (1 << i));
+    digitalWrite(clock, HIGH);
+    if (digitalRead(miso))
+      reply |= 1;
+  }
+  return reply;
 }
 
 /**************************************************************************/
@@ -81,17 +83,17 @@ static uint8_t spixfer(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t data) 
  */
 /**************************************************************************/
 void Adafruit_ADXL345_Unified::writeRegister(uint8_t reg, uint8_t value) {
-        if (_i2c) {
-                Wire.beginTransmission(ADXL345_ADDRESS);
-                i2cwrite((uint8_t)reg);
-                i2cwrite((uint8_t)(value));
-                Wire.endTransmission();
-        } else {
-                digitalWrite(_cs, LOW);
-                spixfer(_clk, _di, _do, reg);
-                spixfer(_clk, _di, _do, value);
-                digitalWrite(_cs, HIGH);
-        }
+  if (_i2c) {
+    Wire.beginTransmission(ADXL345_ADDRESS);
+    i2cwrite((uint8_t)reg);
+    i2cwrite((uint8_t)(value));
+    Wire.endTransmission();
+  } else {
+    digitalWrite(_cs, LOW);
+    spixfer(_clk, _di, _do, reg);
+    spixfer(_clk, _di, _do, value);
+    digitalWrite(_cs, HIGH);
+  }
 }
 
 /**************************************************************************/
@@ -100,20 +102,20 @@ void Adafruit_ADXL345_Unified::writeRegister(uint8_t reg, uint8_t value) {
  */
 /**************************************************************************/
 uint8_t Adafruit_ADXL345_Unified::readRegister(uint8_t reg) {
-        if (_i2c) {
-                Wire.beginTransmission(ADXL345_ADDRESS);
-                i2cwrite(reg);
-                Wire.endTransmission();
-                Wire.requestFrom(ADXL345_ADDRESS, 1);
-                return (i2cread());
-        } else {
-                reg |= 0x80; // read byte
-                digitalWrite(_cs, LOW);
-                spixfer(_clk, _di, _do, reg);
-                uint8_t reply = spixfer(_clk, _di, _do, 0xFF);
-                digitalWrite(_cs, HIGH);
-                return reply;
-        }
+  if (_i2c) {
+    Wire.beginTransmission(ADXL345_ADDRESS);
+    i2cwrite(reg);
+    Wire.endTransmission();
+    Wire.requestFrom(ADXL345_ADDRESS, 1);
+    return(i2cread());
+  } else {
+    reg |= 0x80;             // read byte
+    digitalWrite(_cs, LOW);
+    spixfer(_clk, _di, _do, reg);
+    uint8_t reply = spixfer(_clk, _di, _do, 0xFF);
+    digitalWrite(_cs, HIGH);
+    return reply;
+  }
 }
 
 /**************************************************************************/
@@ -122,20 +124,20 @@ uint8_t Adafruit_ADXL345_Unified::readRegister(uint8_t reg) {
  */
 /**************************************************************************/
 int16_t Adafruit_ADXL345_Unified::read16(uint8_t reg) {
-        if (_i2c) {
-                Wire.beginTransmission(ADXL345_ADDRESS);
-                i2cwrite(reg);
-                Wire.endTransmission();
-                Wire.requestFrom(ADXL345_ADDRESS, 2);
-                return (uint16_t)(i2cread() | (i2cread() << 8));
-        } else {
-                reg |= 0x80 | 0x40; // read byte | multibyte
-                digitalWrite(_cs, LOW);
-                spixfer(_clk, _di, _do, reg);
-                uint16_t reply = spixfer(_clk, _di, _do, 0xFF)  | (spixfer(_clk, _di, _do, 0xFF) << 8);
-                digitalWrite(_cs, HIGH);
-                return reply;
-        }
+  if (_i2c) {
+    Wire.beginTransmission(ADXL345_ADDRESS);
+    i2cwrite(reg);
+    Wire.endTransmission();
+    Wire.requestFrom(ADXL345_ADDRESS, 2);
+    return (uint16_t)(i2cread() | (i2cread() << 8));
+  } else {
+    reg |= 0x80 | 0x40;             // read byte | multibyte
+    digitalWrite(_cs, LOW);
+    spixfer(_clk, _di, _do, reg);
+    uint16_t reply = spixfer(_clk, _di, _do, 0xFF) | (spixfer(_clk, _di, _do, 0xFF) << 8);
+    digitalWrite(_cs, HIGH);
+    return reply;
+  }
 }
 
 /**************************************************************************/
@@ -144,8 +146,8 @@ int16_t Adafruit_ADXL345_Unified::read16(uint8_t reg) {
  */
 /**************************************************************************/
 uint8_t Adafruit_ADXL345_Unified::getDeviceID(void) {
-        // Check device ID register
-        return readRegister(ADXL345_REG_DEVID);
+  // Check device ID register
+  return readRegister(ADXL345_REG_DEVID);
 }
 
 /**************************************************************************/
@@ -154,7 +156,7 @@ uint8_t Adafruit_ADXL345_Unified::getDeviceID(void) {
  */
 /**************************************************************************/
 int16_t Adafruit_ADXL345_Unified::getX(void) {
-        return read16(ADXL345_REG_DATAX0);
+  return read16(ADXL345_REG_DATAX0);
 }
 
 /**************************************************************************/
@@ -163,7 +165,7 @@ int16_t Adafruit_ADXL345_Unified::getX(void) {
  */
 /**************************************************************************/
 int16_t Adafruit_ADXL345_Unified::getY(void) {
-        return read16(ADXL345_REG_DATAY0);
+  return read16(ADXL345_REG_DATAY0);
 }
 
 /**************************************************************************/
@@ -172,7 +174,7 @@ int16_t Adafruit_ADXL345_Unified::getY(void) {
  */
 /**************************************************************************/
 int16_t Adafruit_ADXL345_Unified::getZ(void) {
-        return read16(ADXL345_REG_DATAZ0);
+  return read16(ADXL345_REG_DATAZ0);
 }
 
 /**************************************************************************/
@@ -181,9 +183,9 @@ int16_t Adafruit_ADXL345_Unified::getZ(void) {
  */
 /**************************************************************************/
 Adafruit_ADXL345_Unified::Adafruit_ADXL345_Unified(int32_t sensorID) {
-        _sensorID = sensorID;
-        _range = ADXL345_RANGE_2_G;
-        _i2c = true;
+  _sensorID = sensorID;
+  _range = ADXL345_RANGE_2_G;
+  _i2c = true;
 }
 
 /**************************************************************************/
@@ -192,13 +194,13 @@ Adafruit_ADXL345_Unified::Adafruit_ADXL345_Unified(int32_t sensorID) {
  */
 /**************************************************************************/
 Adafruit_ADXL345_Unified::Adafruit_ADXL345_Unified(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t cs, int32_t sensorID) {
-        _sensorID = sensorID;
-        _range = ADXL345_RANGE_2_G;
-        _cs = cs;
-        _clk = clock;
-        _do = mosi;
-        _di = miso;
-        _i2c = false;
+  _sensorID = sensorID;
+  _range = ADXL345_RANGE_2_G;
+  _cs = cs;
+  _clk = clock;
+  _do = mosi;
+  _di = miso;
+  _i2c = false;
 }
 
 /**************************************************************************/
@@ -207,30 +209,28 @@ Adafruit_ADXL345_Unified::Adafruit_ADXL345_Unified(uint8_t clock, uint8_t miso, 
  */
 /**************************************************************************/
 bool Adafruit_ADXL345_Unified::begin() {
+  if (_i2c)
+    Wire.begin();
+  else {
+    pinMode(_cs, OUTPUT);
+    pinMode(_clk, OUTPUT);
+    digitalWrite(_clk, HIGH);
+    pinMode(_do, OUTPUT);
+    pinMode(_di, INPUT);
+  }
 
-        if (_i2c)
-                Wire.begin();
-        else {
-                pinMode(_cs, OUTPUT);
-                pinMode(_clk, OUTPUT);
-                digitalWrite(_clk, HIGH);
-                pinMode(_do, OUTPUT);
-                pinMode(_di, INPUT);
-        }
+  /* Check connection */
+  uint8_t deviceid = getDeviceID();
+  if (deviceid != 0xE5) {
+    /* No ADXL345 detected ... return false */
+    Serial.println(deviceid, HEX);
+    return false;
+  }
 
-        /* Check connection */
-        uint8_t deviceid = getDeviceID();
-        if (deviceid != 0xE5)
-        {
-                /* No ADXL345 detected ... return false */
-                Serial.println(deviceid, HEX);
-                return false;
-        }
+  // Enable measurements
+  writeRegister(ADXL345_REG_POWER_CTL, 0x08);
 
-        // Enable measurements
-        writeRegister(ADXL345_REG_POWER_CTL, 0x08);
-
-        return true;
+  return true;
 }
 
 /**************************************************************************/
@@ -238,23 +238,22 @@ bool Adafruit_ADXL345_Unified::begin() {
     @brief  Sets the g range for the accelerometer
  */
 /**************************************************************************/
-void Adafruit_ADXL345_Unified::setRange(range_t range)
-{
-        /* Red the data format register to preserve bits */
-        uint8_t format = readRegister(ADXL345_REG_DATA_FORMAT);
+void Adafruit_ADXL345_Unified::setRange(range_t range){
+  /* Red the data format register to preserve bits */
+  uint8_t format = readRegister(ADXL345_REG_DATA_FORMAT);
 
-        /* Update the data rate */
-        format &= ~0x0F;
-        format |= range;
+  /* Update the data rate */
+  format &= ~0x0F;
+  format |= range;
 
-        /* Make sure that the FULL-RES bit is enabled for range scaling */
-        format |= 0x08;
+  /* Make sure that the FULL-RES bit is enabled for range scaling */
+  format |= 0x08;
 
-        /* Write the register back to the IC */
-        writeRegister(ADXL345_REG_DATA_FORMAT, format);
+  /* Write the register back to the IC */
+  writeRegister(ADXL345_REG_DATA_FORMAT, format);
 
-        /* Keep track of the current range (to avoid readbacks) */
-        _range = range;
+  /* Keep track of the current range (to avoid readbacks) */
+  _range = range;
 }
 
 /**************************************************************************/
@@ -262,10 +261,9 @@ void Adafruit_ADXL345_Unified::setRange(range_t range)
     @brief  Sets the g range for the accelerometer
  */
 /**************************************************************************/
-range_t Adafruit_ADXL345_Unified::getRange(void)
-{
-        /* Red the data format register to preserve bits */
-        return (range_t)(readRegister(ADXL345_REG_DATA_FORMAT) & 0x03);
+range_t Adafruit_ADXL345_Unified::getRange(void){
+  /* Red the data format register to preserve bits */
+  return (range_t)(readRegister(ADXL345_REG_DATA_FORMAT) & 0x03);
 }
 
 /**************************************************************************/
@@ -273,11 +271,10 @@ range_t Adafruit_ADXL345_Unified::getRange(void)
     @brief  Sets the data rate for the ADXL345 (controls power consumption)
  */
 /**************************************************************************/
-void Adafruit_ADXL345_Unified::setDataRate(dataRate_t dataRate)
-{
-        /* Note: The LOW_POWER bits are currently ignored and we always keep
-           the device in 'normal' mode */
-        writeRegister(ADXL345_REG_BW_RATE, dataRate);
+void Adafruit_ADXL345_Unified::setDataRate(dataRate_t dataRate){
+  /* Note: The LOW_POWER bits are currently ignored and we always keep
+     the device in 'normal' mode */
+  writeRegister(ADXL345_REG_BW_RATE, dataRate);
 }
 
 /**************************************************************************/
@@ -285,9 +282,8 @@ void Adafruit_ADXL345_Unified::setDataRate(dataRate_t dataRate)
     @brief  Sets the data rate for the ADXL345 (controls power consumption)
  */
 /**************************************************************************/
-dataRate_t Adafruit_ADXL345_Unified::getDataRate(void)
-{
-        return (dataRate_t)(readRegister(ADXL345_REG_BW_RATE) & 0x0F);
+dataRate_t Adafruit_ADXL345_Unified::getDataRate(void){
+  return (dataRate_t)(readRegister(ADXL345_REG_BW_RATE) & 0x0F);
 }
 
 /**************************************************************************/
@@ -296,18 +292,18 @@ dataRate_t Adafruit_ADXL345_Unified::getDataRate(void)
  */
 /**************************************************************************/
 bool Adafruit_ADXL345_Unified::getEvent(sensors_event_t *event) {
-        /* Clear the event */
-        memset(event, 0, sizeof(sensors_event_t));
+  /* Clear the event */
+  memset(event, 0, sizeof(sensors_event_t));
 
-        event->version   = sizeof(sensors_event_t);
-        event->sensor_id = _sensorID;
-        event->type      = SENSOR_TYPE_ACCELEROMETER;
-        event->timestamp = 0;
-        event->acceleration.x = getX() * ADXL345_MG2G_MULTIPLIER * SENSORS_GRAVITY_STANDARD;
-        event->acceleration.y = getY() * ADXL345_MG2G_MULTIPLIER * SENSORS_GRAVITY_STANDARD;
-        event->acceleration.z = getZ() * ADXL345_MG2G_MULTIPLIER * SENSORS_GRAVITY_STANDARD;
+  event->version = sizeof(sensors_event_t);
+  event->sensor_id = _sensorID;
+  event->type = SENSOR_TYPE_ACCELEROMETER;
+  event->timestamp = 0;
+  event->acceleration.x = getX() * ADXL345_MG2G_MULTIPLIER * SENSORS_GRAVITY_STANDARD;
+  event->acceleration.y = getY() * ADXL345_MG2G_MULTIPLIER * SENSORS_GRAVITY_STANDARD;
+  event->acceleration.z = getZ() * ADXL345_MG2G_MULTIPLIER * SENSORS_GRAVITY_STANDARD;
 
-        return true;
+  return true;
 }
 
 /**************************************************************************/
@@ -316,17 +312,17 @@ bool Adafruit_ADXL345_Unified::getEvent(sensors_event_t *event) {
  */
 /**************************************************************************/
 void Adafruit_ADXL345_Unified::getSensor(sensor_t *sensor) {
-        /* Clear the sensor_t object */
-        memset(sensor, 0, sizeof(sensor_t));
+  /* Clear the sensor_t object */
+  memset(sensor, 0, sizeof(sensor_t));
 
-        /* Insert the sensor name in the fixed length char array */
-        strncpy (sensor->name, "ADXL345", sizeof(sensor->name) - 1);
-        sensor->name[sizeof(sensor->name)- 1] = 0;
-        sensor->version     = 1;
-        sensor->sensor_id   = _sensorID;
-        sensor->type        = SENSOR_TYPE_PRESSURE;
-        sensor->min_delay   = 0;
-        sensor->max_value   = -156.9064F;/* -16g = 156.9064 m/s^2  */
-        sensor->min_value   = 156.9064F;/*  16g = 156.9064 m/s^2  */
-        sensor->resolution  = 0.03923F;/*  4mg = 0.0392266 m/s^2 */
+  /* Insert the sensor name in the fixed length char array */
+  strncpy(sensor->name, "ADXL345", sizeof(sensor->name) - 1);
+  sensor->name[sizeof(sensor->name) - 1] = 0;
+  sensor->version = 1;
+  sensor->sensor_id = _sensorID;
+  sensor->type = SENSOR_TYPE_PRESSURE;
+  sensor->min_delay = 0;
+  sensor->max_value = -156.9064F;        /* -16g = 156.9064 m/s^2  */
+  sensor->min_value = 156.9064F;        /*  16g = 156.9064 m/s^2  */
+  sensor->resolution = 0.03923F;       /*  4mg = 0.0392266 m/s^2 */
 }
