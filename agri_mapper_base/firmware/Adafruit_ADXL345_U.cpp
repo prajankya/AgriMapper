@@ -21,9 +21,9 @@
  */
 /**************************************************************************/
 #if ARDUINO >= 100
- #include "Arduino.h"
+  #include "Arduino.h"
 #else
- #include "WProgram.h"
+  #include "WProgram.h"
 #endif
 
 #include <Wire.h>
@@ -37,13 +37,13 @@
  */
 /**************************************************************************/
 inline uint8_t Adafruit_ADXL345_Unified::i2cread(void) {
-  #if ARDUINO >= 100
+#if ARDUINO >= 100
   return Wire.read();
 
-  #else
+#else
   return Wire.receive();
 
-  #endif
+#endif
 }
 
 /**************************************************************************/
@@ -52,11 +52,11 @@ inline uint8_t Adafruit_ADXL345_Unified::i2cread(void) {
  */
 /**************************************************************************/
 inline void Adafruit_ADXL345_Unified::i2cwrite(uint8_t x) {
-  #if ARDUINO >= 100
+#if ARDUINO >= 100
   Wire.write((uint8_t)x);
-  #else
+#else
   Wire.send(x);
-  #endif
+#endif
 }
 
 /**************************************************************************/

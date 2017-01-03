@@ -21,10 +21,10 @@
 #define _ADAFRUIT_SENSOR_H
 
 #if ARDUINO >= 100
- #include "Arduino.h"
- #include "Print.h"
+  #include "Arduino.h"
+  #include "Print.h"
 #else
- #include "WProgram.h"
+  #include "WProgram.h"
 #endif
 
 /* Intentionally modeled after sensors.h in the Android API:
@@ -86,35 +86,35 @@ typedef struct {
     float c[3];
     /* RGB color space */
     struct {
-      float r;             /**< Red component */
-      float g;             /**< Green component */
-      float b;             /**< Blue component */
+      float r;               /**< Red component */
+      float g;               /**< Green component */
+      float b;               /**< Blue component */
     };
   };
-  uint32_t rgba;                /**< 24-bit RGBA value */
+  uint32_t rgba;             /**< 24-bit RGBA value */
 } sensors_color_t;
 
 /* Sensor event (36 bytes) */
 /** struct sensor_event_s is used to provide a single sensor event in a common format. */
 typedef struct {
-  int32_t version;              /**< must be sizeof(struct sensors_event_t) */
-  int32_t sensor_id;            /**< unique sensor identifier */
-  int32_t type;                 /**< sensor type */
-  int32_t reserved0;            /**< reserved */
-  int32_t timestamp;            /**< time is in milliseconds */
+  int32_t version;           /**< must be sizeof(struct sensors_event_t) */
+  int32_t sensor_id;         /**< unique sensor identifier */
+  int32_t type;              /**< sensor type */
+  int32_t reserved0;         /**< reserved */
+  int32_t timestamp;         /**< time is in milliseconds */
   union {
     float data[4];
     sensors_vec_t acceleration; /**< acceleration values are in meter per second per second (m/s^2) */
     sensors_vec_t magnetic;     /**< magnetic vector values are in micro-Tesla (uT) */
     sensors_vec_t orientation;  /**< orientation values are in degrees */
-    sensors_vec_t gyro;         /**< gyroscope values are in rad/s */
-    float temperature;          /**< temperature is in degrees centigrade (Celsius) */
-    float distance;             /**< distance in centimeters */
-    float light;                /**< light in SI lux units */
-    float pressure;             /**< pressure in hectopascal (hPa) */
-    float relative_humidity;                  /**< relative humidity in percent */
-    float current;              /**< current in milliamps (mA) */
-    float voltage;              /**< voltage in volts (V) */
+    sensors_vec_t gyro;      /**< gyroscope values are in rad/s */
+    float temperature;       /**< temperature is in degrees centigrade (Celsius) */
+    float distance;          /**< distance in centimeters */
+    float light;             /**< light in SI lux units */
+    float pressure;          /**< pressure in hectopascal (hPa) */
+    float relative_humidity; /**< relative humidity in percent */
+    float current;           /**< current in milliamps (mA) */
+    float voltage;           /**< voltage in volts (V) */
     sensors_color_t color;      /**< color in RGB component values */
   };
 } sensors_event_t;

@@ -10,9 +10,9 @@
    BSD license, all text above must be included in any redistribution
 ***************************************************************************/
 #if ARDUINO >= 100
- #include "Arduino.h"
+  #include "Arduino.h"
 #else
- #include "WProgram.h"
+  #include "WProgram.h"
 #endif
 
 #include <Wire.h>
@@ -37,13 +37,13 @@ static float _hmc5883_Gauss_LSB_Z = 980.0F;    // Varies with gain
 /**************************************************************************/
 void Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value) {
   Wire.beginTransmission(address);
-  #if ARDUINO >= 100
+#if ARDUINO >= 100
   Wire.write((uint8_t)reg);
   Wire.write((uint8_t)value);
-  #else
+#else
   Wire.send(reg);
   Wire.send(value);
-  #endif
+#endif
   Wire.endTransmission();
 }
 
@@ -56,18 +56,18 @@ byte Adafruit_HMC5883_Unified::read8(byte address, byte reg) {
   byte value;
 
   Wire.beginTransmission(address);
-  #if ARDUINO >= 100
+#if ARDUINO >= 100
   Wire.write((uint8_t)reg);
-  #else
+#else
   Wire.send(reg);
-  #endif
+#endif
   Wire.endTransmission();
   Wire.requestFrom(address, (byte)1);
-  #if ARDUINO >= 100
+#if ARDUINO >= 100
   value = Wire.read();
-  #else
+#else
   value = Wire.receive();
-  #endif
+#endif
   Wire.endTransmission();
 
   return value;
@@ -81,11 +81,11 @@ byte Adafruit_HMC5883_Unified::read8(byte address, byte reg) {
 void Adafruit_HMC5883_Unified::read() {
   // Read the magnetometer
   Wire.beginTransmission((byte)HMC5883_ADDRESS_MAG);
-  #if ARDUINO >= 100
+#if ARDUINO >= 100
   Wire.write(HMC5883_REGISTER_MAG_OUT_X_H_M);
-  #else
+#else
   Wire.send(HMC5883_REGISTER_MAG_OUT_X_H_M);
-  #endif
+#endif
   Wire.endTransmission();
   Wire.requestFrom((byte)HMC5883_ADDRESS_MAG, (byte)6);
 
@@ -93,21 +93,21 @@ void Adafruit_HMC5883_Unified::read() {
   while (Wire.available() < 6) ;
 
   // Note high before low (different than accel)
-  #if ARDUINO >= 100
+#if ARDUINO >= 100
   uint8_t xhi = Wire.read();
   uint8_t xlo = Wire.read();
   uint8_t zhi = Wire.read();
   uint8_t zlo = Wire.read();
   uint8_t yhi = Wire.read();
   uint8_t ylo = Wire.read();
-  #else
+#else
   uint8_t xhi = Wire.receive();
   uint8_t xlo = Wire.receive();
   uint8_t zhi = Wire.receive();
   uint8_t zlo = Wire.receive();
   uint8_t yhi = Wire.receive();
   uint8_t ylo = Wire.receive();
-  #endif
+#endif
 
   // Shift values to create properly formed integer (low byte first)
   _magData.x = (int16_t)(xlo | ((int16_t)xhi << 8));

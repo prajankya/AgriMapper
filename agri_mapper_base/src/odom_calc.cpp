@@ -32,16 +32,16 @@ double vx = 0.0;
 double vy = 0.0;
 double vth = 0.0;
 
-double string_to_double( const std::string& s ){
+double string_to_double(const std::string& s) {
   std::istringstream i(s);
   double x;
-  if (!(i >> x))
-    return 0;
+
+  if (!(i >> x)) return 0;
+
   return x;
 }
 
-void odomCallback(const std_msgs::String::ConstPtr & msg){
-
+void odomCallback(const std_msgs::String::ConstPtr & msg) {
   current_time = ros::Time::now();
 
   std::istringstream ss(msg->data);
@@ -49,7 +49,7 @@ void odomCallback(const std_msgs::String::ConstPtr & msg){
   int i = 0;
   std::string in[2];
 
-  while(std::getline(ss, token, ',')) {
+  while (std::getline(ss, token, ',')) {
     in[i++] = token;
   }
 
@@ -61,20 +61,21 @@ void odomCallback(const std_msgs::String::ConstPtr & msg){
   //-------------------- Convert enL and enR into Meters -------------
   int difL = 0, difR = 0;
 
-  if(enL != oldenL) {
+  if (enL != oldenL) {
     difL = enL - oldenL;
     oldenL = enL;
   }
 
-  if(enR != oldenR) {
+  if (enR != oldenR) {
     difR = enR - oldenR;
     oldenR = enR;
   }
+
   double dl = (difL / encoderResolution) * (wheelDiameter * PI);
   double dr = (difR / encoderResolution) * (wheelDiameter * PI);
 
   //=============================== Calculate x, y, th ====================
-  double dth= asin((dr - dl) / wheelDistance);
+  double dth = asin((dr - dl) / wheelDistance);
 
   double l = wheelDistance / 2;
 
@@ -90,16 +91,16 @@ void odomCallback(const std_msgs::String::ConstPtr & msg){
   y += dy;
   th += dth;
 
-  if(th > 2 * PI) {
+  if (th > 2 * PI) {
     th = 0;
-  }else if(th < 2 * PI) {
+  } else if (th < 2 * PI) {
     th = 0;
   }
 
   last_time = current_time;
 }
 
-int main(int argc, char** argv){
+int main(int argc, char **argv) {
   ros::init(argc, argv, "odom_calc");
 
   ros::NodeHandle n;
@@ -111,7 +112,7 @@ int main(int argc, char** argv){
 
   ros::Rate rate(10);
 
-  while(n.ok()) {
+  while (n.ok()) {
     //since all odometry is 6DOF we'll need a quaternion created from yaw
     geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
 

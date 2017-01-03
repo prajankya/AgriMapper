@@ -11,17 +11,17 @@ double clip_2 = 270.0;
 int num_readings = 0;
 ros::Publisher scan_pub;
 
-void scanSubCallback(const sensor_msgs::LaserScan msg){
-
+void scanSubCallback(const sensor_msgs::LaserScan msg) {
   outScan.header.stamp = ros::Time::now();
-  if(outScan.angle_increment == 0) {
+
+  if (outScan.angle_increment == 0) {
     outScan.angle_increment = msg.angle_increment;
     outScan.time_increment = msg.time_increment;
     outScan.range_min = msg.range_min;
     outScan.range_max = msg.range_max;
   }
 
-  for(int i = clip_1; i < clip_2; i++) {
+  for (int i = clip_1; i < clip_2; i++) {
     outScan.ranges[i - clip_1] = msg.ranges[i];
     outScan.intensities[i - clip_1] = msg.intensities[i];
   }
@@ -29,7 +29,7 @@ void scanSubCallback(const sensor_msgs::LaserScan msg){
   scan_pub.publish(outScan);
 }
 
-int main(int argc, char** argv){
+int main(int argc, char **argv) {
   ros::init(argc, argv, "scan_clipper");
 
   ros::NodeHandle n;
@@ -55,7 +55,7 @@ int main(int argc, char** argv){
   outScan.ranges.resize(num_readings);
   outScan.intensities.resize(num_readings);
 
-  while(n.ok()) {
+  while (n.ok()) {
     ros::spinOnce();
   }
 }

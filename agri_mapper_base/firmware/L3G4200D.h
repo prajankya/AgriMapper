@@ -22,9 +22,9 @@
 #define L3G4200D_h
 
 #if ARDUINO >= 100
-#include "Arduino.h"
+  #include "Arduino.h"
 #else
-#include "WProgram.h"
+  #include "WProgram.h"
 #endif
 
 #define L3G4200D_ADDRESS (0xD2 >> 1)
@@ -61,7 +61,7 @@
 #define L3G4200D_REG_INT1_DURATION (0x38)
 
 #ifndef VECTOR_STRUCT_H
-#define VECTOR_STRUCT_H
+  #define VECTOR_STRUCT_H
 struct Vector {
   float XAxis;
   float YAxis;

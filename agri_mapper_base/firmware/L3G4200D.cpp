@@ -19,9 +19,9 @@
  */
 
 #if ARDUINO >= 100
-#include "Arduino.h"
+  #include "Arduino.h"
 #else
-#include "WProgram.h"
+  #include "WProgram.h"
 #endif
 
 #include <Wire.h>
@@ -220,9 +220,8 @@ uint8_t L3G4200D::readRegister8(uint8_t reg) {
   Wire.beginTransmission(L3G4200D_ADDRESS);
   Wire.requestFrom(L3G4200D_ADDRESS, 1);
 
-  while (!Wire.available()) {
-  }
-  ;
+  while (!Wire.available()) ;
+
 #if ARDUINO >= 100
   value = Wire.read();
 #else
@@ -254,8 +253,7 @@ Vector L3G4200D::readRaw() {
   Wire.endTransmission();
   Wire.requestFrom(L3G4200D_ADDRESS, 6);
 
-  while (Wire.available() < 6)
-    ;
+  while (Wire.available() < 6) ;
 
 #if ARDUINO >= 100
   uint8_t xla = Wire.read();
