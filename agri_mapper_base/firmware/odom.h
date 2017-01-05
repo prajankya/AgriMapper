@@ -2,9 +2,6 @@
 #define __ODOM_H__
 
 #include <Arduino.h>
-#include <ros.h>
-#include <ros/time.h>
-#include <std_msgs/String.h>
 #include "encoder.h"
 
 class Odom {
@@ -19,4 +16,4 @@ class Odom {
     void loop();
     char msg[50];
 };
-#endif // ifndef __ODOM_H__
+#endif
