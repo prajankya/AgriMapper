@@ -12,6 +12,11 @@ void IMU::init() {
   acc_sensor.begin();
 #endif
 
+#ifdef USE_BAROMETER
+  baro_sensor = Adafruit_BMP085_Unified(10085);
+  baro_sensor.begin();
+#endif
+
 #ifdef USE_GYROSCOPE
 
   while (!gyro_sensor.begin(L3G4200D_SCALE_2000DPS, L3G4200D_DATARATE_400HZ_50)) {
@@ -66,6 +71,24 @@ void IMU::loop() {
   String acc_s = String(acc_x) + "," + String(acc_y) + "," + String(acc_z);
   acc_s.toCharArray(acc_msg, 50);
 #endif
+
+#ifdef USE_BAROMETER
+  sensors_event_t baro_event;
+
+  baro_sensor.getEvent(&baro_event);
+
+  char pressure[10];
+  dtostrf(baro_event.pressure, 6, 2, pressure);
+
+  float temp;
+  baro_sensor.getTemperature(&temp);
+
+  char temperature[10];
+  dtostrf(temp, 6, 2, temperature);
+
+  String baro_s = String(pressure) + "," + String(temperature);
+  baro_s.toCharArray(baro_msg, 50);
+#endif // ifdef USE_BAROMETER
 
 #ifdef USE_GYROSCOPE
 // Read normalized values
