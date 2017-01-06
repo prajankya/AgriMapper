@@ -11,6 +11,23 @@ void IMU::init() {
   acc_sensor = Adafruit_ADXL345_Unified(23456);
   acc_sensor.begin();
 #endif
+
+#ifdef USE_GYROSCOPE
+
+  while (!gyro_sensor.begin(L3G4200D_SCALE_2000DPS, L3G4200D_DATARATE_400HZ_50)) {
+    Serial.println("Could not find a valid L3G4200D sensor, check wiring!");
+    delay(500);
+  }
+
+  // Calibrate gyroscope. The calibration must be at rest.
+  // If you don't want calibrate, comment this line.
+  gyro_sensor.calibrate();
+
+  // Set threshold sensivty. Default 3.
+  // If you don't want use threshold, comment this line or set 0.
+  gyro_sensor.setThreshold(3);
+
+#endif
 }
 
 void IMU::loop() {
@@ -49,4 +66,30 @@ void IMU::loop() {
   String acc_s = String(acc_x) + "," + String(acc_y) + "," + String(acc_z);
   acc_s.toCharArray(acc_msg, 50);
 #endif
+
+#ifdef USE_GYROSCOPE
+// Read normalized values
+  Vector raw = gyro_sensor.readRaw();
+
+  char gyro_raw_x[10];
+  dtostrf(raw.XAxis, 6, 2, gyro_raw_x);
+  char gyro_raw_y[10];
+  dtostrf(raw.YAxis, 6, 2, gyro_raw_y);
+  char gyro_raw_z[10];
+  dtostrf(raw.ZAxis, 6, 2, gyro_raw_z);
+
+
+  // Read normalized values in deg/sec
+  Vector norm = gyro_sensor.readNormalize();
+  char gyro_norm_x[10];
+  dtostrf(norm.XAxis, 6, 2, gyro_norm_x);
+  char gyro_norm_y[10];
+  dtostrf(norm.YAxis, 6, 2, gyro_norm_y);
+  char gyro_norm_z[10];
+  dtostrf(norm.ZAxis, 6, 2, gyro_norm_z);
+
+  String gyro_s = String(gyro_raw_x) + "," + String(gyro_raw_y) + "," + String(gyro_raw_z) + "," +
+    String(gyro_norm_x) + "," + String(gyro_norm_y) + "," + String(gyro_norm_z);
+  gyro_s.toCharArray(gyro_msg, 100);
+#endif // ifdef USE_GYROSCOPE
 }

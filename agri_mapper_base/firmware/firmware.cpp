@@ -85,6 +85,8 @@ void loop() {
     Serial.println(imu.mag_msg);
     Serial.print("\tIMU acc_msg :");
     Serial.println(imu.acc_msg);
+    Serial.print("\tIMU gyro_msg :");
+    Serial.println(imu.gyro_msg);
   #endif
 
 #endif

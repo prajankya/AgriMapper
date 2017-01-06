@@ -1,5 +1,6 @@
 #define USE_MAGNETOMETER  1
 #define USE_ACCELEROMETER 1
+#define USE_GYROSCOPE     1
 
 #ifndef _IMU_H_
   #define _IMU_H_
@@ -15,7 +16,9 @@
     #include "Adafruit_ADXL345_U.h"
   #endif
 
-  #include "L3G4200D.h"
+  #ifdef USE_GYROSCOPE
+    #include "L3G4200D.h"
+  #endif
 
 class IMU {
   private:
@@ -25,6 +28,10 @@ class IMU {
 
   #ifdef USE_ACCELEROMETER
     Adafruit_ADXL345_Unified acc_sensor;
+  #endif
+
+  #ifdef USE_GYROSCOPE
+    L3G4200D gyro_sensor;
   #endif
 
   public:
@@ -37,6 +44,10 @@ class IMU {
 
   #ifdef USE_ACCELEROMETER
     char acc_msg[50];
+  #endif
+
+  #ifdef USE_GYROSCOPE
+    char gyro_msg[100];
   #endif
 };
 
