@@ -1,4 +1,5 @@
-#define USE_ROS 1
+//#define USE_ROS 1
+#define USE_IMU 1
 
 #ifdef USE_ROS
   #include <ros.h>
@@ -16,15 +17,24 @@ ros::NodeHandle nh;
 std_msgs::String odom_msg;
 ros::Publisher odom_pub("odom_pub", &odom_msg);
 
+  #ifdef USE_IMU
 std_msgs::String imu_msg;
 ros::Publisher imu_pub("imu_msg", &imu_msg);
+  #endif
 
 #endif
 
 Odom odom;
+
+#ifdef USE_IMU
 IMU imu;
+#endif
 
 void setup() {
+#ifndef USE_ROS
+  Serial.begin(9600);
+#endif
+
 #ifdef USE_ROS
   nh.initNode();
   nh.advertise(odom_pub);
@@ -32,16 +42,22 @@ void setup() {
 #endif
 
   odom.init(7, 8, 4, 6);
+
+#ifdef USE_IMU
   imu.init();
+#endif
 }
 
 unsigned long previousMillis = 0;
 
-const long interval = 50;
+const long interval = 500;
 
 void loop() {
   odom.loop();
+
+#ifdef USE_IMU
   imu.loop();
+#endif
 
   unsigned long currentMillis = millis();
 
@@ -53,8 +69,22 @@ void loop() {
     odom_msg.data = odom.msg;
     odom_pub.publish(&odom_msg);
 
+  #ifdef USE_IMU
     imu_msg.data = imu.msg;
     imu_pub.publish(&imu_msg);
+  #endif
+
+#endif
+
+#ifndef USE_ROS
+    Serial.print("odom msg :");
+    Serial.println(odom.msg);
+
+  #ifdef USE_IMU
+    Serial.print("\tIMU msg :");
+    Serial.println(imu.msg);
+  #endif
+
 #endif
   }
 

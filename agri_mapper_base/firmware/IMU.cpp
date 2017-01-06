@@ -3,12 +3,15 @@
 
 void IMU::init() {
   mag_sensor = Adafruit_HMC5883_Unified(12345);
+  mag_sensor.begin();
 
-  if (!mag_sensor.begin()) {
-    while (1) {
+  /*
+     if (!mag_sensor.begin()) {
+     while (1) {
       Serial.println("Ooops, no IMU detected ... Check your wiring!");
-    }
-  }
+     }
+     }
+   */
 }
 
 void IMU::loop() {
