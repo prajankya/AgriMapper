@@ -46,6 +46,7 @@ class IMU {
   public:
     void init();
     void loop();
+    String toString();
 
   #ifdef USE_MAGNETOMETER
     char mag_msg[50];

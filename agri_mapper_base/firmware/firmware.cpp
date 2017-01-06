@@ -81,14 +81,8 @@ void loop() {
     Serial.println(odom.msg);
 
   #ifdef USE_IMU
-    Serial.print("\tIMU mag_msg :");
-    Serial.println(imu.mag_msg);
-    Serial.print("\tIMU acc_msg :");
-    Serial.println(imu.acc_msg);
-    Serial.print("\tIMU gyro_msg :");
-    Serial.println(imu.gyro_msg);
-    Serial.print("\tIMU baro_msg :");
-    Serial.println(imu.baro_msg);
+    Serial.print("\tIMU :");
+    Serial.println(imu.toString());
   #endif
 
 #endif

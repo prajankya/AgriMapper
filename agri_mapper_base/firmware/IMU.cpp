@@ -116,3 +116,25 @@ void IMU::loop() {
   gyro_s.toCharArray(gyro_msg, 100);
 #endif // ifdef USE_GYROSCOPE
 }
+
+String IMU::toString() {
+  String s = "";
+
+#ifdef USE_MAGNETOMETER
+  s = s + String(mag_msg);
+#endif
+
+#ifdef USE_ACCELEROMETER
+  s = s + ":" + String(acc_msg);
+#endif
+
+#ifdef USE_GYROSCOPE
+  s = s + ":" + String(gyro_msg);
+#endif
+
+#ifdef USE_BAROMETER
+  s = s + ":" + String(baro_msg);
+#endif
+
+  return s;
+}
