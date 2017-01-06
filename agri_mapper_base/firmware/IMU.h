@@ -1,24 +1,43 @@
-#ifndef _IMU_H_
-#define _IMU_H_
+#define USE_MAGNETOMETER  1
+#define USE_ACCELEROMETER 1
 
-#include <Arduino.h>
-#include "Adafruit_Sensor.h"
-#include "Adafruit_HMC5883_U.h"
-#include "Adafruit_ADXL345_U.h"
-#include "L3G4200D.h"
-#include <ros.h>
-#include <ros/time.h>
-#include <std_msgs/String.h>
+#ifndef _IMU_H_
+  #define _IMU_H_
+
+  #include <Arduino.h>
+  #include "Adafruit_Sensor.h"
+
+  #ifdef USE_MAGNETOMETER
+    #include "Adafruit_HMC5883_U.h"
+  #endif
+
+  #ifdef USE_ACCELEROMETER
+    #include "Adafruit_ADXL345_U.h"
+  #endif
+
+  #include "L3G4200D.h"
 
 class IMU {
   private:
+  #ifdef USE_MAGNETOMETER
     Adafruit_HMC5883_Unified mag_sensor;
+  #endif
+
+  #ifdef USE_ACCELEROMETER
+    Adafruit_ADXL345_Unified acc_sensor;
+  #endif
 
   public:
     void init();
     void loop();
 
-    char msg[50];
+  #ifdef USE_MAGNETOMETER
+    char mag_msg[50];
+  #endif
+
+  #ifdef USE_ACCELEROMETER
+    char acc_msg[50];
+  #endif
 };
 
 #endif // ifndef _IMU_H_
