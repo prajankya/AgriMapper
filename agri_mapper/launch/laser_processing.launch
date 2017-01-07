@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="odom_calc" pkg="agri_mapper_base" ns="agri_mapper" type="odom_calc" output="screen"/>
+
+    <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" respawn="true" output="screen">
+        <param name="min_angle" type="double" value="90.0"/>
+        <param name="max_angle" type="double" value="270.0"/>
+    </node>
+</launch>
