@@ -1,4 +1,4 @@
-//#define USE_ROS 1
+#define USE_ROS 1
 #define USE_IMU 1
 
 #ifdef USE_ROS
@@ -70,7 +70,7 @@ void loop() {
     odom_pub.publish(&odom_msg);
 
   #ifdef USE_IMU
-    imu_msg.data = imu.msg;
+    imu_msg.data = imu.toString().c_str();
     imu_pub.publish(&imu_msg);
   #endif
 
