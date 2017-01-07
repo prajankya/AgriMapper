@@ -31,26 +31,41 @@ IMU imu;
 #endif
 
 void setup() {
+  pinMode(12, OUTPUT);
 #ifndef USE_ROS
   Serial.begin(9600);
+  Serial.println("Starting Node..");
 #endif
 
 #ifdef USE_ROS
   nh.initNode();
+
   nh.advertise(odom_pub);
+
+  #ifdef USE_IMU
   nh.advertise(imu_pub);
-#endif
+  #endif
+#endif // ifdef USE_ROS
 
   odom.init(7, 8, 4, 6);
 
 #ifdef USE_IMU
+  #ifdef USE_ROS
+
+  nh.loginfo("Starting IMU...");
+  #endif // ifdef USE_ROS
+
   imu.init();
-#endif
+
+  #ifdef USE_ROS
+  nh.loginfo("IMU started");
+  #endif
+#endif // ifdef USE_IMU
 }
 
 unsigned long previousMillis = 0;
 
-const long interval = 500;
+const long interval = 1;
 
 void loop() {
   odom.loop();
@@ -64,8 +79,9 @@ void loop() {
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
 
-    //nh.loginfo(odom.msg);
 #ifdef USE_ROS
+    nh.loginfo("Running");
+
     odom_msg.data = odom.msg;
     odom_pub.publish(&odom_msg);
 

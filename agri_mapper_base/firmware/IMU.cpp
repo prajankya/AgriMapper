@@ -2,37 +2,51 @@
 #include <Arduino.h>
 
 void IMU::init() {
+  previousMillis = 0;
+  interval = 100;
+  state = LOW;
+
 #ifdef USE_MAGNETOMETER
   mag_sensor = Adafruit_HMC5883_Unified(12345);
-  mag_sensor.begin();
+
+  while (!mag_sensor.begin()) {
+    blink();
+  }
+
 #endif
 
 #ifdef USE_ACCELEROMETER
   acc_sensor = Adafruit_ADXL345_Unified(23456);
-  acc_sensor.begin();
+
+  while (!acc_sensor.begin()) {
+    blink();
+  }
+
 #endif
 
 #ifdef USE_BAROMETER
   baro_sensor = Adafruit_BMP085_Unified(10085);
-  baro_sensor.begin();
+
+  while (!baro_sensor.begin()) {
+    blink();
+  }
 #endif
 
 #ifdef USE_GYROSCOPE
 
   while (!gyro_sensor.begin(L3G4200D_SCALE_2000DPS, L3G4200D_DATARATE_400HZ_50)) {
-    Serial.println("Could not find a valid L3G4200D sensor, check wiring!");
-    delay(500);
+    blink();
   }
 
-  // Calibrate gyroscope. The calibration must be at rest.
-  // If you don't want calibrate, comment this line.
-  gyro_sensor.calibrate();
+// Calibrate gyroscope. The calibration must be at rest.
+// If you don't want calibrate, comment this line.
+//gyro_sensor.calibrate();
 
-  // Set threshold sensivty. Default 3.
-  // If you don't want use threshold, comment this line or set 0.
-  gyro_sensor.setThreshold(3);
+// Set threshold sensivty. Default 3.
+// If you don't want use threshold, comment this line or set 0.
+//gyro_sensor.setThreshold(3);
 
-#endif
+#endif // ifdef USE_GYROSCOPE
 }
 
 void IMU::loop() {
@@ -137,4 +151,16 @@ String IMU::toString() {
 #endif
 
   return s;
+}
+
+void IMU::blink() {
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+
+    state = !state;
+
+    digitalWrite(12, state);
+  }
 }
