@@ -2,7 +2,7 @@
 #define __ODOM_H__
 
 #include <Arduino.h>
-#include "encoder.h"
+#include "Encoder.h"
 
 class Odom {
   private:
