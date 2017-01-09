@@ -1,5 +1,5 @@
 <launch>
     <arg name="folder" default="~"/>
-    <node pkg="rosbag" type="record" name="robot_bag" args="-o $(arg folder)/robot_bag /agri_mapper/imu_msg /agri_mapper/scan" output="screen"/>
+    <node pkg="rosbag" type="record" name="robot_bag" args="-o $(arg folder)/robot_bag /agri_mapper/imu_msg /agri_mapper/scan /agri_mapper/odom_pub" output="screen"/>
 </launch>
 <!-- <arg name="record_cameras" default="true"/> <node pkg="rosbag" type="rosbag" name="rosbag_record" args="record -o /tmp/hrp2-cameras /wide/left/image_raw /wide/left/camera_info /wide/right/image_raw /wide/right/camera_info /narrow/left/image_raw /narrow/left/camera_info /narrow/right/image_raw /narrow/right/camera_info" if="$(arg record_cameras)"/> <launch> <node pkg="rosbag" type="record" name="robot_bag" args="-o robot_bag /odom /diagnostics /tf" /> <node pkg="rosbag" type="record" name="harness_bag" args="-o harness_bag /cmd_vel /mobile_base/commands/velocity /move_base_simple/goal" /> </launch> -->

@@ -87,8 +87,7 @@ void loop() {
     char imu_out[130];
     imu.toString().toCharArray(imu_out, 130);
     imu_msg.data = imu_out;
-    nh.loginfo(imu_out);
-    nh.loginfo(imu_msg.data);
+
     imu_pub.publish(&imu_msg);
   #endif
 
