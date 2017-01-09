@@ -84,7 +84,11 @@ void loop() {
     odom_pub.publish(&odom_msg);
 
   #ifdef USE_IMU
-    imu_msg.data = imu.toString().c_str();
+    char imu_out[130];
+    imu.toString().toCharArray(imu_out, 130);
+    imu_msg.data = imu_out;
+    nh.loginfo(imu_out);
+    nh.loginfo(imu_msg.data);
     imu_pub.publish(&imu_msg);
   #endif
 
