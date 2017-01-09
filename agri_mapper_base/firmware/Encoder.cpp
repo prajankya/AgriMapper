@@ -5,6 +5,7 @@ void Encoder::init_set(int pinA_, int pinB_) {
   count = 0;
   pinALast = LOW;
   n = LOW;
+  increment_val = 1;
 
   pinA = pinA_;
   pinB = pinB_;
@@ -49,13 +50,17 @@ void Encoder::loop() {
 
   if ((pinALast == LOW) && (n == HIGH)) {
     if (readPin(pinB) == LOW) {
-      count--;
+      count -= increment_val;
     } else {
-      count++;
+      count += increment_val;
     }
   }
 
   pinALast = n;
+}
+
+void Encoder::negate(bool set_) {
+  increment_val = (set_) ? -1 : 1;
 }
 
 bool Encoder::readPin(int pin) {
