@@ -69,7 +69,6 @@ const long interval = 1;
 
 void loop() {
   nh.spinOnce();// Trying to solve "Lost sync with device, restarting..." errors
-  delay(1);
   odom.loop();
 
 #ifdef USE_IMU
