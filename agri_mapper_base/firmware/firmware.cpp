@@ -47,7 +47,7 @@ void setup() {
   #endif
 #endif // ifdef USE_ROS
 
-  odom.init(A0, 10, 2, 4);
+  odom.init(A0, 6, 2, 4);
 
 #ifdef USE_IMU
   #ifdef USE_ROS
