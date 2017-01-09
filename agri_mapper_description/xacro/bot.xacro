@@ -129,8 +129,8 @@
             <material name="red"/>
         </visual>
     </link>
-    <joint name="chassis_link_rplidar_frame" type="fixed">
-        <origin xyz="0 0 0.001" rpy="0 0 0"/>
+    <joint name="lidar_up_rplidar_frame" type="fixed">
+        <origin xyz="0 0 0.001" rpy="${pi/2} ${pi} ${pi}"/>
         <parent link="lidar_up"/>
         <child link="rplidar_frame"/>
     </joint>

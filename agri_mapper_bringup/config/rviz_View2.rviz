@@ -29,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -115,11 +115,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        z:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -138,10 +133,10 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 47
+      Max Intensity: 33
       Min Color: 0; 0; 0
       Min Intensity: 9
       Name: LaserScan
@@ -155,7 +150,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -217,8 +212,6 @@ Visualization Manager:
           Value: true
         y:
           Value: true
-        z:
-          Value: true
       Marker Scale: 4
       Name: TF
       Show Arrows: false
@@ -233,9 +226,8 @@ Visualization Manager:
                   lidar_base:
                     lidar_bottom:
                       lidar_up:
-                        {}
-                rplidar_frame:
-                  {}
+                        rplidar_frame:
+                          {}
                 wheel_l:
                   {}
                 wheel_r:
@@ -243,8 +235,6 @@ Visualization Manager:
               x:
                 {}
               y:
-                {}
-              z:
                 {}
       Update Interval: 0
       Value: true
@@ -272,7 +262,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.9116652
+      Distance: 12.1743345
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -286,10 +276,10 @@ Visualization Manager:
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.604797125
+      Pitch: 0.804796934
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.9558115
+      Yaw: 3.45079994
     Saved: ~
 Window Geometry:
   Displays:
