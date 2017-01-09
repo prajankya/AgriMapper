@@ -5,6 +5,7 @@ void Odom::init(int e1A, int e1B, int e2A, int e2B) {
   left.init(e1A, e1B, 500);
   right.init(e2A, e2B);
   right.negate(true);
+  left.negate(true);
 
   oldL = 0;
   oldR = 0;
