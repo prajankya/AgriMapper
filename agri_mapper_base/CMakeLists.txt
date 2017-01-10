@@ -41,3 +41,6 @@ target_link_libraries(scan_clipper ${catkin_LIBRARIES})
 
 add_executable(odom_calc src/odom_calc.cpp)
 target_link_libraries(odom_calc ${catkin_LIBRARIES})
+
+add_executable(imu_calc src/imu_calc.cpp)
+target_link_libraries(imu_calc ${catkin_LIBRARIES})
