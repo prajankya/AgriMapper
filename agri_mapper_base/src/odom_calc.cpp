@@ -77,32 +77,22 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   //ROS_INFO_STREAM("Left:" << dl << "\tRight:" << dr);
 
   //=============================== Calculate x, y, th ====================
+  //Solved from
+  //http://robotics.stackexchange.com/questions/1653/calculate-position-of-differential-drive-robot
 
-  double dth = asin((dr - dl) / (2 * wheelDistance));
-  //http://rossum.sourceforge.net/papers/DiffSteer/  eq[5] and eq[6]
+  if (fabs(dl - dr) < 1.0e-6) { // basically going straight
+    x += dl * cos(th);
+    y += dr * sin(th);
+  } else {
+    float R = wheelDistance * (dl + dr) / (2 * (dr - dl)),
+          wd = (dr - dl) / wheelDistance;
 
-  th += dth;
-
-  if (th > PI) {
-    th = th - (2 * PI);
-  } else if (th < -PI) {
-    th = th + (2 * PI);
+    x += R * sin(wd + th) - R *sin(th);
+    y -= R * cos(wd + th) + R *cos(th);
+    th += wd; //th = boundAngle(th + wd);
   }
 
-  double l = wheelDistance / 2;
-
-  double dx = l * sin(th);
-  double dy = l - (l * cos(th));
-
-  double dt = (current_time - last_time).toSec();
-  vx = dx / dt;
-  vy = dy / dt;
-  vth = dth / dt;
-
-  x += dx;
-  y += dy;
-
-  ROS_INFO_STREAM("x:" << x << "\ty:" << y);
+  ROS_INFO_STREAM("x:" << x << "\ty:" << y << "\ttheta:" << th);
 
 //  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
 
