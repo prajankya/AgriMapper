@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="agri_mapper_base" type="imu_calc" name="imu_calc" ns="agri_mapper" output="screen" />
+</launch>

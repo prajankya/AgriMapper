@@ -20,20 +20,73 @@ double string_to_double(const std::string& s) {
   return x;
 }
 
+using namespace std;
+
+void tokenize(const string& str, vector<string>& tokens, const string& delimiters = ",") {
+  // Skip delimiters at beginning.
+  string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+
+  // Find first non-delimiter.
+  string::size_type pos = str.find_first_of(delimiters, lastPos);
+
+  while (string::npos != pos || string::npos != lastPos) {
+    // Found a token, add it to the vector.
+    tokens.push_back(str.substr(lastPos, pos - lastPos));
+
+    // Skip delimiters.
+    lastPos = str.find_first_not_of(delimiters, pos);
+
+    // Find next non-delimiter.
+    pos = str.find_first_of(delimiters, lastPos);
+  }
+}
+
 void imuCallback(const std_msgs::String::ConstPtr & msg) {
   current_time = ros::Time::now();
+
+  //ROS_INFO_STREAM("got imu data : " << msg->data);
 
   std::istringstream ss(msg->data);
   std::string token;
   int i = 0;
-  std::string in[2]; //number of comma separated values
 
-  while (std::getline(ss, token, ',')) {
-    in[i++] = token;
+  std::string sensors[4]; //number of colon separated values
+
+  while (std::getline(ss, token, ':')) {
+    sensors[i++] = token;
   }
 
-  //enL = round(string_to_double(in[0]));
-  ROS_INFO_STREAM("got imu data");
+  double mag[3], acc[3], gyro[6], baro[2];
+
+  vector<string> mag_tokens;
+  tokenize(sensors[0], mag_tokens);
+
+  for (i = 0; i < mag_tokens.size(); i++) {
+    mag[i] = string_to_double(mag_tokens.at(i));
+  }
+
+  vector<string> acc_tokens;
+  tokenize(sensors[1], acc_tokens);
+
+  for (i = 0; i < acc_tokens.size(); i++) {
+    acc[i] = string_to_double(acc_tokens.at(i));
+  }
+
+  vector<string> gyro_tokens;
+  tokenize(sensors[0], gyro_tokens);
+
+  for (i = 0; i < gyro_tokens.size(); i++) {
+    gyro[i] = string_to_double(gyro_tokens.at(i));
+  }
+
+  vector<string> baro_tokens;
+  tokenize(sensors[0], baro_tokens);
+
+  for (i = 0; i < baro_tokens.size(); i++) {
+    baro[i] = string_to_double(baro_tokens.at(i));
+  }
+
+//  ROS_INFO_STREAM("ACC:" << acc[0] << "," << acc[1] << "," << acc[2]);
 
   last_time = current_time;
 }
