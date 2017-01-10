@@ -16,8 +16,8 @@ int64_t enR = 0;
 int64_t oldenL = 0;
 int64_t oldenR = 0;
 
-double wheelDiameter = 0.12;
-double wheelDistance = 1.0;
+double wheelCircumference = 0.51;//meters
+double wheelDistance = 0.54;//meters
 
 uint8_t encoderResolution = 16;
 
@@ -71,8 +71,8 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
     oldenR = enR;
   }
 
-  double dl = (difL / encoderResolution) * (wheelDiameter * PI);
-  double dr = (difR / encoderResolution) * (wheelDiameter * PI);
+  double dl = (difL / encoderResolution) * wheelCircumference;
+  double dr = (difR / encoderResolution) * wheelCircumference;
 
   //=============================== Calculate x, y, th ====================
   double dth = asin((dr - dl) / wheelDistance);
