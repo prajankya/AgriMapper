@@ -100,6 +100,8 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
     th = th + (2 * PI);
   }
 
+  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
+
   last_time = current_time;
 }
 
