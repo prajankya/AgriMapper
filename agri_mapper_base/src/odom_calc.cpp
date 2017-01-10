@@ -77,6 +77,7 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   //ROS_INFO_STREAM("Left:" << dl << "\tRight:" << dr);
 
   //=============================== Calculate x, y, th ====================
+
   double dth = asin((dr - dl) / wheelDistance);
 
   double l = wheelDistance / 2;
@@ -93,10 +94,10 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   y += dy;
   th += dth;
 
-  if (th > 2 * PI) {
-    th = 0;
-  } else if (th < 2 * PI) {
-    th = 0;
+  if (th > PI) {
+    th = th - (2 * PI);
+  } else if (th < -PI) {
+    th = th + (2 * PI);
   }
 
   last_time = current_time;
