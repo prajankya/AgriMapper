@@ -16,8 +16,8 @@ int64_t enR = 0;
 int64_t oldenL = 0;
 int64_t oldenR = 0;
 
-double wheelCircumference = 0.51;//meters
-double wheelDistance = 0.54;//meters
+double wheelCircumference = 0.51; //meters
+double wheelDistance = 0.54; //meters
 
 uint8_t encoderResolution = 16;
 
@@ -100,7 +100,9 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
     th = th + (2 * PI);
   }
 
-  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
+  ROS_INFO_STREAM("x:" << x << "\ty:" << y);
+
+//  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
 
   last_time = current_time;
 }
