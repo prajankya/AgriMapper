@@ -56,7 +56,7 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   enL = round(string_to_double(in[0]));
   enR = round(string_to_double(in[1]));
 
-  ROS_INFO_STREAM("Left:" << enL << "\tRight:" << enR);
+  //ROS_INFO_STREAM("Left:" << enL << "\tRight:" << enR);
 
   //-------------------- Convert enL and enR into Meters -------------
   int difL = 0, difR = 0;
@@ -71,8 +71,10 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
     oldenR = enR;
   }
 
-  double dl = (difL / encoderResolution) * wheelCircumference;
-  double dr = (difR / encoderResolution) * wheelCircumference;
+  double dl = (difL * wheelCircumference) / encoderResolution;
+  double dr = (difR * wheelCircumference) / encoderResolution;
+
+  //ROS_INFO_STREAM("Left:" << dl << "\tRight:" << dr);
 
   //=============================== Calculate x, y, th ====================
   double dth = asin((dr - dl) / wheelDistance);
