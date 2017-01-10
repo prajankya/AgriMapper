@@ -13,6 +13,8 @@
     <include file="$(find agri_mapper)/launch/diagnostics.launch" />
   </group>
 
+  <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch" />
+
   <group unless="$(arg sim)">
     <include file="$(find agri_mapper_base)/launch/arduino.launch">
       <arg name="port" value="$(arg port)" />
