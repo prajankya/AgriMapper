@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <ros/console.h>
 #include <std_msgs/String.h>
+#include <sensor_msgs/Imu.h>
 
 #include <iomanip>
 #include <iostream>
@@ -10,7 +11,7 @@
 
 ros::Time current_time, last_time;
 ros::Publisher imu_pub;
-
+sensor_msgs::Imu imu_msg;
 double string_to_double(const std::string& s) {
   std::istringstream i(s);
   double x;
@@ -87,6 +88,20 @@ void imuCallback(const std_msgs::String::ConstPtr & msg) {
   }
 
 //  ROS_INFO_STREAM("ACC:" << acc[0] << "," << acc[1] << "," << acc[2]);
+
+  imu_msg.linear_acceleration.x = acc[0];
+  imu_msg.linear_acceleration.y = acc[1];
+  imu_msg.linear_acceleration.z = acc[2];
+
+  imu_msg.angular_velocity.x = gyro[0];
+  imu_msg.angular_velocity.y = gyro[1];
+  imu_msg.angular_velocity.z = gyro[2];
+
+
+  imu_msg.orientation.w = 0.0;
+  imu_msg.orientation.x = 0.0;
+  imu_msg.orientation.y = 0.0;
+  imu_msg.orientation.z = 0.0;
 
   last_time = current_time;
 }
