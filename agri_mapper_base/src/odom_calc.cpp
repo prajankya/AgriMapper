@@ -92,6 +92,8 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
     th += wd; //th = boundAngle(th + wd);
   }
 
+  //TODO: remove sudden change in x or y, like near to 0.5 meters, in change of 3degress
+
   ROS_INFO_STREAM("x:" << x << "\ty:" << y << "\ttheta:" << ((th * 180) / PI));
 
 //  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
