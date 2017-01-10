@@ -78,12 +78,21 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
 
   //=============================== Calculate x, y, th ====================
 
-  double dth = asin((dr - dl) / wheelDistance);
+  double dth = asin((dr - dl) / (2 * wheelDistance));
+  //http://rossum.sourceforge.net/papers/DiffSteer/  eq[5] and eq[6]
+
+  th += dth;
+
+  if (th > PI) {
+    th = th - (2 * PI);
+  } else if (th < -PI) {
+    th = th + (2 * PI);
+  }
 
   double l = wheelDistance / 2;
 
-  double dx = l * sin(dth);
-  double dy = l - (l * cos(dth));
+  double dx = l * sin(th);
+  double dy = l - (l * cos(th));
 
   double dt = (current_time - last_time).toSec();
   vx = dx / dt;
@@ -92,13 +101,6 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
 
   x += dx;
   y += dy;
-  th += dth;
-
-  if (th > PI) {
-    th = th - (2 * PI);
-  } else if (th < -PI) {
-    th = th + (2 * PI);
-  }
 
   ROS_INFO_STREAM("x:" << x << "\ty:" << y);
 
