@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="model" default="$(find agri_mapper_description)/xacro/bot.xacro"/>
+  <arg name="model" default="$(find agri_mapper_description)/xacro/bot.xacro" />
 
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
 </launch>

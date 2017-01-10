@@ -32,6 +32,8 @@ double vx = 0.0;
 double vy = 0.0;
 double vth = 0.0;
 
+double dx = 0, dy = 0, dth = 0;
+
 double string_to_double(const std::string& s) {
   std::istringstream i(s);
   double x;
@@ -81,20 +83,36 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   //http://robotics.stackexchange.com/questions/1653/calculate-position-of-differential-drive-robot
 
   if (fabs(dl - dr) < 1.0e-6) { // basically going straight
-    x += dl * cos(th);
-    y += dr * sin(th);
+    dx = dl * cos(th);
+    dy = dr * sin(th);
   } else {
     float R = wheelDistance * (dl + dr) / (2 * (dr - dl)),
-          wd = (dr - dl) / wheelDistance;
+          dth = (dr - dl) / wheelDistance;
 
-    x += R * sin(wd + th) - R *sin(th);
-    y -= R * cos(wd + th) + R *cos(th);
-    th += wd; //th = boundAngle(th + wd);
+    dx = R * sin(dth + th) - R *sin(th);
+    dy = -(R * cos(dth + th) + R * cos(th));
+    //th = boundAngle(th + wd);
+  }
+
+  double dt = (current_time - last_time).toSec();
+
+  vx = dx / dt;
+  vy = dy / dt;
+  vth = dth / dt;
+
+  x += dx;
+  y += dy;
+  th += dth;
+
+  if (th > PI) {
+    th = th - (2 * PI);
+  } else if (th < -PI) {
+    th = th + (2 * PI);
   }
 
   //TODO: remove sudden change in x or y, like near to 0.5 meters, in change of 3degress
 
-  ROS_INFO_STREAM("x:" << x << "\ty:" << y << "\ttheta:" << ((th * 180) / PI));
+//  ROS_INFO_STREAM("x:" << x << "\ty:" << y << "\ttheta:" << ((th * 180) / PI));
 
 //  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
 
