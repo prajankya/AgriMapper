@@ -8,6 +8,9 @@
     </group>
 
     <group if="$(arg play)">
+				<rosparam param="/use_sim_time">true</rosparam>
+        <include file="$(find agri_mapper_description)/launch/state_publisher.launch"/>
+
         <node pkg="rosbag" type="play" name="robot_bag" args="$(arg file) --keep-alive --clock" output="screen"/>
     </group>
 </launch>
