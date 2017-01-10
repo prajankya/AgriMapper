@@ -14,7 +14,10 @@
   </group>
 
   <group unless="$(arg sim)">
-    <include file="$(find agri_mapper_base)/launch/arduino.launch" />
+    <include file="$(find agri_mapper_base)/launch/arduino.launch">
+      <arg name="port" value="$(arg port)" />
+    </include>
+
     <include file="$(find agri_mapper_bringup)/launch/rplidar.launch" />
 
     <include file="$(find agri_mapper_description)/launch/state_publisher.launch" />
