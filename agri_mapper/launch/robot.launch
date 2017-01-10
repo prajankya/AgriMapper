@@ -20,4 +20,7 @@
         <include file="$(find agri_mapper_bringup)/launch/rplidar.launch"/>
     </group>
 
+    <group if="$(arg sim)">
+        <rosparam param="/use_sim_time">true</rosparam>
+    </group>
 </launch>
