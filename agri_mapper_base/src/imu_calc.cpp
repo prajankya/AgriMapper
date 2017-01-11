@@ -74,14 +74,14 @@ void imuCallback(const std_msgs::String::ConstPtr & msg) {
   }
 
   vector<string> gyro_tokens;
-  tokenize(sensors[0], gyro_tokens);
+  tokenize(sensors[2], gyro_tokens);
 
   for (i = 0; i < gyro_tokens.size(); i++) {
     gyro[i] = string_to_double(gyro_tokens.at(i));
   }
 
   vector<string> baro_tokens;
-  tokenize(sensors[0], baro_tokens);
+  tokenize(sensors[3], baro_tokens);
 
   for (i = 0; i < baro_tokens.size(); i++) {
     baro[i] = string_to_double(baro_tokens.at(i));
@@ -93,9 +93,9 @@ void imuCallback(const std_msgs::String::ConstPtr & msg) {
   imu_msg.linear_acceleration.y = acc[1];
   imu_msg.linear_acceleration.z = acc[2];
 
-  imu_msg.angular_velocity.x = gyro[0];
-  imu_msg.angular_velocity.y = gyro[1];
-  imu_msg.angular_velocity.z = gyro[2];
+  imu_msg.angular_velocity.x = gyro[3];
+  imu_msg.angular_velocity.y = gyro[4];
+  imu_msg.angular_velocity.z = gyro[5];
 
 
   imu_msg.orientation.w = 0.0;
