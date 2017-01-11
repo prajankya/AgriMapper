@@ -116,6 +116,43 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
 
 //  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
 
+  //since all odometry is 6DOF we'll need a quaternion created from yaw
+  geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
+/*
+   //first, we'll publish the transform over tf
+   geometry_msgs::TransformStamped odom_trans;
+   odom_trans.header.stamp = current_time;
+   odom_trans.header.frame_id = "odom";
+   odom_trans.child_frame_id = "base_link";
+
+   odom_trans.transform.translation.x = x;
+   odom_trans.transform.translation.y = y;
+   odom_trans.transform.translation.z = 0.0;
+   odom_trans.transform.rotation = odom_quat;
+
+   //send the transform
+   tf::TransformBroadcaster odom_broadcaster;
+   odom_broadcaster.sendTransform(odom_trans);
+ */
+//next, we'll publish the odometry message over ROS
+  nav_msgs::Odometry odom;
+  odom.header.stamp = current_time;
+  odom.header.frame_id = "odom";
+
+//set the position
+  odom.pose.pose.position.x = x;
+  odom.pose.pose.position.y = y;
+  odom.pose.pose.position.z = 0.0;
+  odom.pose.pose.orientation = odom_quat;
+
+//set the velocity
+  odom.child_frame_id = "base_link";
+  odom.twist.twist.linear.x = vx;
+  odom.twist.twist.linear.y = vy;
+  odom.twist.twist.angular.z = vth;
+
+  odom_pub.publish(odom);
+
   last_time = current_time;
 }
 
@@ -129,45 +166,9 @@ int main(int argc, char **argv) {
   current_time = ros::Time::now();
   last_time = ros::Time::now();
 
-  ros::Rate rate(10);
+  ros::Rate rate(40);
 
   while (n.ok()) {
-    //since all odometry is 6DOF we'll need a quaternion created from yaw
-    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
-
-    //first, we'll publish the transform over tf
-    geometry_msgs::TransformStamped odom_trans;
-    odom_trans.header.stamp = current_time;
-    odom_trans.header.frame_id = "odom";
-    odom_trans.child_frame_id = "base_link";
-
-    odom_trans.transform.translation.x = x;
-    odom_trans.transform.translation.y = y;
-    odom_trans.transform.translation.z = 0.0;
-    odom_trans.transform.rotation = odom_quat;
-
-    //send the transform
-    tf::TransformBroadcaster odom_broadcaster;
-    odom_broadcaster.sendTransform(odom_trans);
-
-    //next, we'll publish the odometry message over ROS
-    nav_msgs::Odometry odom;
-    odom.header.stamp = current_time;
-    odom.header.frame_id = "odom";
-
-    //set the position
-    odom.pose.pose.position.x = x;
-    odom.pose.pose.position.y = y;
-    odom.pose.pose.position.z = 0.0;
-    odom.pose.pose.orientation = odom_quat;
-
-    //set the velocity
-    odom.child_frame_id = "base_link";
-    odom.twist.twist.linear.x = vx;
-    odom.twist.twist.linear.y = vy;
-    odom.twist.twist.angular.z = vth;
-
-    odom_pub.publish(odom);
     ros::spinOnce();
 
     rate.sleep();

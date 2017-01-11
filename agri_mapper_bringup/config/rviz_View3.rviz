@@ -28,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -259,6 +259,16 @@ Visualization Manager:
       Topic: ""
       Unreliable: false
       Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 255; 25; 0
+      Enabled: true
+      Keep: 100
+      Length: 1
+      Name: Odometry
+      Position Tolerance: 0.1
+      Topic: /agri_mapper/odom
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -316,5 +326,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1425
-  X: 425
+  X: 416
   Y: 12
