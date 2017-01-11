@@ -1,38 +1,38 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="port" default="/dev/ttyACM0" />
-  <arg name="debug" default="false" />
+  <arg name="port" default="/dev/ttyACM0"/>
+  <arg name="debug" default="false"/>
 
-  <arg name="sim" default="false" />
+  <arg name="sim" default="false"/>
 
-  <include file="$(find agri_mapper_description)/launch/desc.launch" />
+  <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
   <!-- TODO: Call to agri_mapper_base -->
 
   <group if="$(arg debug)">
-    <include file="$(find agri_mapper)/launch/diagnostics.launch" />
+    <include file="$(find agri_mapper)/launch/diagnostics.launch"/>
   </group>
 
-  <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch" />
+  <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch"/>
 
   <group unless="$(arg sim)">
     <include file="$(find agri_mapper_base)/launch/arduino.launch">
-      <arg name="port" value="$(arg port)" />
+      <arg name="port" value="$(arg port)"/>
     </include>
 
-    <include file="$(find agri_mapper_bringup)/launch/rplidar.launch" />
+    <include file="$(find agri_mapper_bringup)/launch/rplidar.launch"/>
 
-    <include file="$(find agri_mapper_description)/launch/state_publisher.launch" />
-    <!-- 
-				do not run state_publisher in sim mode before setting use_sim_time and paying bag for - - clock, 
+    <include file="$(find agri_mapper_description)/launch/state_publisher.launch"/>
+    <!--
+        do not run state_publisher in sim mode before setting use_sim_time and paying bag for - - clock,
         which we are using in rosbag file
-				-->
+        -->
   </group>
 
   <group if="$(arg sim)">
     <include file="$(find agri_mapper)/launch/rosbag.launch">
-      <arg name="play" value="true" />
-      <arg name="file" value="/home/prajankya/Desktop/3m__2017-01-10-12-10-08.bag" />
+      <arg name="play" value="true"/>
+      <arg name="file" value="/home/prajankya/rosbags/3m__2017-01-10-12-10-08.bag"/>
     </include>
   </group>
 </launch>
