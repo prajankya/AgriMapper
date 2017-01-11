@@ -2,6 +2,7 @@
 #include <ros/console.h>
 #include <std_msgs/String.h>
 #include <sensor_msgs/Imu.h>
+#include <sensor_msgs/MagneticField.h>
 
 #include <iomanip>
 #include <iostream>
@@ -10,8 +11,10 @@
 #define PI 3.1415926535897931
 
 ros::Time current_time, last_time;
-ros::Publisher imu_pub;
+
 sensor_msgs::Imu imu_msg;
+sensor_msgs::MagneticField mag_msg;
+
 double string_to_double(const std::string& s) {
   std::istringstream i(s);
   double x;
@@ -103,6 +106,10 @@ void imuCallback(const std_msgs::String::ConstPtr & msg) {
   imu_msg.orientation.y = 0.0;
   imu_msg.orientation.z = 0.0;
 
+  mag_msg.magnetic_field.x = mag[0];
+  mag_msg.magnetic_field.y = mag[1];
+  mag_msg.magnetic_field.z = mag[2];
+
   last_time = current_time;
 }
 
@@ -111,7 +118,8 @@ int main(int argc, char **argv) {
 
   ros::NodeHandle n;
   ros::Subscriber imu_sub = n.subscribe<std_msgs::String>("imu_msg", 50, imuCallback);
-  imu_pub = n.advertise<sensor_msgs::Imu>("imu_raw", 50);
+  ros::Publisher imu_pub = n.advertise<sensor_msgs::Imu>("imu_raw", 50);
+  ros::Publisher mag_pub = n.advertise<sensor_msgs::MagneticField>("magnetometer", 50);
 
   current_time = ros::Time::now();
   last_time = ros::Time::now();
@@ -124,7 +132,10 @@ int main(int argc, char **argv) {
     imu_msg.header.stamp = ros::Time::now();
     imu_msg.header.frame_id = "chassis_link";
 
+    mag_msg.header = imu_msg.header;
+
     imu_pub.publish(imu_msg);
+    mag_pub.publish(mag_msg);
 
     rate.sleep();
   }
