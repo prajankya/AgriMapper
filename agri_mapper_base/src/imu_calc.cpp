@@ -111,6 +111,7 @@ int main(int argc, char **argv) {
 
   ros::NodeHandle n;
   ros::Subscriber imu_sub = n.subscribe<std_msgs::String>("imu_msg", 50, imuCallback);
+  imu_pub = n.advertise<sensor_msgs::Imu>("imu_raw", 50);
 
   current_time = ros::Time::now();
   last_time = ros::Time::now();
@@ -119,6 +120,11 @@ int main(int argc, char **argv) {
 
   while (n.ok()) {
     ros::spinOnce();
+
+    imu_msg.header.stamp = ros::Time::now();
+    imu_msg.header.frame_id = "chassis_link";
+
+    imu_pub.publish(imu_msg);
 
     rate.sleep();
   }
