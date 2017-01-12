@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <launch>
-  <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" respawn="true" output="screen">
+  <!--
+  <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" output="screen">
     <param name="min_angle" type="double" value="90.0"/>
     <param name="max_angle" type="double" value="270.0"/>
   </node>
+  -->
+  <node ns="agri_mapper" pkg="scan_to_cloud_converter" type="scan_to_cloud_converter_node" name="scan_to_cloud" output="screen"></node>
 </launch>

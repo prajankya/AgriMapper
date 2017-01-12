@@ -14,6 +14,7 @@
   </group>
 
   <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch"/>
+  <include file="$(find agri_mapper)/launch/laser_processing.launch"/>
 
   <group unless="$(arg sim)">
     <include file="$(find agri_mapper_base)/launch/arduino.launch">
