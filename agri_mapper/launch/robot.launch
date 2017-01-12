@@ -15,6 +15,7 @@
 
   <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch"/>
   <include file="$(find agri_mapper)/launch/laser_processing.launch"/>
+  <include file="$(find agri_mapper)/launch/hector_mapping.launch"/>
 
   <group unless="$(arg sim)">
     <include file="$(find agri_mapper_base)/launch/arduino.launch">
@@ -36,4 +37,6 @@
       <arg name="file" value="/home/prajankya/rosbags/long_tp__2017-01-11-10-38-38.bag"/>
     </include>
   </group>
+</launch>
+
 </launch>
