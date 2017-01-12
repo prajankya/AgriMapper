@@ -1,10 +1,16 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="use_custom_scan_clipper" default="false"/>
 
-  <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" output="screen">
+  <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" output="screen" if="$(arg use_custom_scan_clipper)">
     <param name="min_angle" type="double" value="90.0"/>
     <param name="max_angle" type="double" value="270.0"/>
   </node>
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" ns="agri_mapper" name="laser_filter" unless="$(arg use_custom_scan_clipper)">
+    <rosparam command="load" file="$(find agri_mapper)/config/laser_filter_config.yaml"/>
+  </node>
+
   <!-- Not needed as hector mapping gives out point cloud data
   <node ns="agri_mapper" pkg="scan_to_cloud_converter" type=scan_to_cloud_converter_node" name="scan_to_cloud"/>
   -->
