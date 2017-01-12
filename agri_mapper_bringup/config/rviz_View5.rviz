@@ -4,8 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /LaserScan1
-        - /TF1
         - /TF1/Tree1
         - /PointCloud21/Autocompute Value Bounds1
       Splitter Ratio: 0.598522007
@@ -135,7 +133,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 25
+      Max Intensity: 35
       Min Color: 0; 0; 0
       Min Intensity: 9
       Name: LaserScan
@@ -165,7 +163,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 22
+      Max Intensity: 33
       Min Color: 0; 0; 0
       Min Intensity: 9
       Name: Clipped_Scan
@@ -204,7 +202,7 @@ Visualization Manager:
         rplidar_frame:
           Value: false
         scanmatcher_frame:
-          Value: true
+          Value: false
         wheel_l:
           Value: false
         wheel_r:
@@ -220,23 +218,24 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
+          base_link:
+            chassis_link:
+              lidar_stand:
+                lidar_base:
+                  lidar_bottom:
+                    lidar_up:
+                      rplidar_frame:
+                        {}
+              wheel_l:
+                {}
+              wheel_r:
+                {}
+            x:
+              {}
+            y:
+              {}
           odom:
-            base_link:
-              chassis_link:
-                lidar_stand:
-                  lidar_base:
-                    lidar_bottom:
-                      lidar_up:
-                        rplidar_frame:
-                          {}
-                wheel_l:
-                  {}
-                wheel_r:
-                  {}
-              x:
-                {}
-              y:
-                {}
+            {}
           scanmatcher_frame:
             {}
       Update Interval: 0
@@ -323,24 +322,24 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.734024
+      Distance: 17.0906086
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.629391372
-        Y: 0.526370406
-        Z: 1.27943182
+        X: 2.29457402
+        Y: 0.135838121
+        Z: -1.69301105
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.809796929
+      Pitch: 0.884796858
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.16580153
+      Yaw: 4.12581062
     Saved: ~
 Window Geometry:
   Displays:
