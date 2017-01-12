@@ -6,5 +6,5 @@
     <param name="max_angle" type="double" value="270.0"/>
   </node>
   -->
-  <node ns="agri_mapper" pkg="scan_to_cloud_converter" type="scan_to_cloud_converter_node" name="scan_to_cloud" output="screen"></node>
+  <node ns="agri_mapper" pkg="scan_to_cloud_converter" type="scan_to_cloud_converter_node" name="scan_to_cloud"/>
 </launch>
