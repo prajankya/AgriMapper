@@ -32,7 +32,7 @@
   <group if="$(arg sim)">
     <include file="$(find agri_mapper)/launch/rosbag.launch">
       <arg name="play" value="true"/>
-      <arg name="file" value="/home/prajankya/rosbags/3m__2017-01-10-12-10-08.bag"/>
+      <arg name="file" value="/home/prajankya/rosbags/long_tp__2017-01-11-10-38-38.bag"/>
     </include>
   </group>
 </launch>
