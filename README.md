@@ -1,9 +1,6 @@
 # AgriMapper #
 A Precision Agriculture 2D Vegetation Mapping Robot
 
-## This is a work in progress project ##
-and hence is not suitable for forking yet.
-
 Check out the Engineering Design [Process Documentation](../../wiki/Documentation)
 
 ##How to Install
