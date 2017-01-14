@@ -8,8 +8,7 @@
 void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map);
 
 cv_bridge::CvImage cv_img, cv_circlesImg;
-ros::Publisher image_pub;
-ros::Publisher circles_pub;
+ros::Publisher image_pub, circles_pub;
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "tree_detector");
@@ -85,7 +84,7 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
   cv::vector<cv::Vec3f> circles;
 
   // Apply the Hough Transform to find the circles
-  HoughCircles(cv_circlesImg.image, circles, CV_HOUGH_GRADIENT, 1, cv_circlesImg.image.rows / 8, 200, 100, 0, 0);
+  HoughCircles(cv_img.image, circles, CV_HOUGH_GRADIENT, 1, cv_img.image.rows / 8, 200, 100, 0, 0);
 
   ROS_INFO_STREAM("Circles Detected:" << circles.size());
 
@@ -96,7 +95,7 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
     // circle center
     //cv::circle(cv_circlesImg.image, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
     // circle outline
-    cv::circle(cv_circlesImg.image, center, radius, 255, 3, 8, 0);
+    //cv::circle(cv_circlesImg.image, center, radius, 255, 3, 8, 0);
   }
 
   image_pub.publish(cv_img.toImageMsg());
