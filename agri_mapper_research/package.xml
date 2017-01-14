@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>agri_mapper_research</name>
+  <version>1.0.0</version>
+  <description>This Package is for the research on this robot</description>
+
+  <maintainer email="contact@prajankya.me">Prajankya Sonar</maintainer>
+
+  <license>LGPLv3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>opencv2</build_depend>
+  <build_depend>roscpp</build_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>opencv2</run_depend>
+  <run_depend>roscpp</run_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+  </export>
+</package>
