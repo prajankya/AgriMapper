@@ -11,10 +11,12 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>agri_mapper_base</build_depend>
   <build_depend>agri_mapper_bringup</build_depend>
+  <build_depend>agri_mapper_research</build_depend>
   <build_depend>agri_mapper_simulation</build_depend>
   <build_depend>agri_mapper_description</build_depend>
   <run_depend>agri_mapper_base</run_depend>
   <run_depend>agri_mapper_bringup</run_depend>
+  <run_depend>agri_mapper_research</run_depend>
   <run_depend>agri_mapper_simulation</run_depend>
   <run_depend>agri_mapper_description</run_depend>
 
