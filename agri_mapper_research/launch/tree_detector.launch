@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <node name="tree_detector" pkg="agri_mapper_research" type="tree_detector" output="screen" />
-  <node name="image_view" pkg="image_view" type="image_view" output="screen">
-    <param name="image" value="/image" />
+  <node name="tree_detector" pkg="agri_mapper_research" type="tree_detector" output="screen" ns="agri_mapper" />
+  <node name="image_view" pkg="image_view" type="image_view" output="screen" ns="agri_mapper">
+    <param name="image" value="image" />
   </node>
-
 </launch>

@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "tree_detector");
 
   ros::NodeHandle n;
-  ros::Subscriber scan_sub = n.subscribe("map", 50, mapSubCallback);
+  ros::Subscriber scan_sub = n.subscribe("/map", 50, mapSubCallback);
   image_pub = n.advertise<sensor_msgs::Image>("image", 50);
 
   cv_img.header.frame_id = "map_image";
@@ -26,10 +26,6 @@ int main(int argc, char **argv) {
 }
 
 void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
-  ROS_INFO_STREAM("Res: " << map->info.resolution <<
-                  "\t Width:" << map->info.width <<
-                  "\t Height:" << map->info.height);
-
   int size_x = map->info.width;
   int size_y = map->info.height;
 
