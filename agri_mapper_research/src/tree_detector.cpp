@@ -58,15 +58,15 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
 
       switch (map_data[idx_map_y + x]) {
         case -1:
-          map_mat_data_p[idx] = 127;
+          map_mat_data_p[idx] = 255; //grey color:unknown default value of 127
           break;
 
         case 0:
-          map_mat_data_p[idx] = 255;
+          map_mat_data_p[idx] = 255; // laser ray:default 255
           break;
 
         case 100:
-          map_mat_data_p[idx] = 0;
+          map_mat_data_p[idx] = 0; // obstacle:default 0
           break;
       }
     }
