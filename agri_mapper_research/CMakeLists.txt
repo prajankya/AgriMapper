@@ -3,6 +3,7 @@ project(agri_mapper_research)
 
 find_package(catkin REQUIRED COMPONENTS
   nav_msgs
+	sensor_msgs
   roscpp
   cv_bridge
 )
