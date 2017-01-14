@@ -23,6 +23,8 @@
   <depend>rosserial_python</depend>
   <depend>rosbridge_server</depend>
 
+  <depend>grid_map</depend>
+
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
