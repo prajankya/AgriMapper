@@ -17,5 +17,8 @@ int main(int argc, char **argv) {
 }
 
 void mapSubCallback(const nav_msgs::OccupancyGrid msg) {
+  ROS_INFO_STREAM("Res: " << msg.info.resolution <<
+                  "\t Width:" << msg.info.width <<
+                  "\t Height:" << msg.info.height);
   return;
 }
