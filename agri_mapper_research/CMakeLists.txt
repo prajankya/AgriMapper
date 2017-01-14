@@ -4,6 +4,7 @@ project(agri_mapper_research)
 find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   roscpp
+  cv_bridge
 )
 
 catkin_package(

@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <ros/console.h>
 
+#include <cv_bridge/cv_bridge.h>
 #include <nav_msgs/OccupancyGrid.h>
 
 void mapSubCallback(const nav_msgs::OccupancyGrid msg);
