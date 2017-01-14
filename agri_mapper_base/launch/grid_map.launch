@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="agri_mapper_base" type="grid_map_demo" name="grid_map_demo" ns="agri_mapper" output="screen" />
+</launch>

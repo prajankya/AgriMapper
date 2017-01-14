@@ -1,13 +1,19 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(agri_mapper_base)
 
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
+	roscpp
   rospy
   tf
   nav_msgs
 	std_msgs
   sensor_msgs
+	grid_map_ros
+  grid_map_cv
+  grid_map_msgs
+	cv_bridge
 	rosserial_arduino
   rosserial_client
 )
@@ -34,6 +40,7 @@ rosserial_add_client_target(firmware firmware-upload)
 include_directories(
 	include
   ${catkin_INCLUDE_DIRS}
+	${EIGEN3_INCLUDE_DIR}
 )
 
 add_executable(scan_clipper src/scan_clipper.cpp)
@@ -44,3 +51,6 @@ target_link_libraries(odom_calc ${catkin_LIBRARIES})
 
 add_executable(imu_calc src/imu_calc.cpp)
 target_link_libraries(imu_calc ${catkin_LIBRARIES})
+
+add_executable(grid_map_demo src/grid_map_demo.cpp)
+target_link_libraries(grid_map_demo ${catkin_LIBRARIES})
