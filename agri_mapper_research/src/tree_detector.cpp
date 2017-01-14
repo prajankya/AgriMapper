@@ -62,7 +62,8 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
     *map_mat = cv::Mat(size_y, size_x, CV_8U);
   }
 
-  cv_circlesImg.image = cv::Mat(size_y, size_x, CV_8U);
+  cv_circlesImg.image = cv::Mat(size_y, size_x, CV_8U, 255);
+
 
   const std::vector<int8_t>& map_data(map->data);
 
@@ -111,16 +112,17 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
                min_radius,
                max_radius);
 
-  ROS_INFO_STREAM("Circles Detected:" << circles.size());
+  std::cout << circles.size() << " circles\n\n" << std::endl;
 
   // Draw the circles detected
   for (size_t i = 0; i < circles.size(); i++) {
     cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
     int radius = cvRound(circles[i][2]);
+    ROS_INFO_STREAM("Radius:" << radius);
     // circle center
     //cv::circle(cv_circlesImg.image, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
     // circle outline
-    //cv::circle(cv_circlesImg.image, center, radius, 255, 3, 8, 0);
+    cv::circle(cv_circlesImg.image, center, radius, 127, 30, 8, 0);
   }
 
   image_pub.publish(cv_img.toImageMsg());
