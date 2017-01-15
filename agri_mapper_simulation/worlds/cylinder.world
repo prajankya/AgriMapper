@@ -47,10 +47,8 @@
         </geometry>
         <material>
           <script>
-            < uri > file: //media/materials/scripts/gazebo.material</uri>
-              <
-              name > Gazebo / Grey < /name>
-
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
           </script>
         </material>
       </visual>
@@ -160,5 +158,8 @@
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
+  </world>
+</sdf>
+   </gui>
   </world>
 </sdf>
