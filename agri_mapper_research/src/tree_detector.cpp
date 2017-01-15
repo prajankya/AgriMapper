@@ -125,6 +125,9 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
     cv::circle(cv_circlesImg.image, center, radius, 127, 30, 8, 0);
   }
 
+  Canny(cv_img.image, cv_img.image, 500, 200);
+
+
   image_pub.publish(cv_img.toImageMsg());
   circles_pub.publish(cv_circlesImg.toImageMsg());
 
