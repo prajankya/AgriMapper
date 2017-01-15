@@ -6,11 +6,12 @@
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="30.0" />
   </node>
-  <!--
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="-z 1.0 -unpause -urdf -model rp_lidar -param robot_description" respawn="false" output="screen" />
+
+  <node pkg="tf" type="static_transform_publisher" name="map_odom_link_tf_broadcaster" args="0 0 0 0 0 0 /map /odom 40" />
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find agri_mapper_simulation)/worlds/cylinder.world" />
-  </include>
+    <!--
+    <arg name="world_name" value="$(find agri_mapper_simulation)/worlds/myWorld.world" />
 	-->
-  <node pkg="tf" type="static_transform_publisher" name="map_base_link_tf_broadcaster" args="0 0 0 0 0 0 /map /base_link 40" />
+  </include>
 </launch>
