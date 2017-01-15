@@ -11,6 +11,7 @@
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <!--
+		<arg name="gui" value="false" />
     <arg name="world_name" value="$(find agri_mapper_simulation)/worlds/myWorld.world" />
 	-->
   </include>

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rp_lidar">
-
-  <gazebo>
+  <model name="rp_lidar">
     <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
@@ -9,7 +8,7 @@
       <odometryRate>30.0</odometryRate>
       <robotBaseFrame>base_link</robotBaseFrame>
     </plugin>
-  </gazebo>
+  </model>
 
   <link name="base_link">
   <visual>
@@ -17,7 +16,7 @@
     <geometry>
       <sphere radius="0.1" />
     </geometry>
-    <material name="transparent_acrylic">
+    <material name="material">
       <color rgba="0.0 0.0 0.0 0.4" />
     </material>
   </visual>
@@ -28,26 +27,13 @@
     </geometry>
   </collision>
   <inertial>
-    <mass value="0.5" />
-    <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.0" />
+    <mass value="50" />
+    <origin xyz="0 0 -1.25" />
+    <inertia ixx="50.0" ixy="0.0" ixz="0.0" iyy="50.0" iyz="0.0" izz="50.0" />
   </inertial>
   </link>
 
-  <link name="rplidar_frame">
-  <visual>
-    <geometry>
-      <sphere radius="0.01" />
-    </geometry>
-  </visual>
-  </link>
-
-  <joint name="base_link_rplidar_frame" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="rplidar_frame" />
-  </joint>
-
-  <gazebo reference="rplidar_frame">
+  <gazebo reference="base_link">
     <sensor type="ray" name="rplidar_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
@@ -73,8 +59,8 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_rplidar_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/agri_mapper/scan</topicName>
-        <frameName>/rplidar_frame</frameName>
+        <topicName>/scan</topicName>
+        <frameName>/base_link</frameName>
       </plugin>
     </sensor>
   </gazebo>
