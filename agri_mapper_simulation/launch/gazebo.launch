@@ -6,7 +6,7 @@
     <param name="publish_frequency" type="double" value="30.0"/>
   </node>
 
-  <node pkg="tf" type="static_transform_publisher" name="map_odom_link_tf_broadcaster" args="0 0 0 0 0 0 /map /odom 40"/>
+  <node pkg="tf" type="static_transform_publisher" name="map_odom_link_tf_broadcaster" args="0 0 0 0 0 0 /map /odom 10"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <!--

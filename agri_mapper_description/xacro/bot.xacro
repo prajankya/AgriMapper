@@ -1,172 +1,193 @@
 <?xml version="1.0"?>
 <robot name="agri_mapper" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:include filename="$(find agri_mapper_description)/xacro/materials.xacro"/>
+  <xacro:include filename="$(find agri_mapper_description)/xacro/materials.xacro"/>
 
-    <xacro:property name="M_PI" value="3.1415926535897931"/>
-    <xacro:property name="ground_clearance" value="0.07"/>
+  <xacro:property name="M_PI" value="3.1415926535897931"/>
+  <xacro:property name="ground_clearance" value="0.07"/>
 
-    <xacro:property name="stand_to_rplidar_height" value="0.1"/>
-    <xacro:property name="stand_height" value="0.772"/>
-    <xacro:property name="scale" value="0.001"/>
+  <xacro:property name="stand_to_rplidar_height" value="0.1"/>
+  <xacro:property name="stand_height" value="0.772"/>
+  <xacro:property name="scale" value="0.001"/>
 
-    <link name="base_link"/>
+  <model name="agri_mapper">
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>30.0</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+    </plugin>
+  </model>
 
-    <link name="chassis_link">
-        <visual>
-            <geometry>
-                <mesh filename="package://agri_mapper_description/meshes/frame.stl" scale="${scale} ${scale} ${scale}"/>
-            </geometry>
-            <material name="grey"/>
-        </visual>
-    </link>
+  <link name="base_link"/>
 
-    <joint name="chassis_joint" type="fixed">
-        <origin xyz="0 0 ${ground_clearance}" rpy="${M_PI/2} 0 ${M_PI}"/>
-        <parent link="base_link"/>
-        <child link="chassis_link"/>
-    </joint>
+  <link name="chassis_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://agri_mapper_description/meshes/frame.stl" scale="${scale} ${scale} ${scale}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="2"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
 
-    <link name="wheel_l">
-        <visual>
-            <geometry>
-                <mesh filename="package://agri_mapper_description/meshes/wheel.stl" scale="${scale} ${scale} ${scale}"/>
-            </geometry>
-            <material name="black"/>
-        </visual>
-    </link>
+  <joint name="chassis_joint" type="fixed">
+    <origin xyz="0 0 ${ground_clearance}" rpy="${M_PI/2} 0 ${M_PI}"/>
+    <parent link="base_link"/>
+    <child link="chassis_link"/>
+  </joint>
 
-    <joint name="chassis_wheel_l" type="continuous">
-        <origin xyz="0 0 0.27" rpy="0 ${-M_PI/2} 0"/>
-        <axis rpy="0 0 0" xyz="1 0 0"/>
-        <parent link="chassis_link"/>
-        <child link="wheel_l"/>
-    </joint>
+  <link name="wheel_l">
+    <visual>
+      <geometry>
+        <mesh filename="package://agri_mapper_description/meshes/wheel.stl" scale="${scale} ${scale} ${scale}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
 
-    <link name="wheel_r">
-        <visual>
-            <geometry>
-                <mesh filename="package://agri_mapper_description/meshes/wheel.stl" scale="${scale} ${scale} ${scale}"/>
-            </geometry>
-            <material name="black"/>
-        </visual>
-    </link>
+  <joint name="chassis_wheel_l" type="continuous">
+    <origin xyz="0 0 0.27" rpy="0 ${-M_PI/2} 0"/>
+    <axis rpy="0 0 0" xyz="1 0 0"/>
+    <parent link="chassis_link"/>
+    <child link="wheel_l"/>
+  </joint>
 
-    <joint name="chassis_wheel_r" type="continuous">
-        <origin xyz="0 0 -0.27" rpy="0 ${-M_PI/2} 0"/>
-        <axis rpy="0 0 0" xyz="1 0 0"/>
-        <parent link="chassis_link"/>
-        <child link="wheel_r"/>
-    </joint>
+  <link name="wheel_r">
+    <visual>
+      <geometry>
+        <mesh filename="package://agri_mapper_description/meshes/wheel.stl" scale="${scale} ${scale} ${scale}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
 
-    <link name="lidar_stand">
-        <visual>
-            <geometry>
-                <mesh filename="package://agri_mapper_description/meshes/lidar_stand.stl" scale="${scale} ${scale} ${scale}"/>
-            </geometry>
-            <material name="black"/>
-        </visual>
-    </link>
+  <joint name="chassis_wheel_r" type="continuous">
+    <origin xyz="0 0 -0.27" rpy="0 ${-M_PI/2} 0"/>
+    <axis rpy="0 0 0" xyz="1 0 0"/>
+    <parent link="chassis_link"/>
+    <child link="wheel_r"/>
+  </joint>
 
-    <joint name="chassis_lidar_stand" type="prismatic">
-        <origin xyz="0 ${stand_height} 0" rpy="0 ${M_PI/2} 0"/>
-        <axis rpy="0 0 0" xyz="0 1 0"/>
-        <parent link="chassis_link"/>
-        <child link="lidar_stand"/>
-        <limit effort="50.0" velocity="0.2" lower="0" upper="0.338"/>
-    </joint>
+  <link name="lidar_stand">
+    <visual>
+      <geometry>
+        <mesh filename="package://agri_mapper_description/meshes/lidar_stand.stl" scale="${scale} ${scale} ${scale}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
 
-    <!-- ===================================== RP lidar Base ======================================= -->
+  <joint name="chassis_lidar_stand" type="prismatic">
+    <origin xyz="0 ${stand_height} 0" rpy="0 ${M_PI/2} 0"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="chassis_link"/>
+    <child link="lidar_stand"/>
+    <limit effort="50.0" velocity="0.2" lower="0" upper="0.338"/>
+  </joint>
 
-    <link name="lidar_base">
-        <visual>
-            <geometry>
-                <mesh filename="package://agri_mapper_description/meshes/lidar_base.stl" scale="${scale} ${scale} ${scale}"/>
-            </geometry>
-            <material name="transparent_acrylic_dark"/>
-        </visual>
-    </link>
-    <joint name="chassis_link_lidar_base" type="fixed">
-        <origin xyz="0 ${stand_to_rplidar_height} -0.01" rpy="0 ${M_PI/2} 0"/>
-        <parent link="lidar_stand"/>
-        <child link="lidar_base"/>
-    </joint>
+  <!-- ===================================== RP lidar Base ======================================= -->
 
-    <!-- ======================================= RPlidar ============================================== -->
+  <link name="lidar_base">
+    <visual>
+      <geometry>
+        <mesh filename="package://agri_mapper_description/meshes/lidar_base.stl" scale="${scale} ${scale} ${scale}"/>
+      </geometry>
+      <material name="transparent_acrylic_dark"/>
+    </visual>
+  </link>
+  <joint name="chassis_link_lidar_base" type="fixed">
+    <origin xyz="0 ${stand_to_rplidar_height} -0.01" rpy="0 ${M_PI/2} 0"/>
+    <parent link="lidar_stand"/>
+    <child link="lidar_base"/>
+  </joint>
 
-    <link name="lidar_bottom">
-        <visual>
-            <geometry>
-                <mesh filename="package://agri_mapper_description/meshes/lidar_bottom.stl" scale="${scale} ${scale} ${scale}"/>
-            </geometry>
-            <material name="aluminium"/>
-        </visual>
-    </link>
-    <joint name="lidar_base_lidar_bottom" type="fixed">
-        <origin xyz="-0.01 0.0476 0" rpy="0 0 0"/>
-        <parent link="lidar_base"/>
-        <child link="lidar_bottom"/>
-    </joint>
-    <link name="lidar_up">
-        <visual>
-            <geometry>
-                <mesh filename="package://agri_mapper_description/meshes/lidar_up.stl" scale="${scale} ${scale} ${scale}"/>
-            </geometry>
-            <material name="black_plastic"/>
-        </visual>
-    </link>
-    <joint name="lidar_bottom_lidar_up" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <parent link="lidar_bottom"/>
-        <child link="lidar_up"/>
-    </joint>
+  <!-- ======================================= RPlidar ============================================== -->
 
-    <link name="rplidar_frame">
-        <visual>
-            <geometry>
-                <sphere radius="0.02"/>
-            </geometry>
-            <material name="red"/>
-        </visual>
-    </link>
-    <joint name="lidar_up_rplidar_frame" type="fixed">
-        <origin xyz="0 0 0.001" rpy="${pi/2} ${pi} ${pi}"/>
-        <parent link="lidar_up"/>
-        <child link="rplidar_frame"/>
-    </joint>
+  <link name="lidar_bottom">
+    <visual>
+      <geometry>
+        <mesh filename="package://agri_mapper_description/meshes/lidar_bottom.stl" scale="${scale} ${scale} ${scale}"/>
+      </geometry>
+      <material name="aluminium"/>
+    </visual>
+  </link>
+  <joint name="lidar_base_lidar_bottom" type="fixed">
+    <origin xyz="-0.01 0.0476 0" rpy="0 0 0"/>
+    <parent link="lidar_base"/>
+    <child link="lidar_bottom"/>
+  </joint>
+  <link name="lidar_up">
+    <visual>
+      <geometry>
+        <mesh filename="package://agri_mapper_description/meshes/lidar_up.stl" scale="${scale} ${scale} ${scale}"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+  </link>
+  <joint name="lidar_bottom_lidar_up" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="lidar_bottom"/>
+    <child link="lidar_up"/>
+  </joint>
 
-    <!-- ======================================= References ============================================== -->
-    <link name="x">
-        <visual>
-            <geometry>
-                <sphere radius="0.1"/>
-            </geometry>
-            <material name="x">
-                <color rgba="1.0 0.0 0.0 0.3"/>
-            </material>
-        </visual>
-    </link>
-    <joint name="base_link_x" type="fixed">
-        <origin xyz="1.0 0 0" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="x"/>
-    </joint>
-    <link name="y">
-        <visual>
-            <geometry>
-                <sphere radius="0.1"/>
-            </geometry>
-            <material name="y">
-                <color rgba="0.0 1.0 0.0 0.3"/>
-            </material>
-        </visual>
-    </link>
-    <joint name="base_link_y" type="fixed">
-        <origin xyz="0 1 0" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="y"/>
-    </joint>
-    <!--
+  <link name="rplidar_frame">
+    <visual>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+  <joint name="lidar_up_rplidar_frame" type="fixed">
+    <origin xyz="0 0 0.001" rpy="${pi/2} ${pi} ${pi}"/>
+    <parent link="lidar_up"/>
+    <child link="rplidar_frame"/>
+  </joint>
+
+  <!-- ======================================= References ============================================== -->
+  <link name="x">
+    <visual>
+      <geometry>
+        <sphere radius="0.1"/>
+      </geometry>
+      <material name="x">
+        <color rgba="1.0 0.0 0.0 0.3"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link_x" type="fixed">
+    <origin xyz="1.0 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="x"/>
+  </joint>
+  <link name="y">
+    <visual>
+      <geometry>
+        <sphere radius="0.1"/>
+      </geometry>
+      <material name="y">
+        <color rgba="0.0 1.0 0.0 0.3"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link_y" type="fixed">
+    <origin xyz="0 1 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="y"/>
+  </joint>
+  <!--
     <link name="z">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -183,7 +204,38 @@
         <child link="z"/>
     </joint>
     -->
-    <!--
+  <gazebo reference="rplidar_frame">
+    <sensor type="ray" name="rplidar_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>8</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>0</min_angle>
+            <max_angle>${pi*2}</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.2</min>
+          <max>6.0</max>
+          <resolution>0.5</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_rplidar_controller" filename="libgazebo_ros_laser.so">
+        <topicName>scan</topicName>
+        <frameName>/rplidar_frame</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <!--
     <gazebo reference="rplidar_frame">
         <sensor type="ray" name="rplidar_sensor">
             <pose>0 0 0 0 0 0</pose>

@@ -12,7 +12,7 @@ void poseCallback(const turtlesim::PoseConstPtr& msg) {
   tf::Quaternion q;
   q.setRPY(0, 0, msg->theta);
   transform.setRotation(q);
-  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", turtle_name));
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "/odom", "/base_link"));
 }
 
 int main(int argc, char **argv) {

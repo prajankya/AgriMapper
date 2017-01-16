@@ -24,6 +24,7 @@
     <arg name="center_detection_threshold" value="100.0"/>
     <arg name="min_radius" value="0"/>
     <arg name="max_radius" value="0"/>
+    <arg name="sim" value="$(arg sim)"/>
   </include>
 
   <group unless="$(arg sim)">
