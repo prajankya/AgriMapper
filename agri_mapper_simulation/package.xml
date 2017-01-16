@@ -16,9 +16,8 @@
   <run_depend>roscpp</run_depend>
   <run_depend>tf</run_depend>
 
-  <run_depend>gazebo-ros-pkgs</run_depend>
-  <run_depend>gazebo-ros-control</run_depend>
-
+  <run_depend>gazebo_ros_pkgs</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
