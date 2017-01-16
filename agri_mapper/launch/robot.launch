@@ -18,10 +18,10 @@
   <include file="$(find agri_mapper)/launch/hector_mapping.launch"/>
 
   <include file="$(find agri_mapper_research)/launch/tree_detector.launch">
-    <arg name="inverse_ratio_of_resolution" value="3"/>
+    <arg name="inverse_ratio_of_resolution" value="1"/>
     <arg name="minimum_distance_between_detected_centers" value="0.01"/>
     <arg name="upper_threshold_for_canny_detector" value="200.0"/>
-    <arg name="center_detection_threshold" value="0.1"/>
+    <arg name="center_detection_threshold" value="100.0"/>
     <arg name="min_radius" value="0"/>
     <arg name="max_radius" value="0"/>
   </include>

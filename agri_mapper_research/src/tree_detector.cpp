@@ -112,20 +112,22 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
                min_radius,
                max_radius);
 
-  std::cout << circles.size() << " circles\n\n" << std::endl;
+  std::cout << "\nNo:" << circles.size() << " circles" << std::endl;
 
   // Draw the circles detected
   for (size_t i = 0; i < circles.size(); i++) {
     cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
     int radius = cvRound(circles[i][2]);
+
     ROS_INFO_STREAM("Radius:" << radius);
+
     // circle center
     //cv::circle(cv_circlesImg.image, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
     // circle outline
-    cv::circle(cv_circlesImg.image, center, radius, 127, 30, 8, 0);
+    cv::circle(cv_circlesImg.image, center, radius, 0, 1, 8, 0);
   }
 
-  //Canny(cv_img.image, cv_img.image, 500, 200);
+  Canny(cv_circlesImg.image, cv_circlesImg.image, 500, 200);//just applied canny for visibility
 
   image_pub.publish(cv_img.toImageMsg());
   circles_pub.publish(cv_circlesImg.toImageMsg());
