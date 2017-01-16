@@ -12,3 +12,7 @@ catkin_package()
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
+
+
+add_executable(pose2tf src/pose2tf.cpp)
+target_link_libraries(pose2tf ${catkin_LIBRARIES})
