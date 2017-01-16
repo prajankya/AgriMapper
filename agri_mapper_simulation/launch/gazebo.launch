@@ -1,13 +1,5 @@
 <launch>
-  <param name="robot_description" command="$(find xacro)/xacro $(find agri_mapper_simulation)/models/rplidar.xacro --inorder"/>
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model robot"/>
-
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="30.0"/>
-  </node>
-
-  <node pkg="tf" type="static_transform_publisher" name="map_odom_link_tf_broadcaster" args="0 0 0 0 0 0 /map /odom 10"/>
-
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <!--
 		<arg name="gui" value="false" />
