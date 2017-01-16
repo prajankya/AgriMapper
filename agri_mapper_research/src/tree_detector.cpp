@@ -99,7 +99,7 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map) {
   // Reduce the noise so we avoid false circle detection
   //cv::GaussianBlur(cv_circlesImg.image, cv_img.image, cv::Size(9, 9), 2, 2);
 
-  cv::vector<cv::Vec3f> circles;
+  std::vector<cv::Vec3f> circles;
 
   // Apply the Hough Transform to find the circles
   HoughCircles(cv_img.image,
