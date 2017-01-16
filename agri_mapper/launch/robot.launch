@@ -13,7 +13,12 @@
     <include file="$(find agri_mapper)/launch/diagnostics.launch"/>
   </group>
 
-  <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch"/>
+  <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch">
+
+    <arg name="use_odom" value="$(arg sim)"/>
+    <arg name="sim" value="$(arg sim)"/>
+  </include>
+
   <include file="$(find agri_mapper)/launch/laser_processing.launch"/>
   <include file="$(find agri_mapper)/launch/hector_mapping.launch"/>
 
