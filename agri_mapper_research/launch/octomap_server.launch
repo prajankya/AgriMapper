@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="scan_to_cloud_converter_node" pkg="scan_to_cloud_converter" type="scan_to_cloud_converter_node" output="screen">
+    <remap from="scan" to="/agri_mapper/scan_filtered"/>
+  </node>
+</launch>
