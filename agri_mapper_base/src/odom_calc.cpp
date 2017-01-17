@@ -149,8 +149,6 @@ void algorithm1(double dl, double dr, double dt) {
   }
 }
 
-o
-
 int main(int argc, char **argv) {
   ros::init(argc, argv, "odom_calc");
 
