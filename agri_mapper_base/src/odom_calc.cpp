@@ -36,6 +36,8 @@ double vth = 0.0;
 
 double dx = 0, dy = 0, dth = 0;
 
+void algorithm1(double dl, double dr, double dt);
+
 double string_to_double(const std::string& s) {
   std::istringstream i(s);
   double x;
@@ -80,23 +82,10 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
 
   //ROS_INFO_STREAM("Left:" << dl << "\tRight:" << dr);
 
-  //=============================== Calculate x, y, th ====================
-  //Solved from
-  //http://robotics.stackexchange.com/questions/1653/calculate-position-of-differential-drive-robot
-
-  if (fabs(dl - dr) < 1.0e-6) { // basically going straight
-    dx = dl * cos(th);
-    dy = dr * sin(th);
-  } else {
-    float R = wheelDistance * (dl + dr) / (2 * (dr - dl)),
-          dth = (dr - dl) / wheelDistance;
-
-    dx = R * sin(dth + th) - R * sin(th);
-    dy = -(R * cos(dth + th) + R * cos(th));
-    //th = boundAngle(th + wd);
-  }
-
   double dt = (current_time - last_time).toSec();
+  //=============================== Calculate x, y, th ====================
+
+  algorithm1(dl, dr, dt);
 
   vx = dx / dt;
   vy = dy / dt;
@@ -142,6 +131,25 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
 
   last_time = current_time;
 }
+
+void algorithm1(double dl, double dr, double dt) {
+  //Solved from
+  //http://robotics.stackexchange.com/questions/1653/calculate-position-of-differential-drive-robot
+
+  if (fabs(dl - dr) < 1.0e-6) { // basically going straight
+    dx = dl * cos(th);
+    dy = dr * sin(th);
+  } else {
+    float R = wheelDistance * (dl + dr) / (2 * (dr - dl)),
+          dth = (dr - dl) / wheelDistance;
+
+    dx = R * sin(dth + th) - R * sin(th);
+    dy = -(R * cos(dth + th) + R * cos(th));
+    //th = boundAngle(th + wd);
+  }
+}
+
+o
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "odom_calc");
