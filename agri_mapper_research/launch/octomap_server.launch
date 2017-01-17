@@ -3,4 +3,7 @@
   <node name="scan_to_cloud_converter_node" pkg="scan_to_cloud_converter" type="scan_to_cloud_converter_node" output="screen">
     <remap from="scan" to="/agri_mapper/scan_filtered"/>
   </node>
+  <node name="octomap_server_node" pkg="octomap_server" type="octomap_server_node" output="screen">
+    <remap from="cloud_in" to="/cloud"/>
+  </node>
 </launch>
