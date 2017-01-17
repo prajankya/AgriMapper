@@ -37,6 +37,7 @@ double vth = 0.0;
 double dx = 0, dy = 0, dth = 0;
 
 void algorithm1(double dl, double dr, double dt);
+void algorithm2(double dl, double dr, double dt);
 
 double string_to_double(const std::string& s) {
   std::istringstream i(s);
@@ -85,7 +86,7 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   double dt = (current_time - last_time).toSec();
   //=============================== Calculate x, y, th ====================
 
-  algorithm1(dl, dr, dt);
+  algorithm2(dl, dr, dt);
 
   vx = dx / dt;
   vy = dy / dt;
@@ -147,6 +148,16 @@ void algorithm1(double dl, double dr, double dt) {
     dy = -(R * cos(dth + th) + R * cos(th));
     //th = boundAngle(th + wd);
   }
+}
+
+void algorithm2(double dl, double dr, double dt) {
+  //Solved from
+  //http://rossum.sourceforge.net/papers/DiffSteer/
+  double s_ = (dl + dr) / 2;
+
+  dth = (dr - dl) / (wheelDistance * 2);
+  dx = s_ * cos(th + dth);//th+dth because th+=dth is to be done after this function is executed
+  dy = s_ * sin(th + dth);
 }
 
 int main(int argc, char **argv) {

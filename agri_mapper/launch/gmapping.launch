@@ -3,7 +3,9 @@
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
     <remap from="scan" to="/agri_mapper/scan"/>
     <param name="map_update_interval" value="5.0"/>
-    <param name="maxUrange" value="16.0"/>
+    <param name="maxUrange" value="5.8"/>
+    <param name="maxRange" value="6.1"/>
+    <param name="minimumScore" value="50"/>
     <param name="sigma" value="0.05"/>
     <param name="kernelSize" value="1"/>
     <param name="lstep" value="0.05"/>
