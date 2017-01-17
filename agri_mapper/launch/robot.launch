@@ -4,7 +4,7 @@
   <arg name="debug" default="false"/>
 
   <arg name="sim" default="false"/>
-  <arg name="use_odom" value="false"/>
+  <arg name="use_odom" value="true"/>
 
   <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
@@ -15,7 +15,7 @@
   </group>
 
   <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch">
-    <arg name="use_odom" value="false"/>
+    <arg name="use_odom" value="$(arg use_odom)"/>
     <arg name="sim" value="$(arg sim)"/>
   </include>
 
@@ -43,7 +43,7 @@
 
     <include file="$(find agri_mapper_description)/launch/state_publisher.launch"/>
     <!--
-        do not run state_publisher in sim mode before setting use_sim_time and paying bag for - - clock,
+        do not run state_publisher in sim mode before setting use_sim_time and playing bag for - - clock,
         which we are using in rosbag file
         -->
   </group>
@@ -51,6 +51,7 @@
   <group if="$(arg sim)">
     <include file="$(find agri_mapper)/launch/rosbag.launch">
       <arg name="play" value="true"/>
+      <arg name="use_odom" value="true"/>
       <arg name="file" value="/home/prajankya/rosbags/with_trees/3m_left-v3.bag"/>
     </include>
   </group>

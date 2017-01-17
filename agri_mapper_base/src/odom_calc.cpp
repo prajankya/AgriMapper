@@ -3,6 +3,7 @@
 #include <std_msgs/String.h>
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
+#include <geometry_msgs/TransformStamped.h>
 
 #include <iomanip>
 #include <iostream>
@@ -23,6 +24,7 @@ uint8_t encoderResolution = 16;
 
 ros::Time current_time, last_time;
 ros::Publisher odom_pub;
+geometry_msgs::Quaternion odom_quat;
 
 double x = 0.0;
 double y = 0.0;
@@ -89,7 +91,7 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
     float R = wheelDistance * (dl + dr) / (2 * (dr - dl)),
           dth = (dr - dl) / wheelDistance;
 
-    dx = R * sin(dth + th) - R *sin(th);
+    dx = R * sin(dth + th) - R * sin(th);
     dy = -(R * cos(dth + th) + R * cos(th));
     //th = boundAngle(th + wd);
   }
@@ -117,23 +119,8 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
 //  ROS_INFO_STREAM("theta:" << ((th * 180) / PI));
 
   //since all odometry is 6DOF we'll need a quaternion created from yaw
-  geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
-/*
-   //first, we'll publish the transform over tf
-   geometry_msgs::TransformStamped odom_trans;
-   odom_trans.header.stamp = current_time;
-   odom_trans.header.frame_id = "odom";
-   odom_trans.child_frame_id = "base_link";
+  odom_quat = tf::createQuaternionMsgFromYaw(th);
 
-   odom_trans.transform.translation.x = x;
-   odom_trans.transform.translation.y = y;
-   odom_trans.transform.translation.z = 0.0;
-   odom_trans.transform.rotation = odom_quat;
-
-   //send the transform
-   tf::TransformBroadcaster odom_broadcaster;
-   odom_broadcaster.sendTransform(odom_trans);
- */
 //next, we'll publish the odometry message over ROS
   nav_msgs::Odometry odom;
   odom.header.stamp = current_time;
@@ -170,6 +157,15 @@ int main(int argc, char **argv) {
 
   while (n.ok()) {
     ros::spinOnce();
+
+    //TF broadcaster
+    static tf::TransformBroadcaster odom_tf_broadcaster;
+    tf::Transform transform;
+    transform.setOrigin(tf::Vector3(x, y, 0.0) );
+    tf::Quaternion q;
+    q.setRPY(0, 0, th);
+    transform.setRotation(q);
+    odom_tf_broadcaster.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
 
     rate.sleep();
   }
