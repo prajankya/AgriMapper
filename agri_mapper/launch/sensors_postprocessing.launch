@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <!--
-  <include file="$(find agri_mapper_base)/launch/odom_calc.launch" />
-  -->
+  <arg name="use_odom" default="true"/>
+  <arg name="sim" default="false"/>
   <include file="$(find agri_mapper_base)/launch/imu_calc.launch"/>
+  <include file="$(find agri_mapper_base)/launch/odom_calc.launch" if="$(arg use_odom)"/>
 </launch>

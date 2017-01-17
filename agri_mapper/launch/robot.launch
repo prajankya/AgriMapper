@@ -4,6 +4,7 @@
   <arg name="debug" default="false"/>
 
   <arg name="sim" default="false"/>
+  <arg name="use_odom" value="false"/>
 
   <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
@@ -14,13 +15,14 @@
   </group>
 
   <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch">
-
-    <arg name="use_odom" value="$(arg sim)"/>
+    <arg name="use_odom" value="false"/>
     <arg name="sim" value="$(arg sim)"/>
   </include>
 
   <include file="$(find agri_mapper)/launch/laser_processing.launch"/>
-  <include file="$(find agri_mapper)/launch/hector_mapping.launch"/>
+  <include file="$(find agri_mapper)/launch/hector_mapping.launch">
+    <arg name="pub_map_odom_transform" value="!$(arg use_odom)"/>
+  </include>
 
   <include file="$(find agri_mapper_research)/launch/tree_detector.launch">
     <arg name="inverse_ratio_of_resolution" value="1"/>
