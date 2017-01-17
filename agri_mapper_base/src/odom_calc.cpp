@@ -103,7 +103,7 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   vth = dth / dt;
 
   x += dx;
-  y += dy;
+  y += 0;//dy;
   th += dth;
 
   if (th > PI) {
