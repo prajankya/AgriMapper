@@ -9,10 +9,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   nav_msgs
 	std_msgs
+	std_srvs
   sensor_msgs
-	grid_map_ros
-  grid_map_cv
-  grid_map_msgs
 	cv_bridge
 	rosserial_arduino
   rosserial_client
@@ -46,11 +44,8 @@ include_directories(
 add_executable(scan_clipper src/scan_clipper.cpp)
 target_link_libraries(scan_clipper ${catkin_LIBRARIES})
 
-add_executable(odom_calc src/odom_calc.cpp)
-target_link_libraries(odom_calc ${catkin_LIBRARIES})
+add_executable(odom_calculator src/odom_calculator.cpp)
+target_link_libraries(odom_calculator ${catkin_LIBRARIES})
 
-add_executable(imu_calc src/imu_calc.cpp)
-target_link_libraries(imu_calc ${catkin_LIBRARIES})
-
-add_executable(grid_map_demo src/grid_map_demo.cpp)
-target_link_libraries(grid_map_demo ${catkin_LIBRARIES})
+add_executable(imu_calculator src/imu_calculator.cpp)
+target_link_libraries(imu_calculator ${catkin_LIBRARIES})

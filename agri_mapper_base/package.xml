@@ -17,17 +17,14 @@
   <depend>nav_msgs</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>std_srvs</depend>
 
   <depend>rosserial_client</depend>
   <depend>rosserial_arduino</depend>
   <depend>rosserial_python</depend>
   <depend>rosbridge_server</depend>
 
-  <depend>eigen</depend>
-  <depend>grid_map_ros</depend>
-  <depend>grid_map_cv</depend>
   <depend>cv_bridge</depend>
-
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
