@@ -4,8 +4,8 @@
   <arg name="debug" default="false"/>
 
   <arg name="sim" default="false"/>
-  <arg name="use_odom" value="true"/>
-  <arg name="use_octomap" value="true"/>
+  <arg name="use_odom" value="false"/>
+  <arg name="use_octomap" value="false"/>
 
   <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
