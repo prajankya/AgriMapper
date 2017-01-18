@@ -3,6 +3,7 @@
   <arg name="folder" default="~"/>
   <arg name="file" default="~"/>
   <arg name="use_odom" default="true"/>
+  <arg name="use_octomap" default="false"/>
 
   <group unless="$(arg play)">
     <node pkg="rosbag" type="record" name="robot_bag" args="-o $(arg folder)/robot_bag /agri_mapper/imu_msg /agri_mapper/scan /agri_mapper/odom_pub" output="screen"/>
@@ -12,6 +13,7 @@
     <rosparam param="/use_sim_time">true</rosparam>
     <include file="$(find agri_mapper_description)/launch/state_publisher.launch">
       <arg name="use_odom" value="$(arg use_odom)"/>
+      <arg name="use_octomap" value="$(arg use_octomap)"/>
     </include>
 
     <node pkg="rosbag" type="play" name="robot_bag" args="$(arg file) --keep-alive --clock" output="screen"/>
