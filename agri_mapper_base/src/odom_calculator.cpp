@@ -4,7 +4,7 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
 #include <geometry_msgs/TransformStamped.h>
-//std_srvs/Empty
+
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -165,8 +165,8 @@ int main(int argc, char **argv) {
 
   ros::NodeHandle n;
   ros::Subscriber odom_sub = n.subscribe<std_msgs::String>("odom_pub", 50, odomCallback);
-  odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
 
+  odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
   current_time = ros::Time::now();
   last_time = ros::Time::now();
 

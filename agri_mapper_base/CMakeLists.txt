@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   nav_msgs
 	std_msgs
-	std_srvs
   sensor_msgs
 	cv_bridge
 	rosserial_arduino
@@ -38,7 +37,6 @@ rosserial_add_client_target(firmware firmware-upload)
 include_directories(
 	include
   ${catkin_INCLUDE_DIRS}
-	${EIGEN3_INCLUDE_DIR}
 )
 
 add_executable(scan_clipper src/scan_clipper.cpp)
