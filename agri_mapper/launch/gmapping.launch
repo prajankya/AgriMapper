@@ -4,7 +4,7 @@
     <param name="map_update_interval" value="5.0"/>
     <param name="maxUrange" value="5.8"/>
     <param name="maxRange" value="6.1"/>
-    <param name="minimumScore" value="50"/>
+    <param name="minimumScore" value="600"/>
     <param name="sigma" value="0.05"/>
     <param name="kernelSize" value="1"/>
     <param name="lstep" value="0.05"/>
@@ -22,11 +22,11 @@
     <param name="temporalUpdate" value="3.0"/>
     <param name="resampleThreshold" value="0.5"/>
     <param name="particles" value="30"/>
-    <param name="xmin" value="-50.0"/>
-    <param name="ymin" value="-50.0"/>
-    <param name="xmax" value="50.0"/>
-    <param name="ymax" value="50.0"/>
-    <param name="delta" value="0.02"/>
+    <param name="xmin" value="-5.0"/>
+    <param name="ymin" value="-5.0"/>
+    <param name="xmax" value="5.0"/>
+    <param name="ymax" value="5.0"/>
+    <param name="delta" value="0.03"/>
     <param name="llsamplerange" value="0.01"/>
     <param name="llsamplestep" value="0.01"/>
     <param name="lasamplerange" value="0.005"/>
