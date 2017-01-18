@@ -4,8 +4,8 @@
   <arg name="debug" default="false"/>
 
   <arg name="sim" default="false"/>
-  <arg name="use_odom" value="false"/>
-  <arg name="use_octomap" value="false"/>
+  <arg name="use_odom" value="true"/>
+  <arg name="use_octomap" value="true"/>
 
   <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
@@ -48,6 +48,7 @@
 
     <include file="$(find agri_mapper_description)/launch/state_publisher.launch">
       <arg name="use_odom" value="$(arg use_odom)"/>
+      <arg name="use_octomap" value="$(arg use_octomap)"/>
     </include>
     <!--
         do not run state_publisher in sim mode before setting use_sim_time and playing bag for - - clock,
