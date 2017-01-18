@@ -4,7 +4,7 @@
   <arg name="debug" default="false"/>
 
   <arg name="sim" default="false"/>
-  <arg name="use_odom" value="false"/>
+  <arg name="use_odom" value="true"/>
   <arg name="use_octomap" value="false"/>
 
   <include file="$(find agri_mapper_description)/launch/desc.launch"/>
@@ -59,7 +59,7 @@
       <arg name="use_odom" value="$(arg use_odom)"/>
       <arg name="use_octomap" value="$(arg use_octomap)"/>
 
-      <arg name="file" value="/home/prajankya/rosbags/with_trees/3m_left-v3.bag"/>
+      <arg name="file" value="/home/prajankya/rosbags/with_trees/3M_rotate_left.bag"/>
     </include>
   </group>
 </launch>

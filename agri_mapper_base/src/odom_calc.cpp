@@ -150,7 +150,7 @@ void algorithm1(double dl, double dr, double dt) {
   }
 }
 
-void algorithm2(double dr, double dl, double dt) {
+void algorithm2(double dl, double dr, double dt) {
   //Solved from
   //http://rossum.sourceforge.net/papers/DiffSteer/
   double s_ = (dl + dr) / 2;
