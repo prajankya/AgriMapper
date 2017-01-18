@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
   ros::NodeHandle n;
   ros::Subscriber scan_sub = n.subscribe<sensor_msgs::LaserScan>("scan", 50, scanSubCallback);
-  scan_pub = n.advertise<sensor_msgs::LaserScan>("scan_filtered", 50);
+  scan_pub = n.advertise<sensor_msgs::LaserScan>("scan_clipped", 50);
 
   n.param("scan_clipper/min_angle", clip_1, 90.0);
   n.param("scan_clipper/max_angle", clip_2, 270.0);
