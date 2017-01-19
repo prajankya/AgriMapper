@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
   cv_img.header.frame_id = "map_image";
   cv_img.encoding = sensor_msgs::image_encodings::MONO8;
 
-  cv_detectionImg.header.frame_id = "map_detectedClustor";
+  cv_detectionImg.header.frame_id = "map_detectedCluster";
   cv_detectionImg.encoding = sensor_msgs::image_encodings::MONO8;
 
   ros::Rate rate(10);
