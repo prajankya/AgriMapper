@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
   cv_img.encoding = sensor_msgs::image_encodings::MONO8;
 
   cv_detectionImg.header.frame_id = "map_detectedCluster";
-  cv_detectionImg.encoding = sensor_msgs::image_encodings::MONO8;
+  cv_detectionImg.encoding = sensor_msgs::image_encodings::MONO16;
 
   ros::Rate rate(10);
 
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     ros::spinOnce();
 
     if (map.header.frame_id != "") {
-      //detectTrees();
+      detectTrees();
     }
 
     rate.sleep();
@@ -68,12 +68,13 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map_) {
 
 void detectTrees() {
   mapToImage();
+  cv::Mat im, im_with_keypoints;
 
   // Reduce the noise
   if (GaussianBlur_kernel > 1) {
-    cv::GaussianBlur(cv_img.image, cv_detectionImg.image, cv::Size(GaussianBlur_kernel, GaussianBlur_kernel), 0);
+    cv::GaussianBlur(cv_img.image, im, cv::Size(GaussianBlur_kernel, GaussianBlur_kernel), 0);
   } else {
-    cv_detectionImg.image = cv_img.image;
+    im = cv_img.image;
   }
 
   // Setup SimpleBlobDetector parameters.
@@ -108,49 +109,20 @@ void detectTrees() {
   cv::Ptr<cv::SimpleBlobDetector> detector = cv::SimpleBlobDetector::create(params);
 
   // Detect blobs
-  detector->detect(cv_detectionImg.image, keypoints);
+  detector->detect(im, keypoints);
 
   // Draw detected blobs as red circles.
   // DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures
   // the size of the circle corresponds to the size of blob
 
-  cv::Mat im_with_keypoints;
-  cv::drawKeypoints(cv_detectionImg.image, keypoints, im_with_keypoints, cv::Scalar(0, 0, 255), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+  cv::drawKeypoints(im, keypoints, im_with_keypoints, cv::Scalar(0, 0, 255), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
   //cv_detectionImg.image = im_with_keypoints;
   // Show blobs
-  imshow("keypoints", im_with_keypoints);
+//  imshow("keypoints", im_with_keypoints);
+  cv_detectionImg.image = im_with_keypoints;
   /*
-     std::vector<cv::Vec3f> circles;
-
-     // Apply the Hough Transform to find the circles
-     HoughCircles(cv_img.image,
-                 circles,
-                 CV_HOUGH_GRADIENT,
-                 inverse_ratio_of_resolution,
-                 minimum_distance_between_detected_centers,
-                 upper_threshold_for_canny_detector,
-                 center_detection_threshold,
-                 min_radius,
-                 max_radius);
-
-     std::cout << "\nNo:" << circles.size() << " circles" << std::endl;
-
-     // Draw the circles detected
-     for (size_t i = 0; i < circles.size(); i++) {
-      cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-      int radius = cvRound(circles[i][2]);
-
-      ROS_INFO_STREAM("Radius:" << radius);
-
-      // circle center
-      //cv::circle(cv_circlesImg.image, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
-      // circle outline
-      cv::circle(cv_circlesImg.image, center, radius, 0, 1, 8, 0);
-     }
-
      Canny(cv_detectionImg.image, cv_detectionImg.image, 500, 200);//just applied canny for visibility
    */
-
 
   image_pub.publish(cv_img.toImageMsg());
   detected_pub.publish(cv_detectionImg.toImageMsg());
