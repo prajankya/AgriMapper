@@ -1,11 +1,23 @@
 #include <ros/ros.h>
 #include <ros/console.h>
 
+#include <dynamic_reconfigure/server.h>
+#include "agri_mapper_research/dynReConfig.h"
+
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include "opencv2/opencv.hpp"
 
+//dynamic params
+int GaussianBlur_kernelSize;
+
+float minThreshold;
+float maxThreshold;
+
+float minConvexity, maxConvexity;
+
+void DynamicParamCallback(agri_mapper_research::dynReConfig &config, uint32_t level);
 void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map);
 void detectTrees();
 void mapToImage();
@@ -15,27 +27,16 @@ ros::Publisher image_pub, detected_pub;
 
 nav_msgs::OccupancyGrid map;
 
-//---params
-double inverse_ratio_of_resolution;
-double minimum_distance_between_detected_centers;
-double upper_threshold_for_canny_detector;
-double center_detection_threshold;
-int GaussianBlur_kernel;
-int min_radius, max_radius;
-
 int main(int argc, char **argv) {
   ros::init(argc, argv, "tree_detector");
 
   ros::NodeHandle n("~");
 
-  n.param("inverse_ratio_of_resolution", inverse_ratio_of_resolution, 1.0);
-  n.param("minimum_distance_between_detected_centers", minimum_distance_between_detected_centers, 1.0);
-  n.param("upper_threshold_for_canny_detector", upper_threshold_for_canny_detector, 200.0);
-  n.param("center_detection_threshold", center_detection_threshold, 100.0);
-  n.param("min_radius", min_radius, 0);
-  n.param("max_radius", max_radius, 0);
+  dynamic_reconfigure::Server<agri_mapper_research::dynReConfig> server;
+  dynamic_reconfigure::Server<agri_mapper_research::dynReConfig>::CallbackType f;
 
-  n.param("GaussianBlur_kernel", GaussianBlur_kernel, 1);
+  f = boost::bind(&DynamicParamCallback, _1, _2);
+  server.setCallback(f);
 
   ros::Subscriber scan_sub = n.subscribe("/map", 50, mapSubCallback);
 
@@ -61,6 +62,16 @@ int main(int argc, char **argv) {
   }
 }
 
+void DynamicParamCallback(agri_mapper_research::dynReConfig &config, uint32_t level) {
+  ROS_INFO("Reconfigured parameters");
+
+  GaussianBlur_kernelSize  = config.GaussianBlur_kernelSize;
+
+  minThreshold = config.minThreshold;
+  maxThreshold = config.maxThreshold;
+  minConvexity = config.minConvexity;
+}
+
 void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map_) {
   map = *map_;
   detectTrees();
@@ -71,8 +82,8 @@ void detectTrees() {
   cv::Mat im, im_with_keypoints;
 
   // Reduce the noise
-  if (GaussianBlur_kernel > 1) {
-    cv::GaussianBlur(cv_img.image, im, cv::Size(GaussianBlur_kernel, GaussianBlur_kernel), 0);
+  if (GaussianBlur_kernelSize > 1) {
+    cv::GaussianBlur(cv_img.image, im, cv::Size(GaussianBlur_kernelSize, GaussianBlur_kernelSize), 0);
   } else {
     im = cv_img.image;
   }
@@ -81,20 +92,24 @@ void detectTrees() {
   cv::SimpleBlobDetector::Params params;
 
   // Change thresholds
-  //params.minThreshold = 1;
-  //params.maxThreshold = 200;
+  params.minThreshold = minThreshold;
+  params.maxThreshold = maxThreshold;
 
   // Filter by Area.
-  // params.filterByArea = true;
-  // params.minArea = 1500;
+  //params.filterByArea = true;
+  //params.minArea = 1500;
 
   // Filter by Circularity
-  // params.filterByCircularity = true;
-  // params.minCircularity = 0.1;
+  //params.filterByCircularity = true;
+  //params.minCircularity = 0.8;
 
   // Filter by Convexity
-  // params.filterByConvexity = true;
-  // params.minConvexity = 0.87;
+  if (minConvexity != 0.0) {
+    params.filterByConvexity = true;
+    params.minConvexity = minConvexity;
+  } else {
+    params.filterByConvexity = false;
+  }
 
   // Filter by Inertia
   // params.filterByInertia = true;

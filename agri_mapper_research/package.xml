@@ -18,6 +18,9 @@
   <run_depend>nav_msgs</run_depend>
   <run_depend>roscpp</run_depend>
 
+  <build_depend>dynamic_reconfigure</build_depend>
+  <run_depend>dynamic_reconfigure</run_depend>
+
   <build_depend>cv_bridge</build_depend>
   <run_depend>cv_bridge</run_depend>
 
