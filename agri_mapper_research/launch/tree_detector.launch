@@ -9,6 +9,8 @@
 
   <arg name="sim" default="false"/>
 
+  <arg name="show_output_images" default="false"/>
+
   <node name="tree_detector" pkg="agri_mapper_research" type="tree_detector" output="screen" ns="agri_mapper">
     <param name="inverse_ratio_of_resolution" value="$(arg inverse_ratio_of_resolution)"/>
     <param name="minimum_distance_between_detected_centers" value="$(arg minimum_distance_between_detected_centers)"/>
@@ -17,7 +19,8 @@
     <param name="min_radius" value="$(arg min_radius)"/>
     <param name="max_radius" value="$(arg max_radius)"/>
   </node>
-  <group if="$(arg sim)">
+
+  <group if="$(arg show_output_images)">
     <node name="image_view" pkg="image_view" type="image_view" output="screen" ns="agri_mapper">
       <param name="window_name" value="Image"/>
     </node>

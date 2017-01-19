@@ -10,7 +10,6 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map);
 cv_bridge::CvImage cv_img, cv_circlesImg;
 ros::Publisher image_pub, circles_pub;
 
-
 //---params
 double inverse_ratio_of_resolution;
 double minimum_distance_between_detected_centers;

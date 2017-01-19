@@ -7,6 +7,7 @@
   <arg name="use_odom" default="true"/>
   <arg name="use_octomap" default="false"/>
   <arg name="use_custom_scan_clipper" default="true"/>
+  <arg name="show_output_images" default="false"/>
 
   <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
@@ -40,6 +41,8 @@
     <arg name="min_radius" value="0"/>
     <arg name="max_radius" value="0"/>
     <arg name="sim" value="$(arg sim)"/>
+
+    <arg name="show_output_images" value="$(arg show_output_images)"/>
   </include>
 
   <group unless="$(arg sim)">
@@ -65,7 +68,7 @@
       <arg name="use_odom" value="$(arg use_odom)"/>
       <arg name="use_octomap" value="$(arg use_octomap)"/>
 
-      <arg name="file" value="/home/prajankya/rosbags/with_trees/3M_rotate_left.bag"/>
+      <arg name="file" value="/home/prajankya/rosbags/v3_corrected/4Pillars_final_good_quality.bag"/>
     </include>
   </group>
 </launch>
