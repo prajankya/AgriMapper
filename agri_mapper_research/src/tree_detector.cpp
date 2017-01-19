@@ -19,12 +19,13 @@ double inverse_ratio_of_resolution;
 double minimum_distance_between_detected_centers;
 double upper_threshold_for_canny_detector;
 double center_detection_threshold;
+int GaussianBlur_kernel;
 int min_radius, max_radius;
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "tree_detector");
 
-  ros::NodeHandle n;
+  ros::NodeHandle n("~");
 
   n.param("inverse_ratio_of_resolution", inverse_ratio_of_resolution, 1.0);
   n.param("minimum_distance_between_detected_centers", minimum_distance_between_detected_centers, 1.0);
@@ -32,6 +33,8 @@ int main(int argc, char **argv) {
   n.param("center_detection_threshold", center_detection_threshold, 100.0);
   n.param("min_radius", min_radius, 0);
   n.param("max_radius", max_radius, 0);
+
+  n.param("GaussianBlur_kernel", GaussianBlur_kernel, 1);
 
   ros::Subscriber scan_sub = n.subscribe("/map", 50, mapSubCallback);
 
@@ -65,9 +68,13 @@ void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map_) {
 void detectTrees() {
   mapToImage();
 
-
   // Reduce the noise
-  cv::GaussianBlur(cv_img.image, cv_detectionImg.image, cv::Size(5, 5), 0);
+  if (GaussianBlur_kernel > 1) {
+    cv::GaussianBlur(cv_img.image, cv_detectionImg.image, cv::Size(GaussianBlur_kernel, GaussianBlur_kernel), 0);
+  } else {
+    cv_detectionImg.image = cv_img.image;
+  }
+
   /*
      std::vector<cv::Vec3f> circles;
 
