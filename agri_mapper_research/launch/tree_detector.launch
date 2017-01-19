@@ -1,23 +1,9 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="inverse_ratio_of_resolution" default="1.0"/>
-  <arg name="minimum_distance_between_detected_centers" default="1.0"/>
-  <arg name="upper_threshold_for_canny_detector" default="200.0"/>
-  <arg name="center_detection_threshold" default="100.0"/>
-  <arg name="min_radius" default="0"/>
-  <arg name="max_radius" default="0"/>
-
-  <arg name="sim" default="false"/>
-
   <arg name="show_output_images" default="false"/>
 
   <node name="tree_detector" pkg="agri_mapper_research" type="tree_detector" output="screen" ns="agri_mapper">
-    <param name="inverse_ratio_of_resolution" value="$(arg inverse_ratio_of_resolution)"/>
-    <param name="minimum_distance_between_detected_centers" value="$(arg minimum_distance_between_detected_centers)"/>
-    <param name="upper_threshold_for_canny_detector" value="$(arg upper_threshold_for_canny_detector)"/>
-    <param name="center_detection_threshold" value="$(arg center_detection_threshold)"/>
-    <param name="min_radius" value="$(arg min_radius)"/>
-    <param name="max_radius" value="$(arg max_radius)"/>
+    <rosparam command="load" file="$(find agri_mapper_research)/config/tree_detector.yaml"/>
   </node>
 
   <group if="$(arg show_output_images)">

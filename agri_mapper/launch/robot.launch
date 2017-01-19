@@ -34,14 +34,6 @@
   </group>
 
   <include file="$(find agri_mapper_research)/launch/tree_detector.launch">
-    <arg name="inverse_ratio_of_resolution" value="1"/>
-    <arg name="minimum_distance_between_detected_centers" value="0.01"/>
-    <arg name="upper_threshold_for_canny_detector" value="200.0"/>
-    <arg name="center_detection_threshold" value="100.0"/>
-    <arg name="min_radius" value="0"/>
-    <arg name="max_radius" value="0"/>
-    <arg name="sim" value="$(arg sim)"/>
-
     <arg name="show_output_images" value="$(arg show_output_images)"/>
   </include>
 

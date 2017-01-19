@@ -1,0 +1,6 @@
+inverse_ratio_of_resolution: 1
+minimum_distance_between_detected_centers: 0.01
+upper_threshold_for_canny_detector: 200.0
+center_detection_threshold: 100.0
+min_radius: 0
+max_radius: 0
