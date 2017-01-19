@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="file" default="$(find agri_mapper_research)/maps/prettyGoodMap.yaml"/>
-  <arg name="show_output_images" value="false"/>
+  <arg name="show_output_images" value="true"/>
 
   <include file="$(find agri_mapper_research)/launch/tree_detector.launch">
     <arg name="show_output_images" value="$(arg show_output_images)"/>
