@@ -66,8 +66,8 @@ void detectTrees() {
   mapToImage();
 
 
-  // Reduce the noise so we avoid false circle detection
-  //cv::GaussianBlur(cv_circlesImg.image, cv_img.image, cv::Size(9, 9), 2, 2);
+  // Reduce the noise
+  cv::GaussianBlur(cv_img.image, cv_detectionImg.image, cv::Size(5, 5), 0);
   /*
      std::vector<cv::Vec3f> circles;
 
@@ -97,7 +97,7 @@ void detectTrees() {
       cv::circle(cv_circlesImg.image, center, radius, 0, 1, 8, 0);
      }
 
-     Canny(cv_circlesImg.image, cv_circlesImg.image, 500, 200);//just applied canny for visibility
+     Canny(cv_detectionImg.image, cv_detectionImg.image, 500, 200);//just applied canny for visibility
    */
 
 
