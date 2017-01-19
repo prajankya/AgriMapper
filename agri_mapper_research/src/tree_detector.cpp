@@ -9,6 +9,8 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include "opencv2/opencv.hpp"
 
+#include <string>
+
 //dynamic params
 int GaussianBlur_kernelSize;
 
@@ -47,7 +49,13 @@ int main(int argc, char **argv) {
   cv_img.encoding = sensor_msgs::image_encodings::MONO8;
 
   cv_detectionImg.header.frame_id = "map_detectedCluster";
-  cv_detectionImg.encoding = sensor_msgs::image_encodings::BAYER_BGGR8;
+  cv_detectionImg.encoding = sensor_msgs::image_encodings::RGB8;
+
+  GaussianBlur_kernelSize  = 1;
+
+  minThreshold = 1;
+  maxThreshold = 100;
+  minConvexity = 0.87;
 
   ros::Rate rate(10);
 
@@ -129,9 +137,7 @@ void detectTrees() {
   // the size of the circle corresponds to the size of blob
 
   cv::drawKeypoints(im, keypoints, im_with_keypoints, cv::Scalar(0, 0, 255), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
-  //cv_detectionImg.image = im_with_keypoints;
-  // Show blobs
-//  imshow("keypoints", im_with_keypoints);
+
   cv_detectionImg.image = im_with_keypoints;
 
   image_pub.publish(cv_img.toImageMsg());
@@ -150,12 +156,8 @@ void mapToImage() {
   cv::Mat *map_mat  = &cv_img.image;
 
   // resize cv image if it doesn't have the same dimensions as the map
-  if ( (map_mat->rows != size_y) && (map_mat->cols != size_x)) {
+  if ((map_mat->rows != size_y) && (map_mat->cols != size_x)) {
     *map_mat = cv::Mat(size_y, size_x, CV_8U);
-  }
-
-  if ((cv_detectionImg.image.rows != size_y) && (cv_detectionImg.image.cols != size_x)) {
-    cv_detectionImg.image = cv::Mat(size_y, size_x, CV_8U, 255);
   }
 
   const std::vector<int8_t>& map_data(map.data);
