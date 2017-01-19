@@ -2,7 +2,7 @@
 <launch>
   <arg name="use_custom_scan_clipper" default="false"/>
 
-  <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" output="screen" if="$(arg use_custom_scan_clipper)">
+  <node ns="agri_mapper" pkg="agri_mapper_base" type="scan_clipper" name="scan_clipper" if="$(arg use_custom_scan_clipper)">
     <param name="min_angle" type="double" value="45.0"/>
     <param name="max_angle" type="double" value="315.0"/>
   </node>
