@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   cv_img.encoding = sensor_msgs::image_encodings::MONO8;
 
   cv_detectionImg.header.frame_id = "map_detectedCluster";
-  cv_detectionImg.encoding = sensor_msgs::image_encodings::MONO16;
+  cv_detectionImg.encoding = sensor_msgs::image_encodings::BAYER_BGGR8;
 
   ros::Rate rate(10);
 
@@ -115,10 +115,8 @@ void detectTrees() {
   // params.filterByInertia = true;
   // params.minInertiaRatio = 0.01;
 
-
   // Storage for blobs
   std::vector<cv::KeyPoint> keypoints;
-
 
   // Set up detector with params
   cv::Ptr<cv::SimpleBlobDetector> detector = cv::SimpleBlobDetector::create(params);
@@ -135,9 +133,6 @@ void detectTrees() {
   // Show blobs
 //  imshow("keypoints", im_with_keypoints);
   cv_detectionImg.image = im_with_keypoints;
-  /*
-     Canny(cv_detectionImg.image, cv_detectionImg.image, 500, 200);//just applied canny for visibility
-   */
 
   image_pub.publish(cv_img.toImageMsg());
   detected_pub.publish(cv_detectionImg.toImageMsg());
