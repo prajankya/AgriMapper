@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="rviz" default="true"/>
-  <arg name="debug" default="false"/>
+  <arg name="rviz" default="true" />
+  <arg name="debug" default="false" />
 
-  <arg name="sim" default="false"/>
+  <arg name="sim" default="false" />
 
   <group if="$(arg debug)">
-    <include file="$(find agri_mapper)/launch/diagnostics.launch"/>
+    <include file="$(find agri_mapper)/launch/diagnostics.launch" />
   </group>
 
-  <group if="$(arg rviz)">
-    <include file="$(find agri_mapper_bringup)/launch/rviz.launch"/>
-  </group>
+  <include file="$(find agri_mapper_bringup)/launch/rviz.launch" if="$(arg rviz)" />
+  <include file="$(find agri_mapper_research)/launch/image_view.launch" />
+
 </launch>
