@@ -53,11 +53,16 @@ int main(int argc, char **argv) {
   cv_detectionImg.header.frame_id = "map_detectedCluster";
   cv_detectionImg.encoding = sensor_msgs::image_encodings::RGB8;
 
-  GaussianBlur_kernelSize  = 1;
+  GaussianBlur_kernelSize  = 3;
 
-  minThreshold = 1;
-  maxThreshold = 100;
-  minConvexity = 0.87;
+  minThreshold = 0;
+  maxThreshold = 400;
+  minConvexity = 0;
+  maxConvexity = 0;
+  minCircularity = 0;
+  maxCircularity = 0;
+  minArea = 55;
+  maxArea = 200;
 
   ros::Rate rate(10);
 
