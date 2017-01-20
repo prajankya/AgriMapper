@@ -18,6 +18,8 @@ float minThreshold;
 float maxThreshold;
 
 float minConvexity, maxConvexity;
+float minArea, maxArea;
+float minCircularity, maxCircularity;
 
 void DynamicParamCallback(agri_mapper_research::dynReConfig &config, uint32_t level);
 void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map);
@@ -78,6 +80,11 @@ void DynamicParamCallback(agri_mapper_research::dynReConfig &config, uint32_t le
   minThreshold = config.minThreshold;
   maxThreshold = config.maxThreshold;
   minConvexity = config.minConvexity;
+  maxConvexity = config.maxConvexity;
+  minCircularity = config.minCircularity;
+  maxCircularity = config.maxCircularity;
+  minArea = config.minArea;
+  maxArea = config.maxArea;
 }
 
 void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map_) {
@@ -104,17 +111,28 @@ void detectTrees() {
   params.maxThreshold = maxThreshold;
 
   // Filter by Area.
-  //params.filterByArea = true;
-  //params.minArea = 1500;
+  if (minArea < maxArea) {
+    params.filterByArea = true;
+    params.minArea = minArea;
+    params.maxArea = maxArea;
+  } else {
+    params.filterByArea = false;
+  }
 
   // Filter by Circularity
-  //params.filterByCircularity = true;
-  //params.minCircularity = 0.8;
+  if (minCircularity < maxCircularity) {
+    params.filterByCircularity = true;
+    params.minCircularity = minCircularity;
+    params.maxCircularity = maxCircularity;
+  } else {
+    params.filterByCircularity = false;
+  }
 
   // Filter by Convexity
-  if (minConvexity != 0.0) {
+  if (minConvexity < maxConvexity) {
     params.filterByConvexity = true;
     params.minConvexity = minConvexity;
+    params.maxConvexity = maxConvexity;
   } else {
     params.filterByConvexity = false;
   }
