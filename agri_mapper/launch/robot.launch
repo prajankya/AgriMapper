@@ -32,7 +32,7 @@
     <include file="$(find agri_mapper_research)/launch/octomap_server.launch" if="$(arg use_octomap)" />
   </group>
 
-  <include file="$(find agri_mapper_research)/launch/tree_detector.launch"/>
+  <include file="$(find agri_mapper_research)/launch/tree_detector.launch" />
 
   <group unless="$(arg sim)">
     <include file="$(find agri_mapper_base)/launch/arduino.launch">
