@@ -1,24 +1,27 @@
-#include "odom.h"
+#include "Odom.h"
 #include <Arduino.h>
 
-void Odom::init(int e1A, int e1B, int e2A, int e2B) {
-  left.init(e1A, e1B, 500);
-  right.init(e2A, e2B);
-  right.negate(true);
-  left.negate(true);
+Odom::Odom(int e1A, int e1B, int e2A, int e2B):left(e1A, e1B), right(e2A, e2B) {
 
+  /*
+  Encoder En_L(e1A,e1B);
+  left = &En_L;
+
+  Encoder En_R(e2A,e2B);
+  right = &En_R;
+
+  *//*
   oldL = 0;
   oldR = 0;
 
   String s = String(0) + "," + String(0);
-  s.toCharArray(msg, 50);
+  s.toCharArray(msg, 50);*/
 }
 
 void Odom::loop() {
-  left.loop();
-  right.loop();
-  long nL = left.getPos();
-  long nR = right.getPos();
+  /*
+  long nL = left->read();
+  long nR = right->read();
 
   if (nL != oldL || nR != oldR) {
     char l[10];
@@ -33,4 +36,5 @@ void Odom::loop() {
     oldL = nL;
     oldR = nR;
   }
+  */
 }

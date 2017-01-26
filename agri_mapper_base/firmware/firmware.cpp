@@ -1,5 +1,8 @@
-#define USE_ROS 1
-#define USE_IMU 1
+//#define USE_ROS 1
+//#define USE_IMU 1
+#define USE_ODOM 1
+
+#include <Arduino.h>
 
 #ifdef USE_ROS
   #include <ros.h>
@@ -7,27 +10,32 @@
   #include <std_msgs/String.h>
 #endif
 
-#include <Arduino.h>
-#include "odom.h"
+#ifdef USE_ODOM
+//#define ENCODER_OPTIMIZE_INTERRUPTS
+#include "Encoder/Encoder.h"
+Encoder left(2, 10);
+Encoder right(3, 11);
+char odom_msg[50];
+#endif
+
+#ifdef USE_IMU
 #include "IMU.h"
+IMU imu;
+#endif
 
 #ifdef USE_ROS
 ros::NodeHandle nh;
 
-std_msgs::String odom_msg;
-ros::Publisher odom_pub("odom_pub", &odom_msg);
-
-  #ifdef USE_IMU
-std_msgs::String imu_msg;
-ros::Publisher imu_pub("imu_msg", &imu_msg);
+  #ifdef USE_ODOM
+    std_msgs::String odom_msg;
+    ros::Publisher odom_pub("odom_pub", &odom_msg);
   #endif
 
-#endif
+  #ifdef USE_IMU
+  std_msgs::String imu_msg;
+  ros::Publisher imu_pub("imu_msg", &imu_msg);
+  #endif
 
-Odom odom;
-
-#ifdef USE_IMU
-IMU imu;
 #endif
 
 void setup() {
@@ -40,14 +48,14 @@ void setup() {
 #ifdef USE_ROS
   nh.initNode();
 
+  #ifdef USE_ODOM
   nh.advertise(odom_pub);
+  #endif
 
   #ifdef USE_IMU
   nh.advertise(imu_pub);
   #endif
 #endif // ifdef USE_ROS
-
-  odom.init(A0, 6, 2, 4);
 
 #ifdef USE_IMU
   #ifdef USE_ROS
@@ -64,13 +72,9 @@ void setup() {
 }
 
 unsigned long previousMillis = 0;
-
 const long interval = 1;
 
 void loop() {
-  nh.spinOnce();// Trying to solve "Lost sync with device, restarting..." errors
-  odom.loop();
-
 #ifdef USE_IMU
   imu.loop();
 #endif
@@ -80,9 +84,27 @@ void loop() {
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
 
+
+    #ifdef USE_ODOM
+      long leftEn = left.read();
+      long rightEn = left.read();
+
+      char l[10];
+      dtostrf(leftEn, 6, 2, l);
+
+      char r[10];
+      dtostrf(rightEn, 6, 2, r);
+
+      String s = String(l) + "," + String(r);
+      s.toCharArray(odom_msg, 50);
+    #endif
+
 #ifdef USE_ROS
-    odom_msg.data = odom.msg;
+
+  #ifdef USE_ODOM
+    odom_msg.data = odom_msg;
     odom_pub.publish(&odom_msg);
+  #endif
 
   #ifdef USE_IMU
     char imu_out[130];
@@ -95,8 +117,10 @@ void loop() {
 #endif
 
 #ifndef USE_ROS
+  #ifdef USE_ODOM
     Serial.print("odom msg :");
-    Serial.println(odom.msg);
+    Serial.println(odom_msg);
+  #endif
 
   #ifdef USE_IMU
     Serial.print("\tIMU :");

@@ -4,15 +4,17 @@
 #include <Arduino.h>
 #include "Encoder.h"
 
-class Odom {
+class Odom{
   private:
     Encoder left;
     Encoder right;
+
     long oldL;
     long oldR;
 
   public:
-    void init(int e1A, int e1B, int e2A, int e2B);
+    Odom(int, int, int, int);
+
     void loop();
     char msg[50];
 };
