@@ -1,5 +1,5 @@
-#define USE_ROS 1
-#define USE_IMU 1
+//#define USE_ROS  1
+//#define USE_IMU  1
 #define USE_ODOM 1
 
 #include <Arduino.h>
@@ -12,14 +12,14 @@
 
 #ifdef USE_ODOM
 //#define ENCODER_OPTIMIZE_INTERRUPTS
-#include "Encoder/Encoder.h"
+  #include "Encoder.h"
 Encoder left(2, 10);
 Encoder right(3, 11);
 char odom_str[50];
 #endif
 
 #ifdef USE_IMU
-#include "IMU.h"
+  #include "IMU.h"
 IMU imu;
 #endif
 
@@ -27,13 +27,13 @@ IMU imu;
 ros::NodeHandle nh;
 
   #ifdef USE_ODOM
-    std_msgs::String odom_msg;
-    ros::Publisher odom_pub("odom_pub", &odom_msg);
+std_msgs::String odom_msg;
+ros::Publisher odom_pub("odom_pub", &odom_msg);
   #endif
 
   #ifdef USE_IMU
-  std_msgs::String imu_msg;
-  ros::Publisher imu_pub("imu_msg", &imu_msg);
+std_msgs::String imu_msg;
+ros::Publisher imu_pub("imu_msg", &imu_msg);
   #endif
 
 #endif
@@ -85,19 +85,19 @@ void loop() {
     previousMillis = currentMillis;
 
 
-    #ifdef USE_ODOM
-      long leftEn = left.read();
-      long rightEn = left.read();
+#ifdef USE_ODOM
+    long leftEn = left.read();
+    long rightEn = right.read();
 
-      char l[10];
-      dtostrf(leftEn, 6, 2, l);
+    char l[10];
+    dtostrf(leftEn, 6, 2, l);
 
-      char r[10];
-      dtostrf(rightEn, 6, 2, r);
+    char r[10];
+    dtostrf(rightEn, 6, 2, r);
 
-      String s = String(l) + "," + String(r);
-      s.toCharArray(odom_str, 50);
-    #endif
+    String s = String(l) + "," + String(r);
+    s.toCharArray(odom_str, 50);
+#endif
 
 #ifdef USE_ROS
 
