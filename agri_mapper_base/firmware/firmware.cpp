@@ -1,5 +1,5 @@
-//#define USE_ROS 1
-//#define USE_IMU 1
+#define USE_ROS 1
+#define USE_IMU 1
 #define USE_ODOM 1
 
 #include <Arduino.h>
@@ -15,7 +15,7 @@
 #include "Encoder/Encoder.h"
 Encoder left(2, 10);
 Encoder right(3, 11);
-char odom_msg[50];
+char odom_str[50];
 #endif
 
 #ifdef USE_IMU
@@ -96,13 +96,13 @@ void loop() {
       dtostrf(rightEn, 6, 2, r);
 
       String s = String(l) + "," + String(r);
-      s.toCharArray(odom_msg, 50);
+      s.toCharArray(odom_str, 50);
     #endif
 
 #ifdef USE_ROS
 
   #ifdef USE_ODOM
-    odom_msg.data = odom_msg;
+    odom_msg.data = odom_str;
     odom_pub.publish(&odom_msg);
   #endif
 
@@ -119,7 +119,7 @@ void loop() {
 #ifndef USE_ROS
   #ifdef USE_ODOM
     Serial.print("odom msg :");
-    Serial.println(odom_msg);
+    Serial.println(odom_str);
   #endif
 
   #ifdef USE_IMU
