@@ -6,8 +6,8 @@
   <arg name="sim" default="false"/>
   <arg name="use_odom" default="true"/>
   <arg name="use_octomap" default="false"/>
-  <arg name="use_custom_scan_clipper" default="true"/>
   <arg name="show_output_images" default="false"/>
+  <arg name="use_custom_scan_clipper" default="true"/>
 
   <include file="$(find agri_mapper_description)/launch/desc.launch"/>
 
@@ -34,7 +34,7 @@
   </group>
 
   <include file="$(find agri_mapper_research)/launch/tree_detector.launch">
-    <arg name="show_output_images" value="$(arg show_output_images)"/>
+	<arg name="show_output_images" value="$(arg show_output_images)"/>
   </include>
 
   <group unless="$(arg sim)">
