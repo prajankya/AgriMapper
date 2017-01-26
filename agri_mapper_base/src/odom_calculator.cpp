@@ -60,8 +60,8 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
     in[i++] = token;
   }
 
-  enL = round(string_to_double(in[0]));
-  enR = round(string_to_double(in[1]));
+  enL = -round(string_to_double(in[0]));
+  enR = -round(string_to_double(in[1]));
 
   //ROS_INFO_STREAM("Left:" << enL << "\tRight:" << enR);
 
@@ -101,8 +101,6 @@ void odomCallback(const std_msgs::String::ConstPtr & msg) {
   } else if (th < -PI) {
     th = th + (2 * PI);
   }
-
-  //TODO: remove sudden change in x or y, like near to 0.5 meters, in change of 3degress
 
 //  ROS_INFO_STREAM("x:" << x << "\ty:" << y << "\ttheta:" << ((th * 180) / PI));
 
@@ -155,7 +153,7 @@ void algorithm2(double dl, double dr, double dt) {
   //http://rossum.sourceforge.net/papers/DiffSteer/
   double s_ = (dl + dr) / 2;
 
-  dth = (dr - dl) / (wheelDistance * 2);
+  dth = (dl - dr) / (wheelDistance);
   dx = s_ * cos(th + dth);//th+dth because th+=dth is to be done after this function is executed
   dy = s_ * sin(th + dth);
 }
