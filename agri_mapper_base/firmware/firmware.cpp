@@ -1,5 +1,5 @@
-//#define USE_ROS  1
-//#define USE_IMU  1
+#define USE_ROS  1
+#define USE_IMU  1
 #define USE_ODOM 1
 
 #include <Arduino.h>

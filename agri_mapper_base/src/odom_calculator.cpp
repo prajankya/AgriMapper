@@ -20,7 +20,7 @@ int64_t oldenR = 0;
 double wheelCircumference = 0.51; //meters
 double wheelDistance = 0.54; //meters
 
-uint8_t encoderResolution = 16;
+uint8_t encoderResolution = 180;
 
 ros::Time current_time, last_time;
 ros::Publisher odom_pub;
