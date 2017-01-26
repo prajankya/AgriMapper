@@ -1,15 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="show_output_images" default="false" />
-
   <node name="tree_detector" pkg="agri_mapper_research" type="tree_detector" output="screen" ns="agri_mapper">
     <rosparam command="load" file="$(find agri_mapper_research)/config/tree_detector.yaml" />
-    <param name="GaussianBlur_kernel" value="1" />
   </node>
-
-  <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
-
-  <group if="$(arg show_output_images)">
-
-  </group>
 </launch>
