@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 2.8.3)
 project(agri_mapper_research)
 
 find_package(catkin REQUIRED COMPONENTS
-  nav_msgs
+  visualization_msgs
+  geometry_msgs
   sensor_msgs
+  nav_msgs
   roscpp
   cv_bridge
   dynamic_reconfigure

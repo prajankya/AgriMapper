@@ -7,6 +7,8 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
 #include <nav_msgs/OccupancyGrid.h>
+#include <geometry_msgs/Point.h>
+#include <visualization_msgs/Marker.h>
 #include "opencv2/opencv.hpp"
 
 #include <string>
@@ -23,13 +25,15 @@ float minCircularity, maxCircularity;
 
 void DynamicParamCallback(agri_mapper_research::dynReConfig &config, uint32_t level);
 void mapSubCallback(const nav_msgs::OccupancyGridConstPtr& map);
+void printKeypoints(std::vector<cv::KeyPoint> keypoints);
 void detectTrees();
 void mapToImage();
 
 cv_bridge::CvImage cv_img, cv_detectionImg;
-ros::Publisher image_pub, detected_pub;
-
+ros::Publisher image_pub, detected_pub, vis_pub;
 nav_msgs::OccupancyGrid map;
+
+double MAP_RESOLUTION;
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "tree_detector");
@@ -46,6 +50,7 @@ int main(int argc, char **argv) {
 
   image_pub = n.advertise<sensor_msgs::Image>("image", 50);
   detected_pub = n.advertise<sensor_msgs::Image>("detection_image", 50);
+  vis_pub = n.advertise<visualization_msgs::Marker>("detected_trees", 0);
 
   cv_img.header.frame_id = "map_image";
   cv_img.encoding = sensor_msgs::image_encodings::MONO8;
@@ -155,6 +160,8 @@ void detectTrees() {
   // Detect blobs
   detector->detect(im, keypoints);
 
+  printKeypoints(keypoints);
+
   // Draw detected blobs as red circles.
   // DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures
   // the size of the circle corresponds to the size of blob
@@ -167,9 +174,50 @@ void detectTrees() {
   detected_pub.publish(cv_detectionImg.toImageMsg());
 }
 
+void printKeypoints(std::vector<cv::KeyPoint> keypoints) {
+  visualization_msgs::Marker marker;
+  marker.header.frame_id = "base_link";
+  marker.header.stamp = ros::Time();
+  marker.ns = "agri_mapper";
+  marker.id = 0;
+  marker.type = visualization_msgs::Marker::CUBE_LIST;
+  marker.action = visualization_msgs::Marker::ADD;
+  marker.pose.position.x = 0;
+  marker.pose.position.y = 0;
+  marker.pose.position.z = 0;
+  marker.pose.orientation.x = 0.0;
+  marker.pose.orientation.y = 0.0;
+  marker.pose.orientation.z = 0.0;
+  marker.pose.orientation.w = 1.0;
+  marker.scale.x = 1;
+  marker.scale.y = 0.1;
+  marker.scale.z = 0.1;
+  marker.color.a = 1.0; // Don't forget to set the alpha!
+  marker.color.r = 0.0;
+  marker.color.g = 1.0;
+  marker.color.b = 0.0;
+
+  marker.points.resize(keypoints.size());
+
+  std::vector<cv::KeyPoint>::iterator it = keypoints.begin();
+
+  for (int i = 0; it != keypoints.end(); ++it, i++) {
+    ROS_INFO_STREAM("res: " << MAP_RESOLUTION);
+    marker.points[i].x = it->pt.x * MAP_RESOLUTION;
+    marker.points[i].y = it->pt.y * MAP_RESOLUTION;
+    marker.points[i].z = 0;
+    //(, (it->pt.y * MAP_RESOLUTION), 0.0);
+    //  ROS_INFO_STREAM("keypoint: x" << (it->pt.x * MAP_RESOLUTION) << "m y:" << (it->pt.y * MAP_RESOLUTION) << "m \n");
+  }
+
+  vis_pub.publish(marker);
+}
+
 void mapToImage() {
   int size_x = map.info.width;
   int size_y = map.info.height;
+
+  MAP_RESOLUTION = map.info.resolution;
 
   if ((size_x < 3) || (size_y < 3) ) {
     ROS_INFO("Map size is only x: %d,  y: %d . Not running map to image conversion", size_x, size_y);
