@@ -4,6 +4,7 @@
 #include <dynamic_reconfigure/server.h>
 #include "agri_mapper_research/dynReConfig.h"
 
+#include <tf/tf.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
 #include <nav_msgs/OccupancyGrid.h>
@@ -34,6 +35,7 @@ ros::Publisher image_pub, detected_pub, vis_pub;
 nav_msgs::OccupancyGrid map;
 
 double MAP_RESOLUTION;
+long MAP_X, MAP_Y;
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "tree_detector");
@@ -176,20 +178,20 @@ void detectTrees() {
 
 void printKeypoints(std::vector<cv::KeyPoint> keypoints) {
   visualization_msgs::Marker marker;
-  marker.header.frame_id = "base_link";
+  marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
   marker.ns = "agri_mapper";
   marker.id = 0;
-  marker.type = visualization_msgs::Marker::CUBE_LIST;
+  marker.type = visualization_msgs::Marker::SPHERE_LIST;
   marker.action = visualization_msgs::Marker::ADD;
-  marker.pose.position.x = 0;
-  marker.pose.position.y = 0;
+  marker.pose.position.x = -(MAP_X * MAP_RESOLUTION / 2) - 0.2;
+  marker.pose.position.y = -(MAP_Y * MAP_RESOLUTION / 2) - 0.2;
   marker.pose.position.z = 0;
-  marker.pose.orientation.x = 0.0;
-  marker.pose.orientation.y = 0.0;
-  marker.pose.orientation.z = 0.0;
-  marker.pose.orientation.w = 1.0;
-  marker.scale.x = 1;
+  marker.pose.orientation.x = 0;
+  marker.pose.orientation.y = 0;
+  marker.pose.orientation.z = 0;
+  marker.pose.orientation.w = 1;
+  marker.scale.x = 0.1;
   marker.scale.y = 0.1;
   marker.scale.z = 0.1;
   marker.color.a = 1.0; // Don't forget to set the alpha!
@@ -201,34 +203,33 @@ void printKeypoints(std::vector<cv::KeyPoint> keypoints) {
 
   std::vector<cv::KeyPoint>::iterator it = keypoints.begin();
 
+  ROS_INFO_STREAM("\n Size : " << keypoints.size() << "\n");
+
   for (int i = 0; it != keypoints.end(); ++it, i++) {
-    ROS_INFO_STREAM("res: " << MAP_RESOLUTION);
-    marker.points[i].x = it->pt.x * MAP_RESOLUTION;
-    marker.points[i].y = it->pt.y * MAP_RESOLUTION;
+    marker.points[i].x = (it->pt.x) * MAP_RESOLUTION;
+    marker.points[i].y = (MAP_Y - it->pt.y) * MAP_RESOLUTION;
     marker.points[i].z = 0;
-    //(, (it->pt.y * MAP_RESOLUTION), 0.0);
-    //  ROS_INFO_STREAM("keypoint: x" << (it->pt.x * MAP_RESOLUTION) << "m y:" << (it->pt.y * MAP_RESOLUTION) << "m \n");
   }
 
   vis_pub.publish(marker);
 }
 
 void mapToImage() {
-  int size_x = map.info.width;
-  int size_y = map.info.height;
+  MAP_X = map.info.width;
+  MAP_Y = map.info.height;
 
   MAP_RESOLUTION = map.info.resolution;
 
-  if ((size_x < 3) || (size_y < 3) ) {
-    ROS_INFO("Map size is only x: %d,  y: %d . Not running map to image conversion", size_x, size_y);
+  if ((MAP_X < 3) || (MAP_Y < 3) ) {
+    ROS_INFO("Map size is only x: %ld,  y: %ld . Not running map to image conversion", MAP_X, MAP_Y);
     return;
   }
 
   cv::Mat *map_mat  = &cv_img.image;
 
   // resize cv image if it doesn't have the same dimensions as the map
-  if ((map_mat->rows != size_y) && (map_mat->cols != size_x)) {
-    *map_mat = cv::Mat(size_y, size_x, CV_8U);
+  if ((map_mat->rows != MAP_Y) && (map_mat->cols != MAP_X)) {
+    *map_mat = cv::Mat(MAP_Y, MAP_X, CV_8U);
   }
 
   const std::vector<int8_t>& map_data(map.data);
@@ -237,13 +238,13 @@ void mapToImage() {
 
   //We have to flip around the y axis, y for image starts at the top and y for map at the bottom
 
-  int size_y_rev = size_y - 1;
+  int MAP_Y_rev = MAP_Y - 1;
 
-  for (int y = size_y_rev; y >= 0; --y) {
-    int idx_map_y = size_x * (size_y - y);
-    int idx_img_y = size_x * y;
+  for (int y = MAP_Y_rev; y >= 0; --y) {
+    int idx_map_y = MAP_X * (MAP_Y - y);
+    int idx_img_y = MAP_X * y;
 
-    for (int x = 0; x < size_x; ++x) {
+    for (int x = 0; x < MAP_X; ++x) {
       int idx = idx_img_y + x;
 
       switch (map_data[idx_map_y + x]) {

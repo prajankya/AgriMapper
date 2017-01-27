@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <launch>
-  <node name="rviz" pkg="rviz" required="true" args="-d $(find agri_mapper_bringup)/config/rviz_View6.rviz" type="rviz" />
+  <node name="rviz" pkg="rviz" required="true" args="-d $(find agri_mapper_bringup)/config/rviz_View7.rviz" type="rviz" />
 </launch>
