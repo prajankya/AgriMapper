@@ -3,7 +3,7 @@
   <arg name="file" default="$(find agri_mapper_research)/maps/prettyGoodMap.yaml" />
   <arg name="show_output_images" value="true" />
 
-  <include file="$(find agri_mapper_research)/launch/tree_detector.launch"  />
+  <include file="$(find agri_mapper_research)/launch/tree_detector.launch" />
 
   <node name="map_server" pkg="map_server" type="map_server" output="screen" args="$(arg file)" />
 </launch>
