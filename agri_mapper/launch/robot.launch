@@ -54,6 +54,8 @@
   </group>
 
   <group if="$(arg sim)">
+    <include file="$(find agri_mapper)/launch/viz.launch" />
+
     <include file="$(find agri_mapper)/launch/rosbag.launch">
       <arg name="play" value="true" />
       <arg name="use_odom" value="$(arg use_odom)" />
