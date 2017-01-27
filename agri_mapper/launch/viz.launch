@@ -10,7 +10,9 @@
   </group>
 
   <include file="$(find agri_mapper_bringup)/launch/rviz.launch" if="$(arg rviz)" />
+  <!--
   <include file="$(find agri_mapper_research)/launch/image_view.launch" />
+  -->
 
   <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
 </launch>
