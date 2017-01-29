@@ -1,5 +1,5 @@
 # AgriMapper #
-A Precision Agriculture 2D Vegetation Mapping Robot
+A Precision Horticulture Mapping Robot using Low Cost Lidar
 
 Check out the Engineering Design [Process Documentation](../../wiki/Documentation)
 
