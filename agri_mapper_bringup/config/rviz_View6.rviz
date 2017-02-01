@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Tree1
+        - /Odometry1
         - /PointCloud21/Autocompute Value Bounds1
       Splitter Ratio: 0.598522007
     Tree Height: 843
@@ -133,7 +134,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 48
+      Max Intensity: 42
       Min Color: 0; 0; 0
       Min Intensity: 9
       Name: LaserScan
@@ -214,11 +215,11 @@ Visualization Manager:
       Topic: /agri_mapper/imu_raw
       Unreliable: true
       Value: false
-    - Angle Tolerance: 0.100000001
+    - Angle Tolerance: 0.0199999996
       Class: rviz/Odometry
       Color: 255; 25; 0
       Enabled: true
-      Keep: 100
+      Keep: 10
       Length: 1
       Name: Odometry
       Position Tolerance: 0.100000001
@@ -278,7 +279,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 35
+      Max Intensity: 42
       Min Color: 0; 0; 0
       Min Intensity: 9
       Name: Filtered_Scan
@@ -356,7 +357,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.314744
+      Distance: 8.54215717
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -370,10 +371,10 @@ Visualization Manager:
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.07479668
+      Pitch: 0.904796958
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.07074809
+      Yaw: 3.26075673
     Saved: ~
 Window Geometry:
   Displays:
