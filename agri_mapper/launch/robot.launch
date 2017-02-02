@@ -61,7 +61,7 @@
       <arg name="use_odom" value="$(arg use_odom)" />
       <arg name="use_octomap" value="$(arg use_octomap)" />
 
-      <arg name="file" value="/home/prajankya/rosbags/v4_quadratureEncoder/right_turn_360.bag" />
+      <arg name="file" value="/home/prajankya/rosbags/v6/robot_bag_2017-02-01-18-19-40.bag" />
     </include>
   </group>
 </launch>
