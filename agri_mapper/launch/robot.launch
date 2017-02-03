@@ -63,7 +63,7 @@
       <arg name="use_odom" value="$(arg use_odom)" />
       <arg name="use_octomap" value="$(arg use_octomap)" />
 
-      <arg name="file" value="/home/prajankya/rosbags/v7_with_2scans/input/in_rec_2017-02-02-18-08-06.bag" />
+      <arg name="file" value="/home/prajankya/rosbags/v7_with_2scans/all/out.bag" />
     </include>
   </group>
 </launch>
