@@ -16,6 +16,6 @@
       <arg name="use_octomap" value="$(arg use_octomap)" />
     </include>
 
-    <node pkg="rosbag" type="play" name="robot_bag" args="$(arg file) --keep-alive --clock" output="screen" />
+    <node pkg="rosbag" type="play" name="robot_bag_player" args="$(arg file) --keep-alive --clock" output="screen" />
   </group>
 </launch>
