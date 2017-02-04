@@ -30,3 +30,6 @@ include_directories(
 
 add_executable(tree_detector src/tree_detector.cpp)
 target_link_libraries(tree_detector ${catkin_LIBRARIES})
+
+add_executable(mapper_tree_detector src/mapper_tree_detector.cpp)
+target_link_libraries(mapper_tree_detector ${catkin_LIBRARIES})

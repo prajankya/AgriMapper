@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <node name="tree_detector" pkg="agri_mapper_research" type="tree_detector" output="screen" ns="agri_mapper">
+  <node name="tree_detector" pkg="agri_mapper_research" type="tree_detector" output="screen" ns="agri_mapper" launch-prefix="gdb -ex run --args">
     <rosparam command="load" file="$(find agri_mapper_research)/config/tree_detector.yaml" />
   </node>
 </launch>
