@@ -1,5 +1,5 @@
 <launch>
-	<arg name="file" default="/home/prajankya/rosbags/v7_with_2scans/all/recording_2017-02-02-18-37-11_out.yaml" />
+	<arg name="file" default="/home/prajankya/rosbags/v7_with_2scans/all/recording_2017-02-02-18-20-55_out.yaml" />
 	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find agri_mapper_bringup)/config/mapper_view2.rviz" />
 
 	<node name="map_server" pkg="map_server" type="map_server" args="$(arg file)" />
