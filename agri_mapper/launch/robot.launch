@@ -13,18 +13,12 @@
   <include file="$(find agri_mapper_description)/launch/desc.launch" />
 
   <group if="$(arg debug)">
-    <include file="$(find agri_mapper)/launch/diagnostics.launch" />
-  </group>
-
+    <include file="$(find agri_mapper)/launch/diagnostics.launch" /> </group>
   <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch">
     <arg name="use_odom" value="$(arg use_odom)" />
-    <arg name="sim" value="$(arg sim)" />
-  </include>
-
+    <arg name="sim" value="$(arg sim)" /> </include>
   <include file="$(find agri_mapper)/launch/laser_processing.launch">
-    <arg name="use_custom_scan_clipper" value="$(arg use_custom_scan_clipper)" />
-  </include>
-
+    <arg name="use_custom_scan_clipper" value="$(arg use_custom_scan_clipper)" /> </include>
   <include file="$(find agri_mapper)/launch/hector_mapping.launch" unless="$(arg use_odom)" />
 
   <group if="$(arg use_odom)">
@@ -62,8 +56,7 @@
       <arg name="play" value="true" />
       <arg name="use_odom" value="$(arg use_odom)" />
       <arg name="use_octomap" value="$(arg use_octomap)" />
-
-      <arg name="file" value="/home/prajankya/rosbags/v7_with_2scans/all/out.bag" />
+      <arg name="file" value="/home/prajankya/rosbags/v8/all/out.bag" />
     </include>
   </group>
 </launch>
