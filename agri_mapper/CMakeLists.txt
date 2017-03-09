@@ -4,7 +4,6 @@ project(agri_mapper)
 find_package(catkin REQUIRED COMPONENTS
   agri_mapper_base
   agri_mapper_bringup
-  agri_mapper_simulation
   agri_mapper_description
 )
 
