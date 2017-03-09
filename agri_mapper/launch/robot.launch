@@ -56,7 +56,7 @@
       <arg name="play" value="true" />
       <arg name="use_odom" value="$(arg use_odom)" />
       <arg name="use_octomap" value="$(arg use_octomap)" />
-      <arg name="file" value="/home/prajankya/rosbags/v8/all/out.bag" />
+      <arg name="file" value="/home/prajankya/rosbags/v8/all/recording_2017-02-08-07-08-51_out.bag" />
     </include>
   </group>
 </launch>
