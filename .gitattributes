@@ -1,0 +1,2 @@
+*.launch linguist-language=xml
+*.xacro linguist-language=xml
