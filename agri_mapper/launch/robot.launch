@@ -1,62 +1,34 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="port" default="/dev/ttyACM0" />
-  <arg name="debug" default="false" />
 
   <arg name="resolution" default="0.02" />
 
   <arg name="sim" default="false" />
-  <arg name="use_odom" default="true" />
+  <arg name="use_odom" default="false" />
   <arg name="use_octomap" default="false" />
   <arg name="use_custom_scan_clipper" default="true" />
 
   <include file="$(find agri_mapper_description)/launch/desc.launch" />
 
-  <group if="$(arg debug)">
-    <include file="$(find agri_mapper)/launch/diagnostics.launch" /> </group>
+
   <include file="$(find agri_mapper)/launch/sensors_postprocessing.launch">
     <arg name="use_odom" value="$(arg use_odom)" />
-    <arg name="sim" value="$(arg sim)" /> </include>
+    <arg name="sim" value="$(arg sim)" />
+  </include>
+
   <include file="$(find agri_mapper)/launch/laser_processing.launch">
-    <arg name="use_custom_scan_clipper" value="$(arg use_custom_scan_clipper)" /> </include>
+    <arg name="use_custom_scan_clipper" value="$(arg use_custom_scan_clipper)" />
+  </include>
+
   <include file="$(find agri_mapper)/launch/hector_mapping.launch" unless="$(arg use_odom)" />
 
-  <group if="$(arg use_odom)">
-    <include file="$(find agri_mapper)/launch/gmapping.launch" unless="$(arg use_octomap)">
-      <arg name="resolution" value="$(arg resolution)" />
-    </include>
-    <include file="$(find agri_mapper_research)/launch/octomap_server.launch" if="$(arg use_octomap)" />
-  </group>
-
-  <include file="$(find agri_mapper_research)/launch/tree_detector.launch" />
-
   <group unless="$(arg sim)">
-    <include file="$(find agri_mapper_base)/launch/arduino.launch">
-      <arg name="port" value="$(arg port)" />
-    </include>
-
     <include file="$(find agri_mapper_bringup)/launch/rplidar.launch" />
 
     <include file="$(find agri_mapper_description)/launch/state_publisher.launch">
       <arg name="use_odom" value="$(arg use_odom)" />
       <arg name="use_octomap" value="$(arg use_octomap)" />
-    </include>
-    <!--
-        do not run state_publisher in sim mode before setting use_sim_time and playing bag for - - clock,
-        which we are using in rosbag file
-        -->
-  </group>
-
-  <group if="$(arg sim)">
-    <include file="$(find agri_mapper)/launch/viz.launch">
-      <arg name="sim" value="$(arg sim)" />
-    </include>
-
-    <include file="$(find agri_mapper)/launch/rosbag.launch">
-      <arg name="play" value="true" />
-      <arg name="use_odom" value="$(arg use_odom)" />
-      <arg name="use_octomap" value="$(arg use_octomap)" />
-      <arg name="file" value="/home/prajankya/rosbags/v8/all/recording_2017-02-08-07-08-51_out.bag" />
     </include>
   </group>
 </launch>

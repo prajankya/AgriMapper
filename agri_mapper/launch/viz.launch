@@ -10,13 +10,8 @@
   </group>
 
   <include file="$(find agri_mapper_bringup)/launch/rviz.launch" if="$(arg rviz)" />
-  <!--
-  <include file="$(find agri_mapper_research)/launch/image_view.launch" />
-  -->
-  <!-- Adding record bag for simplicity -->
-  <group unless="$(arg sim)">
-    <node pkg="rosbag" type="record" name="robot_bag" args="-o /home/sushma/bags/all/recording -a" output="screen" />
-    <node pkg="rosbag" type="record" name="robot_bag2" args="-o /home/sushma/bags/input/in_rec /agri_mapper/imu_msg /agri_mapper/scan /agri_mapper/odom_pub" output="screen" />
-  </group>
+
+  <include file="$(find agri_mapper_research)/launch/tree_detector.launch" />
+
   <!-- <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" /> -->
 </launch>
