@@ -1,9 +1,8 @@
-# AgriMapper #
+# AgriMapper
 A Precision Horticulture Mapping Robot using Low Cost Lidar
 
-Check out the Engineering Design [Process Documentation](../../wiki/Documentation)
 
-##How to Install
+## How to Install
 
 Run in Terminal
 ```
